@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Logout Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        /*---Basic Style---*/
+        * {
+            box-sizing: border-box;
+            /* border: solid 1px white; */
+        }
+
+        /*---Header---*/
+        header {
+            height: 15vh;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            height: 20px;
+            margin: 2px 10px;
+            border: none;
+            border-bottom: 0.05px solid white;
+        }
+
+        nav {
+            display: inline-block;
+            width: 100px;
+            height: 100%;
+            /* padding: 10px 200px; */
+        }
+
+        .main_nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: auto;
+            height: 100%;
+            background-color: black;
+            position: relative;
+        }
+
+        .left_nav,
+        .right_nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .right_nav {
+            margin-right: 20px;
+            font-size: 12px;
+        }
+
+        .logo {
+            margin: 10px 30px;
+        }
+
+        .page_title {
+            position: absolute;
+            left: 135px;
+            bottom: -35px;
+            z-index: 1;
+            letter-spacing: -15px;
+            font-size: 100px;
+            color: white;
+            opacity: 70%;
+        }
+
+
+        /*---Section---*/
+        section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 75vh;
+        }
+
+        .logout {
+            font-size: 30px;
+            font-weight: bolder;
+            text-align: center;
+            /* align-self: center; */
+        }
+
+        /*---Footer---*/
+        .footer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: black;
+            height: 10vh;
+        }
+
+        .copyright {
+            align-self: center;
+            color: grey;
+            font-size: 13px;
+            margin: 10px 0px 30px 0px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="main_nav">
+            <div class='left_nav'>
+                <img class='logo' width=105px height=100px src="img/bp_white.png" alt="Boarder Playground Logo">
+                <div class='page_title'>LOGOUT</div>
+            </div>
+            <ul class='right_nav'>
+                <a href="/welcome.html">HOME</a>
+                <a href="/dashboard.html">DASHBOARD</a>
+                <a href='#' class="logout_btn">LOGIN</a>
+                <a href='#' class='greeting'></a>
+            </ul>
+        </div>
+    </header>
+    <section>
+        <div class='section'>
+            <div class='logout'>LOGOUT SUCCESSFULLY!</div>
+            <!-- <img class='logo' src='/img/bp.png' width=440px height=400px> -->
+        </div>
+    </section>
+
+    <footer>
+        <div class='footer'>
+            <!-- <img class='logo' width=105px height=100px src="img/bp_white.png" alt="Boarder Playground Logo"> -->
+            <div class='copyright'>Copyright © 2020 Boarder Playground All Rights Reserved</div>
+        </div>
+    </footer>
+</body>
+<script>
+    // token verification
+    let access_token = localStorage.getItem('access_token');
+    let username = localStorage.getItem('username');
+    if (access_token && username) {
+        $('.logout_btn').html('LOGOUT');
+        $('.greeting').html(`HELLO, ${username}`);
+        $('.greeting').css({ 'background-color': 'lightgray', 'color': 'black', 'border-radius': '2px', 'padding': '1px 5px 8px 5px', 'font-weight': 'bold' })
+    } else {
+        $('.logout_btn').html('LOGIN');
+        $('.greeting').html(`BYE!`);
+        $('.greeting').css({ 'background-color': 'lightgray', 'color': 'black', 'border-radius': '2px', 'padding': '1px 5px 8px 5px', 'font-weight': 'bold' })
+
+    }
+    // Logout
+    $('.logout_btn').click(function () {
+        let access_token = localStorage.getItem('access_token');
+        if (access_token) {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('username');
+            location.href = '/logout.html';
+        } else {
+            location.href = '/login.html'
+        }
+    })
+</script>
+
+</html>
