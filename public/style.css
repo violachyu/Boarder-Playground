@@ -48,6 +48,11 @@ a {
     margin-right: 20px;
     font-size: 12px;
 }
+#home, #dashboard, #login{
+    text-decoration: none;
+    color: white;
+}
+
 
 .logo {
     margin: 10px 10px 10px 30px;
@@ -64,6 +69,7 @@ a {
     opacity: 70%;
 }
 
+
 /*---Section---*/
 .section {
     height: 75vh;
@@ -72,7 +78,7 @@ a {
     justify-content: center;
     position: relative;
 }
-
+/* Dashboard */
 .hvr-grow {
     display: inline-block;
     vertical-align: middle;
@@ -108,114 +114,7 @@ a {
 .add_btn:hover {
     color: white;
 }
-.workspace{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
 
-/* Postit Settings */
-.postit {
-    line-height: 1;
-    text-align: center;
-    width: 150px;
-    height: 150px;
-    margin: 25px;
-    max-height: 250px;
-    padding-top: 35px;
-    border: 1px solid lightgray;
-    font-family: 'Reenie Beanie', Verdana, Tahoma, sans-serif;
-    font-size: 24px;
-    border-bottom-right-radius: 5px;
-    display: inline-block;
-    background: #ffff88;
-    box-shadow: 2px 15px 5px rgba(0, 0, 0, 0.40);
-    -o-transition: all .5s;
-    -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    transition: all .5s;
-    -webkit-font-smoothing: antialiased;
-}
-
-
-.color_block {
-    width: 20px;
-    height: 20px;
-    margin: 5px;
-    border: white 2px solid;
-    outline: lightgray solid 0.2px;
-}
-
-aside {
-    color: #000;
-    background: #8a938b;
-    border-radius: 4px;
-    text-align: center;
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
-    width: 120px;
-    height: 100px;
-    padding-top: 12px;
-    margin: 0 2px;
-
-    -o-transition: all .5s;
-    -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    transition: all .5s;
-    -webkit-font-smoothing: antialiased;
-}
-
-aside:hover {
-    background: #FFD900;
-}
-
-/* pop-up text */
-span {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: #666;
-    position: absolute;
-    font-family: 'Verdana', cursive;
-    bottom: 0;
-    left: -15px;
-    right: -15px;
-    padding: 15px 7px;
-    z-index: -1;
-    font-size: 14px;
-    border-radius: 5px;
-    background: lightgray;
-    visibility: hidden;
-    opacity: 0;
-    -o-transition: all .5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    -webkit-transition: all .5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    -moz-transition: all .5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    transition: all .5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-/* text pops up when icon is in hover state */
-
-aside:hover span {
-    font-size: 12px;
-    bottom: 170px;
-    padding: 15px;
-    visibility: visible;
-    opacity: 1;
-}
-
-/* pop-up text arrow */
-span:before {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid lightgray;
-    position: absolute;
-    bottom: -5px;
-    left: 80px;
-}
 
 /*---Footer---*/
 .footer {
@@ -231,5 +130,4 @@ span:before {
     color: grey;
     font-size: 13px;
     margin: 10px 0px 30px 0px;
-
 }

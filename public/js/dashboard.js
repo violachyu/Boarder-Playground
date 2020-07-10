@@ -44,7 +44,6 @@ function createWhiteboard(e) {
     })
         .then((res) => res.json())
         .then((data) => {
-            console.log('hi')
             let { message, error } = data;
             alert(message || error);
         })

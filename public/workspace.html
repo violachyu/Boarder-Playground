@@ -5,23 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workspace</title>
-    <link href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Reenie Beanie Font library -->
+    <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie:regular' rel='stylesheet' type='text/css'>
+    <!-- jQuery library -->
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <!-- Bootstrap Library -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./expand effect/expando.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="postit.css">
 </head>
-<link rel="stylesheet" href="./expand effect/expando.css">
-<link rel="stylesheet" href="style.css">
+
 
 <body>
     <header>
         <div class="main_nav">
             <div class='left_nav'>
                 <img class='logo' width=105px height=100px src="img/bp_white.png" alt="Boarder Playground Logo">
-                <div class='page_title'>WORKSPACE</div>
+                <div class='page_title' id='workspace_title'>WORKSPACE</div>
             </div>
             <ul class='right_nav'>
-                <a href="/welcome.html">HOME</a>
-                <a href="/dashboard.html">DASHBOARD</a>
-                <a href="#" class="logout">LOGIN/OUT</a>
+                <a href="/welcome.html" id="home">HOME</a>
+                <a href="/dashboard.html" id='dashboard'>DASHBOARD</a>
+                <a href="#" class="logout" id='login'>LOGIN/OUT</a>
                 <a href="#" class="greeting"></a>
             </ul>
         </div>
@@ -43,25 +53,16 @@
                             <li><img src='./img/template.png' width=40px height=40px></li>
                             <li onclick="add_postit()"><img src='./img/plus.png' width=40px height=40px></li>
                         </ul>
-                        <button class="expando__close js-expando-collapse-btn">X</button>
+                        <button class="expando__close js-expando-collapse-btn" id='close'>X</button>
                     </div>
-                    <button class="expando__btn js-expando-expand-btn">
+                    <button class="expando__btn js-expando-expand-btn" id='setting_btn'>
                         <img src='./img/settings.png'>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class='workspace' id='dragspace'>
-            <!-- <aside class='postit' draggable="true" id="dragme">Hello!</aside> -->
-            <aside class='postit' draggable="true" id="dragme">Hello!
-                <span class='postit_color'>COLOR :
-                    <div class='color_block'></div>
-                    <div class='color_block'></div>
-                    <div class='color_block'></div>
-                </span>
-            </aside>
-        </div>
+        <div class='workspace' id='dragspace'></div>
     </section>
 
     <footer>
@@ -70,10 +71,15 @@
             <div class='copyright'>Copyright © 2020 Boarder Playground All Rights Reserved</div>
         </div>
     </footer>
-
-    <script src="./expand effect/expando.js"></script>
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
-    <script src='./js/workspace.js'></script>
-    <script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
 </body>
+<script src='./js/workspace.js'></script>
+<script src="./expand effect/expando.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+
+
+
+
+
+</html>
