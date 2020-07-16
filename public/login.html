@@ -6,165 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login/Register Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/login.css">
 </head>
-<style>
-    /*---Basic Style---*/
-    * {
-        box-sizing: border-box;
-        /* border: solid 1px white; */
-    }
-
-    /*---Header---*/
-    header {
-        height: 15vh;
-    }
-
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-
-    a {
-        color: white;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 12px;
-        height: 20px;
-        margin: 2px 10px;
-        border: none;
-        border-bottom: 0.05px solid white;
-    }
-
-    nav {
-        display: inline-block;
-        width: 100px;
-        height: 100%;
-        /* padding: 10px 200px; */
-    }
-
-    .main_nav {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin: auto;
-        height: 100%;
-        background-color: black;
-        position: relative;
-    }
-
-    .left_nav,
-    .right_nav {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .right_nav {
-        margin-right: 20px;
-        font-size: 12px;
-    }
-
-    .logo {
-        margin: 10px 30px;
-    }
-
-    .page_title {
-        position: absolute;
-        left: 135px;
-        bottom: -35px;
-        z-index: 1;
-        letter-spacing: -15px;
-        font-size: 100px;
-        color: white;
-        opacity: 70%;
-    }
-
-
-    /*---Section---*/
-    section {
-        height: 75vh;
-    }
-
-    .section {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .enter_btn:hover {
-        background-color: black;
-        color: white;
-    }
-
-
-    .mem {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    .mem_block {
-        background-color: lightgrey;
-        border-radius: 10px;
-        padding: 50px;
-        margin: 100px 25px;
-        position: relative;
-        line-height: 30px;
-    }
-
-    .mem_title {
-        font-weight: bold;
-    }
-
-    input {
-        border: none;
-        border-bottom: 0.05px solid black;
-        background-color: lightgrey;
-        outline: none;
-    }
-
-    .reg_enter_btn,
-    .login_enter_btn {
-        padding: 5px 15px;
-        background-color: white;
-        border: 0.05px solid darkgray;
-        position: absolute;
-        right: 15px;
-        bottom: 8px;
-        border-radius: 5px;
-    }
-
-    button:hover {
-        background-color: black;
-        color: white;
-        /* border: solid black 1px; */
-    }
-
-
-    /*---Footer---*/
-    .footer {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        background-color: black;
-        height: 10vh;
-    }
-
-    .copyright {
-        align-self: center;
-        color: grey;
-        font-size: 13px;
-        margin: 10px 0px 30px 0px;
-
-    }
-</style>
 
 <body>
     <header>
         <div class="main_nav">
             <div class='left_nav'>
-                <img class='logo' width=105px height=100px src="img/bp_white.png" alt="Boarder Playground Logo">
+                <img class='logo' width=83px height=80px src="img/bp_white.png" alt="Boarder Playground Logo">
                 <div class='page_title'>LOGIN PAGE</div>
             </div>
             <ul class='right_nav'>

@@ -6,7 +6,9 @@
     align-items: center;
     flex-wrap: wrap;
     height: 75vh;
+    width: 100vw;
     overflow: scroll;
+    /* position: relative; */
 }
 #workspace_title {
     position: absolute;
@@ -44,18 +46,18 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
     white-space: normal;
-    /* Testing Drag n Drop */
-    position: absolute; 
+    position: relative; 
 
-    -o-transition: all .5s;
+    /* -o-transition: all .5s;
     -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    transition: all .5s;
-    -webkit-font-smoothing: antialiased;
+    -moz-transition: all .5s; */
+    /* transition: all .5s; */
+    /* -webkit-font-smoothing: antialiased; */
 }
 
 [data-toggle="popover"]:hover {
-    background: #FFD900;
+    /* background: #FFD900; */
+    filter: brightness(90%);
 }
 .postit::placeholder {
     white-space: normal;
@@ -80,6 +82,57 @@
     flex-direction: column;
     justify-content: flex-start;
 }
+.triangle {
+    width: 0;
+    height: 0;
+    border-top: 25px solid white;
+    border-right: 25px solid transparent;
+    box-shadow: gray;
+    /* outline: darkgray solid 1px; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: move;
+}
+.close_postit{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: lighter;
+    font-size: 10px;
+    color:transparent;
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+}
+
+.postit_input{
+    margin: 10px 10px;
+    background-color: transparent;
+    font-family: 'Reenie Beanie', Verdana,Tahoma, sans-serif;
+    font-weight: 100;
+    border: none;
+    
+}
+.postit_input::placeholder{
+    font-family: 'Reenie Beanie', Verdana,Tahoma, sans-serif;
+    color: gray;
+    align-self: center;
+}
+.postit_input:focus{
+    outline: none;
+}
+
+.upload_pic {
+    /* width: 100px;
+    height: 100px; */
+    /* max-width: 100%;
+    max-height: 100%; */
+    max-width: 300px;
+    max-height: 300px;
+    align-self: center;
+}
 
 .color_block {
     width: 20px;
@@ -98,7 +151,13 @@
 
 .title,
 .postit_height {
-    margin: 0px 10px;
+    margin: 0px 10px 0px 5px;
+}
+.font_size{
+    width:80px;
+}
+.font_size::placeholder {
+    font-size: 10px;
 }
 
 .postit_size::placeholder {
@@ -112,8 +171,7 @@
     margin: 0px 10px;
 }
 
-.select_btn,
-.submit_btn {
+.select_btn{
     border: black solid 1px;
     border-radius: 5px;
     padding: 3px;
@@ -123,18 +181,10 @@
     margin: 0px;
 }
 
-.select_btn:hover,
-.submit_btn:hover {
+.select_btn:hover{
     cursor: pointer;
     background-color: black;
     color: white;
-}
-
-.submit_btn {
-    width: 200px;
-    height: 25px;
-    margin: 5px 0px;
-    align-self: center;
 }
 
 #filename {

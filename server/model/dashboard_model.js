@@ -46,7 +46,8 @@ const deleteWhiteboard = async (user_id, title) => {
 
 const getWhiteboard = async (access_token, user_id_params) => {
     // get all wb by user_id
-    const all_wb = await query(`SELECT title FROM wb WHERE user_id = '${user_id_params}'`);
+    const all_wb = await query(`SELECT wb_id, title FROM wb WHERE user_id = '${user_id_params}'`);
+    console.log('all', all_wb);
     return { all_wb };
 }
 

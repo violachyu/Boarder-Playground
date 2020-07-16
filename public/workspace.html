@@ -9,15 +9,20 @@
     <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie:regular' rel='stylesheet' type='text/css'>
     <!-- jQuery library -->
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <!-- Jquery UI -->
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- Bootstrap Library -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="./expand effect/expando.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="postit.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/postit.css">
 </head>
 
 
@@ -25,7 +30,7 @@
     <header>
         <div class="main_nav">
             <div class='left_nav'>
-                <img class='logo' width=105px height=100px src="img/bp_white.png" alt="Boarder Playground Logo">
+                <img class='logo' width=83px height=80px src="img/bp_white.png" alt="Boarder Playground Logo">
                 <div class='page_title' id='workspace_title'>WORKSPACE</div>
             </div>
             <ul class='right_nav'>
@@ -38,7 +43,6 @@
     </header>
 
     <section class='section' id='print'>
-        <!-- <button class='add_btn hvr-grow' onclick='add_postit()'>+</button> -->
         <!-- Toolbar -->
         <div class="expando js-expando">
             <div class="expando__inner js-expando-inner">
@@ -62,24 +66,22 @@
             </div>
         </div>
 
+        <!-- Workspace -->
         <div class='workspace' id='dragspace'></div>
     </section>
 
     <footer>
         <div class='footer'>
-            <!-- <img class='logo' width=105px height=100px src="img/bp_white.png" alt="Boarder Playground Logo"> -->
             <div class='copyright'>Copyright © 2020 Boarder Playground All Rights Reserved</div>
         </div>
     </footer>
 </body>
+
 <script src='./js/workspace.js'></script>
 <script src="./expand effect/expando.js"></script>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
 <script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
-
-
-
 
 
 </html>

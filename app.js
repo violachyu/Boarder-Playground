@@ -28,8 +28,8 @@ app.use('/api/', function (req, res, next) {
 app.use('/api/' + API_VERSION,
     [
         require('./server/route/user_route'),
-        require('./server/route/dashboard_route')
-        // require('./server/route/workspace_route')
+        require('./server/route/dashboard_route'),
+        require('./server/route/workspace_route')
     ]
 );
 

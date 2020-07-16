@@ -1,4 +1,154 @@
-/*---Function---*/
+let access_token = localStorage.getItem('access_token');
+let username = localStorage.getItem('username');
+let user_id = localStorage.getItem('user_id');
+
+/*---Get Workspace---*/
+// get wb_id from query
+const urlParams = new URLSearchParams(window.location.search);
+let wb_id = urlParams.get('wb_id');
+let title = urlParams.get('title');
+$('#workspace_title').html(title);  // set workspace page title
+
+// get wb data from database
+fetch(`api/1.0/getWorkspace/${wb_id}`, {
+    method: 'GET',
+    headers: {
+        'content-type': 'application/json',
+        'authorization': access_token
+    }
+})
+    .then((res) => res.json())
+    .then((data) => {
+        console.log('getWorkspace_postit data', data);  //
+
+        for (let i = 0; i < data.length; i++) {
+            let workspace = document.querySelector('.workspace');
+            let new_postit = document.createElement('main');
+            new_postit.innerHTML = `<div class='triangle'></div>
+            <div class='close_postit'>X</div>
+            <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>`
+            workspace.append(new_postit)
+
+            setAttributes(new_postit, {
+                'class': 'postit', 'draggable': 'true', 'id': data[i].postit_id, 'data-toggle': 'popover', 'data-container': 'body', 'title': 'Postit Details', 'placeholder': 'Write something on Post-it!',
+                'data-content': `<form class='postit_detail' id='popover-content' enctype=''>
+                    <div class='align_wrap'>
+                        <div class='category font'>
+                            <div class='title'>Font Size:</div>
+                            <input class='font_size' placeholder='font size(px)' type='number'>
+                        </div>
+                        <div class='category color'>
+                            <div class='title'>Color:</div>
+                            <div class='color_block' style='background-color:#EE9795'></div>
+                            <div class='color_block' style='background-color:#809BCE'></div>
+                            <div class='color_block' style='background-color:#95B8D1'></div>
+                        </div>
+                        <div class='category img'>
+                            <div class='title'>Image:</div>
+                            <label for='files' class='select_btn' onclick='addFile();'>Select Image
+                            </label>
+                            <input id='files' type='file' style='display:none;'>
+                            <div id='filename'></div>
+                        </div>
+                        <div class='category order'>
+                            <div class='title'>Order:</div>
+                            <div class='wrap_checkbox'>
+                                <label for='front+'><input type='radio' id='front+'><span>Bring to front</span></label>
+                                <label for='front'><input type='radio' id='front'><span>Bring forward</span></label>
+                                <label for='back'><input type='radio' id='back'><span>Send backward</span></label>
+                                <label for='back+'><input type='radio' id='back+'><span>Send to back</span></label>
+                            </div>
+                        </div>
+                </form>`})
+            // add img if exists
+            if (data[i].img !== null) {
+                $(`${data[i].postit_id}`).append(`<img class='upload_pic' src=${data[i].img}>`);
+            }
+
+            // set CSS attributes of postits
+            new_postit.setAttribute('style',
+                `left: ${data[i].position_x}; 
+            top: ${data[i].position_y};
+            position: absolute; 
+            background-color: ${data[i].bg_color}; 
+            width:${data[i].width}; 
+            height: ${data[i].height};
+            zIndex:${data[i]['z-index']};`) // WIP: comments
+            $(`#${data[i].postit_id} > .postit_input`).val(data[i].text);  // text
+
+            $(`#${data[i].postit_id}`).data('user_id', user_id);   // store user_id in postit
+            // $(`#${data[i].postit_id}`).draggable({ handle: '.triangle' });  // make postit draggable
+            $(`#${data[i].postit_id}`).draggable();  // make postit draggable
+            $(`#${data[i].postit_id}`).resizable({ maxHeight: 500, maxWidth: 500, minHeight: 50, minWidth: 50 });  // make postit resizable
+        }
+    })
+
+/*---Save Workspace on Drop postit---*/
+$('.workspace').on('resize click drag change', '.postit, .show', function () {  // (WIP) change trigger events: DOMSubtreeModified
+    console.log('saveWorkspace_API')  //
+    // reform postit data
+    let postit_data = [];
+    let postit_item = {};
+    postit_item['postit_id'] = $(this).attr('id')
+    postit_item['user_id'] = $(this).data('user_id');  // dataset user_id
+    postit_item['wb_id'] = wb_id;
+    postit_item['position_x'] = $(this).css('left')
+    postit_item['position_y'] = $(this).css('top')
+    postit_item['text'] = $(this).children('.postit_input').val();
+    postit_item['bg_color'] = $(this).css('background-color');
+    postit_item['width'] = $(this).css('width');
+    postit_item['height'] = $(this).css('height');
+    postit_item['img'] = $(this).children('.upload_pic').attr('src') || null;
+    postit_item['zIndex'] = $(this).css('zIndex');
+    postit_item['del'] = null;
+    // postit_item['comment'] = $(this) //(WIP)
+    postit_data.push(postit_item);
+
+    let saveInit = {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'authorization': access_token
+        },
+        body: JSON.stringify({
+            postit_data
+        })
+    }
+
+    fetch('api/1.0/saveWorkspace/save', saveInit)
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data.error || data.message)
+        })
+})
+
+/*---Delete Postit---*/
+$('.workspace').on('click', '.close_postit', function () {
+    $(this).parent('.postit').remove();
+    console.log($(this).parent('.postit'));
+    console.log('delete');  //
+    let deleteInit = {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'authorization': access_token
+        },
+        body: JSON.stringify({
+            postit_id: $(this).parent('.postit').attr('id')
+        })
+    }
+    fetch('api/1.0/saveWorkspace/delete', deleteInit)
+        .then((res) => res.json())
+        .then((data) => {
+            alert("Delete Postit?")
+            alert(data.error || data.message)
+            // console.log(data.error || data.message)  //
+        })
+})
+
+
+
+// screenshot
 function screenshot() {
     html2canvas(document.getElementById('print')).then(function (canvas) {
         // add watermark
@@ -20,8 +170,6 @@ function screenshot() {
 
 
 // token verification
-let access_token = localStorage.getItem('access_token');
-let username = localStorage.getItem('username');
 if (access_token && username) {
     $('.logout').html('LOGOUT');
     $('.greeting').html(`Hello, ${username}`);
@@ -50,27 +198,28 @@ function setAttributes(el, options) {
     })
 }
 // add post-it w/ popover form
-let workspace = document.querySelector('.workspace')
 function add_postit() {
-    // let new_postit = document.createElement('main');
+    let workspace = document.querySelector('.workspace');
     let new_postit = document.createElement('main');
+    new_postit.innerHTML = `<div class='triangle'></div>
+    <div class='close_postit'>X</div>
+    <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>`
+    workspace.append(new_postit)
+
     let id = 'id_' + Date.now();
     setAttributes(new_postit, {
         'class': 'postit', 'draggable': 'true', 'id': id, 'data-toggle': 'popover', 'data-container': 'body', 'title': 'Postit Details', 'placeholder': 'Write something on Post-it!',
         'data-content': `<form class='postit_detail' id='popover-content' enctype=''>
             <div class='align_wrap'>
+                <div class='category font'>
+                    <div class='title'>Font Size:</div>
+                    <input class='font_size' placeholder='font size(px)' type='number'>
+                </div>
                 <div class='category color'>
                     <div class='title'>Color:</div>
                     <div class='color_block' style='background-color:#EE9795'></div>
                     <div class='color_block' style='background-color:#809BCE'></div>
                     <div class='color_block' style='background-color:#95B8D1'></div>
-                </div>
-                <div class='category size'>
-                    <div class='title'>Size:</div>
-                    <input class='postit_size' id='postit_width' placeholder=' Width(px)' style='padding: 3px; width:80px;'
-                        type='number'>x
-                    <input class='postit_size' id='postit_height' placeholder=' Height(px)' style='padding: 3px;width:80px;'
-                        type='number'>
                 </div>
                 <div class='category img'>
                     <div class='title'>Image:</div>
@@ -89,42 +238,25 @@ function add_postit() {
                     </div>
                 </div>
         </form>`})
-    new_postit.innerHTML = `New Post-it!`;
-    workspace.appendChild(new_postit);
+
+    $(`#${id}`).css('position', 'absolute');
+    $(`#${id}`).data('user_id', user_id);   // store user_id in postit
+    // $(`#${id}`).draggable({ handle: '.triangle' });
+    $(`#${id}`).draggable();
+    $(`#${id}`).resizable({ maxHeight: 500, maxWidth: 500 });  // make postit resizable
 }
 
-// function add_postit() {
-//     let new_postit = document.createElement('aside');
-//     // setAttributes(new_postit, { 'class': 'postit', 'draggable': 'true', 'id': `id_${Math.floor(Math.random() * 50)}` })
-//     setAttributes(new_postit, { 'class': 'postit', 'draggable': 'true', 'id': `id_${Math.floor(Math.random() * 50)}` })
-//     // new_postit.innerHTML = ` New Post-it!<span class='postit_color'>COLOR :
-//     // <div class='color_block' style='background-color:#EE9795'></div>
-//     // <div class='color_block' style='background-color:#809BCE'></div>
-//     // <div class='color_block' style='background-color:#B8CFE0'></div>
-//     // </span>`
-//     new_postit.innerHTML = ` New Post-it!`
-//     workspace.appendChild(new_postit);
+// autosize textarea
+function autogrow(textarea) {
+    let adjustedHeight = textarea.clientHeight;
+    adjustedHeight = Math.max(textarea.scrollHeight, adjustedHeight);
+    if (adjustedHeight > textarea.clientHeight) {
+        textarea.style.height = adjustedHeight + 'px';
+    }
+}
 
-
-//     // postit detail settings
-//     let color_blocks = document.querySelectorAll('.color_block')
-//     let colors = ['#EE9795', '#809BCE', '#B8CFE0']
-//     for (let j = 0; j < color_blocks.length; j++) {
-//         color_blocks[j].style.backgroundColor = colors[j];
-//     }
-
-//     new_postit.addEventListener('dragstart', drag_start);
-//     // new_postit.addEventListener('dragover', drag_over, false);
-//     // new_postit.addEventListener('drop', drop_2);
-//     document.querySelector('.workspace').addEventListener('dragover', drag_over, false);
-//     document.querySelector('.workspace').addEventListener('drop', drop_2, false);
-//     // document.body.addEventListener('dragover', drag_over, false);
-//     // document.body.addEventListener('drop', drop_2, false);
-// }
-
-// pop over
-// var $j = jQuery.noConflict();   // $j optional alias to jQuery noConflict()
 $('.workspace').on('mouseover', '[data-toggle="popover"]', function () {
+    // show popover on postit
     $('[data-toggle="popover"]').popover({
         title: 'Postit Details',
         html: true,
@@ -132,20 +264,44 @@ $('.workspace').on('mouseover', '[data-toggle="popover"]', function () {
         animation: true,
         placement: 'right'
     })
+
+    // get id of postit
+    let postitID = $(this).attr('id');
+
+    // show X when hover on postit
+    $(`#${postitID}`).mouseover(function () {
+        $(`#${postitID} > .close_postit`).css({ 'color': 'white', 'text-shadow': '#000 0px 0px 2px', '-webkit-font-smoothing': 'antialiased' })
+    })
+    $(`#${postitID}`).mouseout(function () {
+        $(`#${postitID} > .close_postit`).css({ 'color': 'transparent', 'text-shadow': 'none' })
+    })
+    // delete postit at frontend
+    // $(`#${postitID} > .close_postit`).click(function () {
+    //     $(`#${postitID}`).remove();
+    // })
 })
 
 $('.workspace').on('click', '[data-toggle="popover"]', function (e) {
     // prevent default events
     e.preventDefault();
+    e.stopPropagation();
 
     // get id of postit
     let postitID = $(this).attr('id');
-    console.log('postitID', postitID);  //
+
     // get id of popover
     $('.show').on('click', function () {
         let popoverID = $(this).attr('id');
         // pass postitID into popover
         $(`#${popoverID}`).attr('data-id', postitID);
+    })
+
+
+    // Font Size
+    $('.font_size').on('change', function () {
+        console.log('font')
+        let font_size = $(this).val();
+        $(`#${postitID}`).css('font-size', `${font_size}px`);
     })
 
     // Color
@@ -159,26 +315,11 @@ $('.workspace').on('click', '[data-toggle="popover"]', function (e) {
         $(`#${postitID}`).css('backgroundColor', `${color}`);
     });
 
-    // Size
-    $('#postit_width').on('change', function () {
-        // get input width 
-        let width = $(this).val()
-        console.log('width change', width)  //
-        // change postit width
-        $(`#${postitID}`).width(`${width}`);
-    })
-    $('#postit_height').on('change', function () {
-        // get input height 
-        let height = $(this).val()
-        console.log('height change', height)    //
-        // change postit height
-        $(`#${postitID}`).height(`${height}`);
-    })
-
     // Img upload
     $('#files').on('change', function () {
         readURL(this);
     })
+
     function readURL(input) {
         let img_id = Date.now();
         if (input.files && input.files[0]) {
@@ -189,11 +330,12 @@ $('.workspace').on('click', '[data-toggle="popover"]', function (e) {
             reader.readAsDataURL(input.files[0]); // convert to base64 string
         }
     }
-    // // remove img when double clicked
-    // $('.upload_img').dblclick(function () {
-    //     console.log('double click');
-    //     $(this).hide();
-    // })
+
+    // (WIP)remove img when double clicked
+    $('.upload_pic').dblclick(function () {
+        console.log('double click');
+        $(this).hide();
+    })
 
 
     // Order
@@ -206,7 +348,7 @@ $('.workspace').on('click', '[data-toggle="popover"]', function (e) {
         console.log('orz', original_z); //
 
         if ($("input:checked").attr('id') == 'front+') {
-            $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) + 20);
+            $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) + 200);
             // console.log('front+', $(`#${postitID}`).css('zIndex'))  //
         } else if (($("input:checked").attr('id') == 'front')) {
             $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) + 1);
@@ -215,12 +357,19 @@ $('.workspace').on('click', '[data-toggle="popover"]', function (e) {
             $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) - 1);
             // console.log('back', $(`#${postitID}`).css('zIndex'))  //
         } else if (($("input:checked").attr('id') == 'back+')) {
-            $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) - 20);
+            $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) - 200);
             // console.log('back+', $(`#${postitID}`).css('zIndex'))  //
         }
 
     });
 })
+
+// upload selected img for postit
+function addFile() {
+    $('input[type="file"]').change(function (e) {
+        $(this).siblings('div[id="filename"]').html(e.target.files[0].name);
+    });
+}
 
 // hide other popovers
 $('body').on('click', function (e) {
@@ -232,52 +381,6 @@ $('body').on('click', function (e) {
     });
 });
 
-// upload selected img for postit
-function addFile() {
-    $('input[type="file"]').change(function (e) {
-        $(this).siblings('div[id="filename"]').html(e.target.files[0].name);
-    });
-}
 
 
-// drag n drop
-function drag_start(event) {
-    console.log('dragstart');
-    let style = window.getComputedStyle(event.target, null);    //window.getComputedStyle(element--要獲取樣式的元素, pseudoElement--查詢類偽元素)
-    // console.log(event.clientX, event.target.style.left);
-    event.dataTransfer.setData("text/plain",
-        (parseInt(style.getPropertyValue("left"), 10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"), 10) - event.clientY));
-}
-
-function drag_over(event) {
-    event.preventDefault();
-    return false;
-}
-
-function drop_2(event) {
-    console.log('id', event.target.id);
-    console.log('drop2');
-    // console.log('drop2 event.t', event.target.querySelectorAll('.postit').id);
-    // console.log(event.target.getAttribute('id'));
-    let offset = event.dataTransfer.getData("text/plain").split(',');
-    // console.log(document.getElementById(event.target.id))
-    document.getElementById(event.target.id).style.left = (event.clientX + parseInt(offset[0], 10)) + 'px';
-    document.getElementById(event.target.id).style.top = (event.clientY + parseInt(offset[1], 10)) + 'px';
-    event.preventDefault();
-    return false;
-}
-function drop(event) {
-    console.log('drop!??');
-    let offset = event.dataTransfer.getData("text/plain").split(',');
-    dm.style.left = (event.clientX + parseInt(offset[0], 10)) + 'px';
-    dm.style.top = (event.clientY + parseInt(offset[1], 10)) + 'px';
-    event.preventDefault();
-    return false;
-}
-// let dm = document.getElementById('dragme');
-// dm.addEventListener('dragstart', drag_start, false);
-// dm.addEventListener('dragover', drag_over, false);
-// dm.addEventListener('drop', drop, false);
-// document.body.addEventListener('dragover', drag_over, false);
-// document.body.addEventListener('drop', drop_2, false);
 

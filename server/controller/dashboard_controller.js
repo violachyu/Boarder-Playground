@@ -1,6 +1,7 @@
 const dashboard_model = require('../model/dashboard_model');
 
 let createWhiteboard = async (req, res) => {
+    console.log('create', req.body);
     // verify user by id 
     let { user_id, title } = req.body;
     if (!title) {
