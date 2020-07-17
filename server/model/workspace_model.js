@@ -21,8 +21,8 @@ const saveWorkspace = async (saveWB) => {
         // reform data
         let insertWB = [];
         let insertWB_item = [];
-        let { postit_id, user_id, wb_id, position_x, position_y, text, bg_color, width, height, img, zIndex, del } = saveWB[0];
-        insertWB_item.push(postit_id, user_id, wb_id, position_x, position_y, text, bg_color, width, height, img, zIndex, del);
+        let { postit_id, user_id, wb_id, position_x, position_y, text, bg_color, width, height, font_size, font_color, img, zIndex, del } = saveWB[0];
+        insertWB_item.push(postit_id, user_id, wb_id, position_x, position_y, text, bg_color, width, height, font_size, font_color, img, zIndex, del);
         insertWB.push(insertWB_item);
 
         transaction();

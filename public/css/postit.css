@@ -134,13 +134,6 @@
     align-self: center;
 }
 
-.color_block {
-    width: 20px;
-    height: 20px;
-    border: white 2px solid;
-    outline: lightgray solid 0.2px;
-    margin: 0px 5px;
-}
 
 .category {
     display: flex;

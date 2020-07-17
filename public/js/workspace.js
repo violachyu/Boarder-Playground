@@ -35,13 +35,15 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
                     <div class='align_wrap'>
                         <div class='category font'>
                             <div class='title'>Font Size:</div>
-                            <input class='font_size' placeholder='font size(px)' type='number'>
+                            <input class='font_size' placeholder='font size(px)' type='number' onsubmit='preventDefault();'>
+                        </div>
+                        <div class='category font'>
+                            <div class='title'>Font Color:</div>
+                            <input class='font_color' type='color' width='50px' height='20px'>
                         </div>
                         <div class='category color'>
                             <div class='title'>Color:</div>
-                            <div class='color_block' style='background-color:#EE9795'></div>
-                            <div class='color_block' style='background-color:#809BCE'></div>
-                            <div class='color_block' style='background-color:#95B8D1'></div>
+                            <input class='color_block' type='color' width='50px' height='20px'>
                         </div>
                         <div class='category img'>
                             <div class='title'>Image:</div>
@@ -73,8 +75,12 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
             background-color: ${data[i].bg_color}; 
             width:${data[i].width}; 
             height: ${data[i].height};
+            font-size: ${data[i].font_size};
             zIndex:${data[i]['z-index']};`) // WIP: comments
-            $(`#${data[i].postit_id} > .postit_input`).val(data[i].text);  // text
+
+            // Textarea settings
+            $(`#${data[i].postit_id} > .postit_input`).val(data[i].text);  // text content
+            $(`#${data[i].postit_id} > .postit_input`).css('color', data[i].font_color);  // text color
 
             $(`#${data[i].postit_id}`).data('user_id', user_id);   // store user_id in postit
             // $(`#${data[i].postit_id}`).draggable({ handle: '.triangle' });  // make postit draggable
@@ -83,9 +89,9 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
         }
     })
 
-/*---Save Workspace on Drop postit---*/
+/*---Save Postit---*/
 $('.workspace').on('resize click drag change', '.postit, .show', function () {  // (WIP) change trigger events: DOMSubtreeModified
-    console.log('saveWorkspace_API')  //
+    console.log('saveWorkspace_API', $(this))  //
     // reform postit data
     let postit_data = [];
     let postit_item = {};
@@ -95,9 +101,11 @@ $('.workspace').on('resize click drag change', '.postit, .show', function () {  
     postit_item['position_x'] = $(this).css('left')
     postit_item['position_y'] = $(this).css('top')
     postit_item['text'] = $(this).children('.postit_input').val();
-    postit_item['bg_color'] = $(this).css('background-color');
+    postit_item['bg_color'] = $(this).css('backgroundColor');
     postit_item['width'] = $(this).css('width');
     postit_item['height'] = $(this).css('height');
+    postit_item['font_size'] = $(this).children('.postit_input').css('font-size');
+    postit_item['font_color'] = $(this).children('.postit_input').css('color');
     postit_item['img'] = $(this).children('.upload_pic').attr('src') || null;
     postit_item['zIndex'] = $(this).css('zIndex');
     postit_item['del'] = null;
@@ -124,9 +132,6 @@ $('.workspace').on('resize click drag change', '.postit, .show', function () {  
 
 /*---Delete Postit---*/
 $('.workspace').on('click', '.close_postit', function () {
-    $(this).parent('.postit').remove();
-    console.log($(this).parent('.postit'));
-    console.log('delete');  //
     let deleteInit = {
         method: 'POST',
         headers: {
@@ -144,6 +149,8 @@ $('.workspace').on('click', '.close_postit', function () {
             alert(data.error || data.message)
             // console.log(data.error || data.message)  //
         })
+    $(this).parent('.postit').remove();
+
 })
 
 
@@ -215,11 +222,13 @@ function add_postit() {
                     <div class='title'>Font Size:</div>
                     <input class='font_size' placeholder='font size(px)' type='number'>
                 </div>
+                <div class='category font'>
+                    <div class='title'>Font Color:</div>
+                    <input class='font_color' type='color' width='50px' height='20px'>
+                </div>
                 <div class='category color'>
                     <div class='title'>Color:</div>
-                    <div class='color_block' style='background-color:#EE9795'></div>
-                    <div class='color_block' style='background-color:#809BCE'></div>
-                    <div class='color_block' style='background-color:#95B8D1'></div>
+                    <input class='color_block' type='color' width='50px' height='20px'>
                 </div>
                 <div class='category img'>
                     <div class='title'>Image:</div>
@@ -275,10 +284,7 @@ $('.workspace').on('mouseover', '[data-toggle="popover"]', function () {
     $(`#${postitID}`).mouseout(function () {
         $(`#${postitID} > .close_postit`).css({ 'color': 'transparent', 'text-shadow': 'none' })
     })
-    // delete postit at frontend
-    // $(`#${postitID} > .close_postit`).click(function () {
-    //     $(`#${postitID}`).remove();
-    // })
+
 })
 
 $('.workspace').on('click', '[data-toggle="popover"]', function (e) {
@@ -299,18 +305,23 @@ $('.workspace').on('click', '[data-toggle="popover"]', function (e) {
 
     // Font Size
     $('.font_size').on('change', function () {
-        console.log('font')
         let font_size = $(this).val();
         $(`#${postitID}`).css('font-size', `${font_size}px`);
     })
 
+    // Font Color
+    $('.show .font_color').on('change', function () {
+        // get color of selected
+        let color = $(this).val();
+        // change font color
+        $(`#${postitID} .postit_input`).css('color', `${color}`)
+    })
+
+
     // Color
-    $('.show .color_block').on('click', function () {
-        // single choice_color
-        $(this).css({ 'outline': 'black solid 1px' });
-        $('.color_block').not(this).css({ 'outline': '' });
-        // get color of clicked
-        let color = $(this).css('backgroundColor')
+    $('.show .color_block').on('change', function () {
+        // get color of selected
+        let color = $(this).val();
         // change postit color
         $(`#${postitID}`).css('backgroundColor', `${color}`);
     });
@@ -381,6 +392,11 @@ $('body').on('click', function (e) {
     });
 });
 
+// prevent submit on enter
+// $('input').on('submit', function (e) {
+//     e.preventDefault();
+//     $('form').submit
+// })
 
 
 
