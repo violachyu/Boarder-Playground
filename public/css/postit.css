@@ -1,0 +1,229 @@
+/* Workspace-- Postit Settings */
+.workspace{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 75vh;
+    width: 100vw;
+    overflow: scroll;
+    /* position: relative; */
+}
+#workspace_title {
+    position: absolute;
+    left: 135px;
+    bottom: -50px;
+    z-index: 1;
+    letter-spacing: -15px;
+    font-size: 100px;
+    color: white;
+    opacity: 70%;
+}
+#setting_btn, #close{
+    outline: none;
+}
+
+[data-toggle="popover"] {
+    line-height: 1;
+    text-align: center;
+    width: 150px;
+    height: 150px;
+    margin: 25px;
+    border: 1px solid lightgray;
+    font-family: 'Reenie Beanie', Verdana, Tahoma, sans-serif;
+    font-size: 24px;
+    border-bottom-right-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffff88;
+    color: black;
+    box-shadow: 2px 15px 5px rgba(0, 0, 0, 0.40);
+    z-index: 0;
+    outline: none;
+    overflow: visible;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    position: relative; 
+
+    /* -o-transition: all .5s;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s; */
+    /* transition: all .5s; */
+    /* -webkit-font-smoothing: antialiased; */
+}
+
+[data-toggle="popover"]:hover {
+    /* background: #FFD900; */
+    filter: brightness(90%);
+}
+.postit::placeholder {
+    white-space: normal;
+    font-size: 18px;
+    color: black;
+}
+
+
+/* Postit Details */
+.postit_detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    /* width: 300px;
+    height: 250px; */
+}
+
+.align_wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.triangle {
+    width: 0;
+    height: 0;
+    border-top: 25px solid white;
+    border-right: 25px solid transparent;
+    box-shadow: gray;
+    /* outline: darkgray solid 1px; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: move;
+}
+.close_postit{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: lighter;
+    font-size: 10px;
+    color:transparent;
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+}
+
+.postit_input{
+    margin: 10px 10px;
+    background-color: transparent;
+    font-family: 'Reenie Beanie', Verdana,Tahoma, sans-serif;
+    font-weight: 100;
+    border: none;
+    
+}
+.postit_input::placeholder{
+    font-family: 'Reenie Beanie', Verdana,Tahoma, sans-serif;
+    color: gray;
+    align-self: center;
+}
+.postit_input:focus{
+    outline: none;
+}
+
+.upload_pic {
+    /* width: 100px;
+    height: 100px; */
+    /* max-width: 100%;
+    max-height: 100%; */
+    max-width: 300px;
+    max-height: 300px;
+    align-self: center;
+}
+
+
+.category {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+}
+
+.title,
+.postit_height {
+    margin: 0px 10px 0px 5px;
+}
+.font_size{
+    width:80px;
+}
+.font_size::placeholder {
+    font-size: 10px;
+}
+
+.postit_size::placeholder {
+    font-size: 10px;
+}
+
+#postit_width {
+    margin: 0px 10px 0px 13px;
+}
+#post_height{
+    margin: 0px 10px;
+}
+
+.select_btn{
+    border: black solid 1px;
+    border-radius: 5px;
+    padding: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: transparent;
+    margin: 0px;
+}
+
+.select_btn:hover{
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}
+
+#filename {
+    font-family: 'Reenie Beanie', Verdana, sans-serif;
+    font-size: 20px;
+    margin-left: 8px;
+}
+
+label {
+    margin: 0px;
+}
+
+span {
+    margin-left: 5px;
+}
+.upload_img{
+    /* align-self: center; */
+    width: auto;
+    height: auto;
+}
+
+.wrap_checkbox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Popover Settings */
+#main-title {
+    cursor: pointer;
+}
+
+.popover-body {
+    background-color: lightgray;
+}
+
+.bs-popover-auto[x-placement^=left]>.arrow::after,
+.bs-popover-left>.arrow::after {
+    right: 1px;
+    border-width: .5rem 0 .5rem .5rem;
+    border-left-color: lightgray;
+}
+
+.bs-popover-auto[x-placement^=right]>.arrow::after,
+.bs-popover-right>.arrow::after {
+    right: 1px;
+    border-width: .5rem 0 .5rem .5rem;
+    border-right-color: lightgray;
+}

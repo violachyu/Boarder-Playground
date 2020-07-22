@@ -1,0 +1,8 @@
+.env
+
+# testing playground
+/test
+/public/test
+
+/node_modules
+.DS_Store

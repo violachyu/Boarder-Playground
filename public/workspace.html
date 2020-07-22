@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace</title>
+    <!-- Reenie Beanie Font library -->
+    <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie:regular' rel='stylesheet' type='text/css'>
+    <!-- jQuery library -->
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <!-- Jquery UI -->
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Bootstrap Library -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="./expand effect/expando.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/postit.css">
+</head>
+
+
+<body>
+    <header>
+        <div class="main_nav">
+            <div class='left_nav'>
+                <img class='logo' width=83px height=80px src="img/bp_white.png" alt="Boarder Playground Logo">
+                <div class='page_title' id='workspace_title'>WORKSPACE</div>
+            </div>
+            <ul class='right_nav'>
+                <a href="/welcome.html" id="home">HOME</a>
+                <a href="/dashboard.html" id='dashboard'>DASHBOARD</a>
+                <a href="#" class="logout" id='login'>LOGIN/OUT</a>
+                <a href="#" class="greeting"></a>
+            </ul>
+        </div>
+    </header>
+
+    <section class='section' id='print'>
+        <!-- Toolbar -->
+        <div class="expando js-expando">
+            <div class="expando__inner js-expando-inner">
+                <div class="expando__inner-inverter js-expando-inner-inverter">
+                    <div class="expando__content js-content">
+                        <ul class="expando__content-list">
+                            <li><img src='./img/idea.png' width=40px height=40px></li>
+                            <li><img src='./img/cowork.png' width=40px height=40px></li>
+                            <li><img src='./img/export.png' width=40px height=40px onclick='screenshot();'
+                                    id='print_btn'>
+                            </li>
+                            <li><img src='./img/template.png' width=40px height=40px></li>
+                            <li onclick="add_postit()"><img src='./img/plus.png' width=40px height=40px></li>
+                        </ul>
+                        <button class="expando__close js-expando-collapse-btn" id='close'>X</button>
+                    </div>
+                    <button class="expando__btn js-expando-expand-btn" id='setting_btn'>
+                        <img src='./img/settings.png'>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workspace -->
+        <div class='workspace' id='dragspace'></div>
+    </section>
+
+    <footer>
+        <div class='footer'>
+            <div class='copyright'>Copyright © 2020 Boarder Playground All Rights Reserved</div>
+        </div>
+    </footer>
+</body>
+
+<script src='./js/workspace.js'></script>
+<script src="./expand effect/expando.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+
+
+</html>

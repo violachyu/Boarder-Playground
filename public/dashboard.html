@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Cursor Style -->
+    <!-- <link rel="stylesheet" href="path/to/font-awesome.min.css">
+    <script src="path/to/jquery.min.js"></script> -->
+    <script src="https://cdn.rawgit.com/jwarby/jquery-awesome-cursor/master/dist/jquery.awesome-cursor.min.js"></script>
+    </pre>
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
+</head>
+
+<body>
+    <header>
+        <div class="main_nav">
+            <div class='left_nav'>
+                <img class='logo' width=83px height=80px src="img/bp_white.png" alt="Boarder Playground Logo">
+                <div class='page_title'>DASHBOARD</div>
+            </div>
+            <ul class='right_nav'>
+                <a href="/welcome.html">HOME</a>
+                <a href="/dashboard.html">DASHBOARD</a>
+                <a href="#" class="logout">LOGIN/OUT</a>
+                <a href="#" class="greeting"></a>
+            </ul>
+        </div>
+    </header>
+
+    <section class='section'>
+        <div class='whiteboard'></div>
+        <button class='add_btn hvr-grow' onclick='add_whiteboard()'>+</button>
+        <!-- <button class='add_btn hvr-grow'>+</button> -->
+    </section>
+
+    <footer>
+        <div class='footer'>
+            <!-- <img class='logo' width=105px height=100px src="img/bp_white.png" alt="Boarder Playground Logo"> -->
+            <div class='copyright'>Copyright © 2020 Boarder Playground All Rights Reserved</div>
+        </div>
+    </footer>
+</body>
+<script src='./js/dashboard.js'></script>
+
+</html>
