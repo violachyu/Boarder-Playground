@@ -24,6 +24,7 @@ const saveWorkspace = async (saveWB) => {
         let { postit_id, user_id, wb_id, position_x, position_y, text, bg_color, width, height, font_size, font_color, img, zIndex, del } = saveWB[0];
         insertWB_item.push(postit_id, user_id, wb_id, position_x, position_y, text, bg_color, width, height, font_size, font_color, img, zIndex, del);
         insertWB.push(insertWB_item);
+        // console.log(insertWB, 'insertWB')
 
         transaction();
         // insert or update data

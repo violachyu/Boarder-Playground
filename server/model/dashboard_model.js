@@ -1,6 +1,6 @@
 const { transaction, commit, rollback, query } = require('../../util/con');
 
-const createWhiteboard = async (user_id, title) => {
+const createWhiteboard = async (user_id, title, wb_id) => {
     try {
         // reform date format
         let now = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -12,9 +12,9 @@ const createWhiteboard = async (user_id, title) => {
             return { message: 'You\'ve created the same whiteboard title!' }
         } else {
             transaction();
-            let wb_data = [[user_id, title, now]]
+            let wb_data = [[wb_id, user_id, title, now]]
             // verify user & insert data into DB
-            await query(`INSERT INTO wb(user_id, title, create_time) VALUES ?`, [wb_data]);
+            await query(`INSERT INTO wb(wb_id, user_id, title, create_time) VALUES ?`, [wb_data]);
             commit();
             return { message: 'Create WB successful!' }
         }

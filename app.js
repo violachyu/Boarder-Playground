@@ -4,6 +4,10 @@ const app = express();
 const PORT = process.env.PORT;
 const API_VERSION = process.env.API_VERSION;
 const path = require('path');
+const socketio = require('socket.io');
+const http = require('http');
+const server = http.createServer(app);
+const io = socketio(server);
 
 // static files
 app.use(express.static('public'));
@@ -33,6 +37,31 @@ app.use('/api/' + API_VERSION,
     ]
 );
 
+// Socket Server
+io.on('connection', socket => {
+    // check connection
+    socket.emit('message', 'Welcome to Boarder Playground!')
+
+    // Sync on add postit
+    socket.on('addPostit', function (postit_id) {
+        socket.broadcast.emit('addRender', postit_id)
+    })
+
+    // Sync on edit postit
+    socket.on('editPostit', function (postit_item) {
+        socket.broadcast.emit('editRender', postit_item)
+    })
+
+    // Sync on delete postit
+    socket.on('deletePostit', function (deleteId) {
+        socket.broadcast.emit('deleteRender', deleteId)
+    })
+    // Lock postit
+    socket.on('lock', function (postitID) {
+        socket.broadcast.emit('lockRender', postitID)
+    })
+})
+
 // Page not found
 app.use(function (req, res, next) {
     res.status(404).sendFile(__dirname + '/public/404.html');
@@ -43,6 +72,7 @@ app.use(function (err, req, res, next) {
     console.log(err);
     res.status(500).send('Internal Server Error');
 });
+
 
 
 // // Test
@@ -56,7 +86,7 @@ app.use(function (err, req, res, next) {
 // })
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Boarder Playground connected to port ${PORT}`)
 })
 

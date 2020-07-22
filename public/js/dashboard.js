@@ -31,26 +31,29 @@ function deleteWhiteboard(e) {
 }
 function createWhiteboard(e) {
     // get wb title & user_id
-    let title = e.target.previousSibling.previousSibling.previousSibling.previousSibling.value;
-    // console.log('create', e.target.previousSibling.previousSibling.previousSibling.previousSibling.value);
+    let title = $('input.wb_title').val();
+    let wb_id = Date.now();
+    if (title.includes("'")) {
+        alert("Cannot input symbols including:\" and \'")
+    } else {
+        fetch('/api/1.0/dashboard/createWhiteboard', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': access_token
+            },
+            body: JSON.stringify({
+                user_id, title, wb_id
+            })
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                let { message, error } = data;
+                alert(message || error);
+            })
+    }
 
-    fetch('/api/1.0/dashboard/createWhiteboard', {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json',
-            'authorization': access_token
-        },
-        body: JSON.stringify({
-            user_id, title
-        })
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            let { message, error } = data;
-            alert(message || error);
-        })
 }
-
 
 /*---Get WB---*/
 fetch(`/api/1.0/dashboard/${user_id}`, {
@@ -62,13 +65,12 @@ fetch(`/api/1.0/dashboard/${user_id}`, {
 })
     .then((res) => res.json())
     .then((data) => {
-        // console.log(data);   //
         for (let i = 0; i < data.length; i++) {
             let org_wb = document.createElement('div');
             setAttributes(org_wb, { "class": "wb_block hvr-grow" });
             org_wb.innerHTML = `<div class='wb_title'>${data[i].title}</div>
             <div class='close_btn'>X</div>
-            <button class='create_wb'>Save</button>`;
+            <div class='watermark'>BP</div>`;
             // set wb_id on each wb
             org_wb.dataset.wb_id = data[i].wb_id
             whiteboard.appendChild(org_wb);
@@ -97,7 +99,11 @@ $('.whiteboard').click('.wb_block', function (e) {
     let target = $(e.target)
     let wb_id = target.data('wb_id');
     let title = target.children('.wb_title').html();
-    window.location.href = `workspace.html?wb_id=${wb_id}&title=${title}`
+    // redirect excluding input
+    if (!$(e.target).hasClass('wb_title') && !$(e.target).hasClass('close_btn')) {
+        window.location.href = `workspace.html?wb_id=${wb_id}&title=${title}`
+    }
+
 })
 
 // token verification
@@ -139,7 +145,7 @@ let add_whiteboard = () => {
     new_div.innerHTML = `
     <input class='wb_title' placeholder='Type in title...'>
     <div class='close_btn'>X</div>
-    <button class='create_wb'>Save</button>`
+    <div class='watermark'>BP</div>`
     whiteboard.appendChild(new_div);
 
     $('.whiteboard').on('mouseover', '.wb_block', function () {
@@ -150,9 +156,24 @@ let add_whiteboard = () => {
     })
 
     new_div.querySelector('.close_btn').addEventListener('click', deleteWhiteboard)
-    new_div.querySelector('.create_wb').addEventListener('click', createWhiteboard)
+    // new_div.querySelector('.create_wb').addEventListener('click', createWhiteboard)
 
 }
+/*---Create WB---*/
+$('body').on('click', function (e) {
+    console.log('helloooooooo');
+    // redirect excluding button
+    if (!$(e.target).hasClass('add_btn') && !$(e.target).hasClass('wb_block') && !$(e.target).hasClass('wb_title') || !$(e.target).hasClass('close_btn')) {
+        createWhiteboard();
+    }
+    // } else if (!$(e.target).hasClass('wb_block')) {
+    //     createWhiteboard();
+    // } else if (!$(e.target).hasClass('wb_title')) {
+    //     createWhiteboard();
+    // }
+})
+
+/*---Delete WB---*/
 
 /*---Cursor Style---*/
 $('body').awesomeCursor('pencil',
