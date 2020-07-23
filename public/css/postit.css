@@ -3,7 +3,6 @@
     position: absolute;
     left: 135px;
     bottom: -50px;
-    z-index: 1;
     letter-spacing: -15px;
     font-size: 100px;
     color: white;
@@ -17,7 +16,7 @@
     flex-wrap: wrap;
     height: 75vh;
     width: 100vw;
-    overflow: scroll;
+    overflow: auto;
     max-width:100%;
 }
 
@@ -65,7 +64,6 @@
     box-shadow: 2px 15px 5px rgba(0, 0, 0, 0.40);
     z-index: 0;
     outline: none;
-    overflow: visible;
     overflow-wrap: break-word;
     word-wrap: break-word;
     white-space: normal;
@@ -259,4 +257,24 @@ span {
     right: 1px;
     border-width: .5rem 0 .5rem .5rem;
     border-right-color: lightgray;
+}
+.lock_msg{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    background-color: black; 
+    opacity: 70%; 
+    font-size: 20px; 
+    color: white; 
+    text-align: center;
+    height: 100%;
+    width: 100%; 
+    position: absolute;
+    margin: 0px;
+    padding: 5px 5px;
+    visibility: hidden;
+}
+#lock_content{
+    margin-bottom: 0px;
 }

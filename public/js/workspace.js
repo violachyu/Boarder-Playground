@@ -19,15 +19,14 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
 })
     .then((res) => res.json())
     .then((data) => {
-        console.log('getWorkspace_postit data', data);  //
-
         for (let i = 0; i < data.length; i++) {
             let workspace = document.querySelector('.workspace');
             let new_postit = document.createElement('main');
             new_postit.innerHTML = `
             <div class='triangle'></div>
             <div class='close_postit'>X</div>
-            <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>`
+            <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>
+            <div class='lock_msg'><p id='lock_content'>Someone else is editing this postit...</p></div>`
             workspace.append(new_postit)
 
             setAttributes(new_postit, {
@@ -56,10 +55,8 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
                         <div class='category order'>
                             <div class='title'>Order:</div>
                             <div class='wrap_checkbox'>
-                                <label for='front+'><input type='radio' id='front+'><span>Bring to front</span></label>
-                                <label for='front'><input type='radio' id='front'><span>Bring forward</span></label>
-                                <label for='back'><input type='radio' id='back'><span>Send backward</span></label>
-                                <label for='back+'><input type='radio' id='back+'><span>Send to back</span></label>
+                                <label for='front'><input type='radio' id='front'><span>Bring to front</span></label>
+                                <label for='back'><input type='radio' id='back'><span>Send to back</span></label>
                             </div>
                         </div>
                 </form>`})
@@ -86,11 +83,11 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
             $(`#${data[i].postit_id}`).data('user_id', user_id);   // store user_id in postit
             // $(`#${data[i].postit_id}`).draggable({ handle: '.triangle' });  // make postit draggable
             $(`#${data[i].postit_id}`).draggable({ containment: 'parent' });  // make postit draggable
-            $(`#${data[i].postit_id}`).resizable({ maxHeight: 500, maxWidth: 800, minHeight: 50, minWidth: 50 });  // make postit resizable
+            $(`#${data[i].postit_id}`).resizable({ maxHeight: 500, maxWidth: 800, minHeight: 50, minWidth: 50, containment: 'parent' });  // make postit resizable
         }
     })
 
-// (WIP)make worksace selectable
+// (WIP)make workspace selectable
 $(function () {
     $(".workspace").selectable();
 });
@@ -103,6 +100,26 @@ const socket = io();
 socket.on('message', (message) => {
     console.log(message);
 })
+
+// Join Room 
+let wb_name = $('#workspace_title').html();
+socket.emit('joinRoom', { user_id, username, wb_id, wb_name })
+
+// Send message
+socket.on('statusMessage', function (message) {
+    $('.statusMessage').html(message)
+})
+
+// Render room info
+socket.on('roomUsers', (room, room_name, users, user_count) => {
+    $('.roomUsers').html = user_count   // show user count
+
+});
+
+// Get sharing link
+$('.shareLink').html = `${document.location.href}`
+
+
 
 /* Sync postit appearance and movement: Add/Edit/Move Postit */
 // Sync on add postit
@@ -136,7 +153,8 @@ function add_postit() {
     new_postit.innerHTML = `
     <div class='triangle'></div>
     <div class='close_postit'>X</div>
-    <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>`
+    <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>
+    <div class='lock_msg'><p id='lock_content'>Someone else is editing this postit...</p></div>`
     workspace.append(new_postit)
 
     let id = 'id_' + Date.now();
@@ -166,10 +184,8 @@ function add_postit() {
                 <div class='category order'>
                     <div class='title'>Order:</div>
                     <div class='wrap_checkbox'>
-                        <label for='front+'><input type='radio' id='front+'><span>Bring to front</span></label>
-                        <label for='front'><input type='radio' id='front'><span>Bring forward</span></label>
-                        <label for='back'><input type='radio' id='back'><span>Send backward</span></label>
-                        <label for='back+'><input type='radio' id='back+'><span>Send to back</span></label>
+                        <label for='front'><input type='radio' id='front'><span>Bring to front</span></label>
+                        <label for='back'><input type='radio' id='back'><span>Send to back</span></label>
                     </div>
                 </div>
         </form>`})
@@ -178,7 +194,7 @@ function add_postit() {
     $(`#${id}`).data('user_id', user_id);   // store user_id in postit
     // $(`#${id}`).draggable({ handle: '.triangle' });
     $(`#${id}`).draggable({ containment: 'parent' });
-    $(`#${id}`).resizable({ maxHeight: 500, maxWidth: 800, minHeight: 50, minWidth: 50 });  // make postit resizable
+    $(`#${id}`).resizable({ maxHeight: 500, maxWidth: 800, minHeight: 50, minWidth: 50, containment: 'parent' });  // make postit resizable
     return id;
 }
 
@@ -186,16 +202,19 @@ function add_postit() {
 $('body').on('click change dragstop', '.postit, .popover', function () {
     let id;
     if ($(this).data('id')) {
-        id = $(this).data('id')
+        id = $(this).data('id') // popover contains data-id property
     } else {
         id = $(this).attr('id');
     }
+    // reform date format
+    let now = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
 
     let postit_data = [];
     let postit_item = {
         postit_id: $(`#${id}`).attr('id'),
         user_id: $(`#${id}`).data('user_id'),
         wb_id: wb_id,
+        latest_update: now,
         position_x: $(`#${id}`).css('left'),
         position_y: $(`#${id}`).css('top'),
         text: $(`#${id}`).children('.postit_input').val(),
@@ -235,11 +254,10 @@ $('body').on('click change dragstop', '.postit, .popover', function () {
             console.log(data.error || data.message)
             $('.saveStatus').delay(50000).html('DOCUMENT SAVED!!')
         })
-
 })
 
-// Save on resizeEND
-$('body').on('resize', '.postit', _.debounce(function () {
+// Save on resizeEND & keyup
+$('body').on('resize keyup', '.postit', _.debounce(function () {
     let id;
     if ($(this).data('id')) {
         id = $(this).data('id')
@@ -247,11 +265,15 @@ $('body').on('resize', '.postit', _.debounce(function () {
         id = $(this).attr('id');
     }
 
+    // reform date format
+    let now = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
+
     let postit_data = [];
     let postit_item = {
         postit_id: $(`#${id}`).attr('id'),
         user_id: $(`#${id}`).data('user_id'),
         wb_id: wb_id,
+        latest_update: now,
         position_x: $(`#${id}`).css('left'),
         position_y: $(`#${id}`).css('top'),
         text: $(`#${id}`).children('.postit_input').val(),
@@ -288,11 +310,10 @@ $('body').on('resize', '.postit', _.debounce(function () {
         .then((res) => res.json())
         .then((data) => {
             console.log(data.error || data.message)
-            console.log('delay!!!!!')
             $('.saveStatus').delay(50000).html('DOCUMENT SAVED!!')
             // $('.saveStatus').delay(50000).html('')
         })
-    setTimeout($('.saveStatus').html(''), 50000)    // (WIP) not working
+    // setTimeout($('.saveStatus').html(''), 50000)    // (WIP) not working
 }, 1000))
 
 
@@ -306,7 +327,8 @@ function render(data) {
     let new_postit = document.createElement('main');
     new_postit.innerHTML = `<div class='triangle'></div>
         <div class='close_postit'>X</div>
-        <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>`
+        <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>
+        <div class='lock_msg'><p id='lock_content'>Someone else is editing this postit...</p></div>`
     setAttributes(new_postit, {
         'class': 'postit ui-widget-content', 'draggable': 'true', 'id': data.postit_id, 'data-toggle': 'popover', 'data-container': 'body', 'title': 'Postit Details', 'placeholder': 'Write something on Post-it!',
         'data-content': `<form class='postit_detail' id='popover-content' enctype=''>
@@ -333,10 +355,8 @@ function render(data) {
                     <div class='category order'>
                         <div class='title'>Order:</div>
                         <div class='wrap_checkbox'>
-                            <label for='front+'><input type='radio' id='front+'><span>Bring to front</span></label>
-                            <label for='front'><input type='radio' id='front'><span>Bring forward</span></label>
-                            <label for='back'><input type='radio' id='back'><span>Send backward</span></label>
-                            <label for='back+'><input type='radio' id='back+'><span>Send to back</span></label>
+                            <label for='front'><input type='radio' id='front'><span>Bring to front</span></label>
+                            <label for='back'><input type='radio' id='back'><span>Send to back</span></label>
                         </div>
                     </div>
             </form>`})
@@ -345,8 +365,9 @@ function render(data) {
     $(`#${data.postit_id}`).data('user_id', user_id);   // store user_id in postit
     $(`#${data.postit_id}`).css('position', 'absolute');   // set postit absolute
     $(`#${data.postit_id}`).draggable();  // make postit draggable
-    $(`#${data.postit_id}`).resizable({ maxHeight: 500, maxWidth: 500, minHeight: 50, minWidth: 50 });  // make postit resizable
+    $(`#${data.postit_id}`).resizable({ maxHeight: 500, maxWidth: 500, minHeight: 50, minWidth: 50, containment: 'parent' });  // make postit resizable
 }
+
 function render_edit(data) {
     let styles = {
         'left': data.position_x,
@@ -403,31 +424,87 @@ $('.workspace').on('click', '.close_postit', function (e) {
 })
 
 // (WIP) hide popover when white space is clicked
-$('body').on('click', function (e) {
-    // if (!$(e.target).hasClass('postit') || !$(e.target).hasClass('postit_input')) {
-    //     $('.popover').each(function () {
-    //         $(this).hide();
-    //     })
-    // }
-})
+// $('body').on('click', function (e) {
+// if (!$(e.target).hasClass('postit') || !$(e.target).hasClass('postit_input')) {
+//     $('.popover').each(function () {
+//         $(this).hide();
+//     })
+// }
+// })
 
 socket.on('deleteRender', function (deleteId) {
     $(`#${deleteId}`).remove();
 })
 
 /*---Lock Postit---*/
-$('.workspace').on('focus', '.postit > .postit_input', function () {
-    let postitID = $(this).attr('id')
-    console.log('lock', postitID)   //
-    socket.emit('lock', postitID)
+// lock when user1 is editing
+$('.workspace').on('click resize keydown drag', '.postit, .postit_input', function () {
+    let id;
+    if ($(this).hasClass('postit')) {
+        id = $(this).attr('id')
+    } else if ($(this).hasClass('popover')) {
+        id = $(this).data('id')
+    } else {
+        id = $(this).parent('.postit').attr('id');
+    }
+    socket.emit('lock', id)
+    $(`#${id} > .postit_input`).addClass('locked');
+    // $(`#${id}`).addClass('locked');
 })
-socket.on('lockRender', function (postitID) {
-    $(`#${postitID}`).attr('readonly');
-    alert('Someone is editing this postit...')
+// lock when user1 clicks on popover
+$('body').on('click', '.popover', function () {
+    let id;
+    if ($(this).hasClass('postit')) {
+        id = $(this).attr('id')
+    } else if ($(this).hasClass('popover')) {
+        id = $(this).data('id')
+    } else {
+        id = $(this).parent('.postit').attr('id');
+    }
+    socket.emit('lock', id)
+    // $(`#${id} > .postit_input`).addClass('locked');
+    // $(`#${id}`).addClass('locked');
 })
-// $('.workspace').on('click', '.popover', function () {
 
-// })
+socket.on('lockRender', function (id) {
+    $(`#${id}`).prop('readonly', true);
+    $(`#${id} > .lock_msg`).css({ 'visibility': 'visible' });
+
+    // disable other user's events
+    $(`#${id}`).off();
+})
+
+
+// remove cover after editing
+$('.workspace').on('mouseleave mouseout keyup dragstop', '.postit, .postit_input', function () {
+    let id;
+    if ($(this).hasClass('postit')) {
+        id = $(this).attr('id')
+    } else {
+        id = $(this).parent('.postit').attr('id');
+    }
+
+    if ($(this).hasClass('locked')) {
+        setTimeout(function () {
+            socket.emit('lockRemove', id);
+        }, 2000)
+    }
+    // $(this).removeClass('locked');
+})
+
+socket.on('lockRemoveRender', function (id) {
+    if (typeof id == Array) {
+        console.log('removrender');
+        for (let i = 0; i < id.length; i++) {
+            $(`#${id[i]} > .lock_msg`).css({ 'visibility': 'hidden' });
+        }
+    } else {
+        console.log('removrender_id');
+        $(`#${id} > .lock_msg`).css({ 'visibility': 'hidden' });
+    }
+})
+
+
 
 
 
@@ -514,10 +591,10 @@ $('.workspace').on('click', '.postit', function (e) {
     let postitID = $(this).attr('id');
 
     // get id of popover
-    $('.show').on('click', function () {
+    $('.show').on('mouseover', function () {
         let popoverID = $(this).attr('id');
         // pass postitID into popover
-        $(`#${popoverID}`).attr('data-id', postitID);
+        $(`#${popoverID}`).data('id', postitID);
     })
 
 
@@ -567,28 +644,25 @@ $('.workspace').on('click', '.postit', function (e) {
 
 
     // Order
+    // move to front whenever postit is clicked
+    $(`#${postitID}`).css('zIndex', '+=1')
+    console.log('zIndex', $(`#${postitID}`).css('zIndex'))  //
+    // (WIP)hide "send to back" btn if at bottom
+    if ($(`#${postitID}`).css('zIndex') == 0 || $(`#${postitID}`).css('zIndex') == 1) { // not working
+        // console.log('zIndex=0', $(`#${postitID}`).css('zIndex'))  //
+        console.log($(`[data-id="${postitID}"]`));
+        $(`[data-id="${postitID}"] > #back`).css({ 'pointer-events': 'none' })
+        $(`[data-id="${postitID}"] > span`).css({ 'color': 'blue' })
+    }
     $('.show input[type="radio"]').on('change', function () {
         // single choice_radio
         $('input[type="radio"]').not(this).prop('checked', false);
         // get selected option
-        // $(`#${postitID}`).css('zIndex', '0')
-        let original_z = $(`#${postitID}`).css('zIndex');
-        console.log('orz', original_z); //
-
-        if ($("input:checked").attr('id') == 'front+') {
-            $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) + 200);
-            // console.log('front+', $(`#${postitID}`).css('zIndex'))  //
-        } else if (($("input:checked").attr('id') == 'front')) {
-            $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) + 1);
-            // console.log('front', $(`#${postitID}`).css('zIndex'))   //
+        if ($("input:checked").attr('id') == 'front') {
+            $(`#${postitID}`).css('zIndex', '+=1');
         } else if (($("input:checked").attr('id') == 'back')) {
-            $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) - 1);
-            // console.log('back', $(`#${postitID}`).css('zIndex'))  //
-        } else if (($("input:checked").attr('id') == 'back+')) {
-            $(`#${postitID}`).css('zIndex', parseInt(original_z, 10) - 200);
-            // console.log('back+', $(`#${postitID}`).css('zIndex'))  //
+            $(`#${postitID}`).css('zIndex', '-=2');
         }
-
     });
 })
 
