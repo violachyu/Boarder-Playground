@@ -10,7 +10,6 @@
     <!-- jQuery library -->
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
     <!-- Jquery UI -->
-    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- Bootstrap Library -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -48,14 +47,14 @@
             <div class="expando__inner js-expando-inner">
                 <div class="expando__inner-inverter js-expando-inner-inverter">
                     <div class="expando__content js-content">
-                        <ul class="expando__content-list">
-                            <li><img src='./img/idea.png' width=40px height=40px></li>
-                            <li><img src='./img/cowork.png' width=40px height=40px></li>
-                            <li><img src='./img/export.png' width=40px height=40px onclick='screenshot();'
+                        <ul class="expando__content-list" width=100px height=280px>
+                            <li><img src='./img/idea.png' width=30px height=30px></li>
+                            <li><img src='./img/cowork.png' width=30px height=30px></li>
+                            <li><img src='./img/export.png' width=30px height=30px onclick='screenshot();'
                                     id='print_btn'>
                             </li>
-                            <li><img src='./img/template.png' width=40px height=40px></li>
-                            <li onclick="add_postit()"><img src='./img/plus.png' width=40px height=40px></li>
+                            <li><img src='./img/template.png' width=30px height=30px></li>
+                            <li class='addPostit'><img src='./img/plus.png' width=30px height=30px></li>
                         </ul>
                         <button class="expando__close js-expando-collapse-btn" id='close'>X</button>
                     </div>
@@ -67,7 +66,13 @@
         </div>
 
         <!-- Workspace -->
-        <div class='workspace' id='dragspace'></div>
+        <div class='workspace' id='dragspace'>
+            <div class='alertArea'>
+                <div class='saveStatus'></div>
+                <div class='statusMessage'></div>
+                <!-- <img class='userOnline' src='./img/'></img> -->
+            </div>
+        </div>
     </section>
 
     <footer>
@@ -77,6 +82,10 @@
     </footer>
 </body>
 
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.19/lodash.min.js"
+    integrity="sha256-Jvh9+A4HNbbWsWl1Dw7kAzNsU3y8elGIjLnUSUNMtLg=" crossorigin="anonymous"></script>
 <script src='./js/workspace.js'></script>
 <script src="./expand effect/expando.js"></script>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>

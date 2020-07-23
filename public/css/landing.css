@@ -1,0 +1,157 @@
+*{
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Space Mono', monospace;
+    width: 100vw;
+    overflow-x: hidden;
+}
+li{
+    list-style: none;
+}
+
+
+/*---Header---*/
+.land_logo{
+    width: 70px;
+    height: 64px;
+    margin: 10px 20px;
+}
+.land_mainNav{
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: center;
+    top: 0px;
+    z-index: 1;
+}
+
+.land_navBar{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: 30px;
+    /* background-color: black;
+    opacity: 50%; */
+}
+.topList{
+    font-size: 13px;
+    text-transform: uppercase;
+    margin: 0px 20px;
+    padding-bottom: 5px;
+    align-self: center;
+    z-index: 100;
+    color: white;
+}
+
+/* Underline From Center */
+.hvr-underline-from-center {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    position: relative;
+    overflow: hidden;
+  }
+  .hvr-underline-from-center:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 51%;
+    right: 51%;
+    bottom: 0;
+    background:white;
+    height: 2px;
+    -webkit-transition-property: left, right;
+    transition-property: left, right;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+  }
+  .hvr-underline-from-center:hover:before, .hvr-underline-from-center:focus:before, .hvr-underline-from-center:active:before {
+    left: 0;
+    right: 0;
+  }
+
+/*---Section---*/
+.land_bgBox{
+    width:100%;
+    height:100%;
+    position: relative;
+}
+.land_bg1{
+    /* width:100%;
+    height:100%; */
+    max-width:100%;
+    max-height:100%;
+}
+.land_cover{
+    background-color: black;
+    opacity: 50%;
+    position: absolute;
+    width: 100%;
+    height: 98%;
+}
+/* .land_sloganBox{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1;
+    background-color: blue;
+    opacity: 50%;
+    position: absolute;
+    width: 100%;
+    height: 98%;
+} */
+
+.land_slogan{
+    font-family: 'Rowdies', cursive;
+    font-weight: Bold;
+    font-size: 80px;
+    position: absolute;
+    left: 5%;
+    top:20%;
+    color:white;
+}
+.land_sloganContent{
+    font-size: 10px;
+    position: absolute;
+    left: 5%;
+    top:35%;
+    width: 50%;
+    color:white;
+}
+.land_start{
+    /* margin: 10px 30px; */
+    padding: 5px 20px;
+    position: absolute;
+    left: 5%;
+    top:48%;
+    font-family: 'Rowdies', cursive;
+    font-size: 20px;
+    font-weight: 300;
+    background: white;
+    color: black;
+    border:none;
+    border-radius: 20px;
+
+}
+
+/*---Footer---*/
+
+/*---Snippet---*/
+/* marble background */
+/* body{
+    background-color:rgb(0,0,0);
+    background-image:url(http://www.zingerbugimages.com/backgrounds/white_marble_background_seamless.jpg);
+    background-position:top left;
+    background-repeat:repeat;
+    background-attachment:fixed;
+} */

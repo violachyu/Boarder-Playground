@@ -4,9 +4,22 @@ const app = express();
 const PORT = process.env.PORT;
 const API_VERSION = process.env.API_VERSION;
 const path = require('path');
+const socketio = require('socket.io');
+const http = require('http');
+const server = http.createServer(app);
+const io = socketio(server);
 
 // static files
 app.use(express.static('public'));
+
+// socket utils library
+const {
+    userJoin,
+    getCurrentUser,
+    userLeave,
+    getRoomUsers,
+    getUserCount
+} = require('./util/users');
 
 /*---Parser---*/
 const bodyParser = require('body-parser');
@@ -33,6 +46,87 @@ app.use('/api/' + API_VERSION,
     ]
 );
 
+// Socket Server
+io.on('connection', socket => {
+    // check connection
+    socket.emit('message', 'Welcome to Boarder Playground!')
+
+    // Join room
+    socket.on('joinRoom', function ({ user_id, username, wb_id, wb_name }) {
+        // organize user object
+        let user = userJoin(user_id, username, wb_id, wb_name);
+
+        socket.join(user.wb_id);
+
+        // Welcome current user
+        socket.emit('statusMessage', 'Welcome to Boarder Playground!');
+
+        // Broadcast when a user connects
+        socket.broadcast.to(user.wb_id)
+            .emit(
+                'statusMessage',
+                `${user.username} has joined the room`
+            );
+
+        // Send users and room info
+        io.to(wb_id)
+            .emit('roomUsers', {
+                room: user.wb_id,
+                room_name: user.wb_name,
+                users: getRoomUsers(user.wb_id),
+                user_count: getUserCount(),
+            });
+    })
+
+    // (WIP)Listen for chatMessage
+    socket.on('chatMessage', msg => {
+        const user = getCurrentUser(user_id);
+        io.to(user.room).emit('message', formatMessage(user.username, msg));
+    });
+
+    // Sync on add postit
+    socket.on('addPostit', function (postit_id) {
+        socket.broadcast.emit('addRender', postit_id)
+    })
+
+    // Sync on edit postit
+    socket.on('editPostit', function (postit_item) {
+        socket.broadcast.emit('editRender', postit_item)
+    })
+
+    // Sync on delete postit
+    socket.on('deletePostit', function (deleteId) {
+        socket.broadcast.emit('deleteRender', deleteId)
+    })
+    // Lock postit
+    socket.on('lock', function (id) {
+        socket.broadcast.emit('lockRender', id)
+    })
+    // remove cover after editing 
+    socket.on('lockRemove', function (id) {
+        socket.broadcast.emit('lockRemoveRender', id);
+    })
+
+    // Runs when client disconnects
+    socket.on('disconnect', ({ user_id }) => {
+        let user = userLeave(user_id); // get the user who just left
+
+        if (user) {
+            io.to(user.room).emit(
+                'statusMessage',
+                `${user.username} has left the chat`
+            );
+
+            // Send users and room info
+            io.to(user.room).emit('roomUsers', {
+                room: user.room,
+                users: getRoomUsers(user.room)
+            });
+        }
+    });
+
+})
+
 // Page not found
 app.use(function (req, res, next) {
     res.status(404).sendFile(__dirname + '/public/404.html');
@@ -43,6 +137,7 @@ app.use(function (err, req, res, next) {
     console.log(err);
     res.status(500).send('Internal Server Error');
 });
+
 
 
 // // Test
@@ -56,7 +151,7 @@ app.use(function (err, req, res, next) {
 // })
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Boarder Playground connected to port ${PORT}`)
 })
 

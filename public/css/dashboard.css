@@ -33,6 +33,9 @@
     transition: all 0.5s;
     position: relative;
 }
+.wb_block:hover{
+    color: white;
+}
 
 
 .wb_title {
@@ -72,7 +75,7 @@
     color: white;
 }
 
-.create_wb {
+/* .create_wb {
     border-radius: 0px 0px 5px 5px;
     position: absolute;
     bottom: 0px;
@@ -89,6 +92,15 @@
     outline: none;
     border: none;
     cursor: pointer;
+} */
+
+.watermark{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 10px;
+    line-height: 10px;
+    color: gray;
 }
 
 .hvr-grow {
