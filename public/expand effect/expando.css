@@ -5,6 +5,7 @@
     left: 10px;
     top: 10px;
     will-change: transform;
+    z-index: 100000000000000;
   }
   
   .expando__inner {
@@ -72,6 +73,7 @@
     overflow: hidden;
     border: gray dashed 1px;
     border-radius: 5px;
+    background-color: transparent;
     /* box-shadow: 3px 3px 1px darkgray; */
   }
   

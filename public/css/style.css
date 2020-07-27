@@ -3,6 +3,9 @@
     box-sizing: border-box;
     /* border: solid 1px white; */
 }
+li {
+    list-style: none;
+}
 
 /*---Header---*/
 header {

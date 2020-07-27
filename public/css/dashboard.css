@@ -24,7 +24,7 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    width: 150px;
+    width: 160px;
     height: 175px;
     background-color: darkgrey;
     border-radius: 5px;
@@ -35,6 +35,13 @@
 }
 .wb_block:hover{
     color: white;
+}
+.wb_back{
+    position: absolute;
+    left: 5px;
+    width: 4px;
+    height: 175px;
+    background-color: white;
 }
 
 
@@ -54,11 +61,22 @@
     color: black;
     position: absolute;
     bottom: 30px;
-    left: 0px;
+    left: 9px;
+    pointer-events: none;
 }
 
 ::placeholder {
     font-size: 10px;
+}
+
+.edit{
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    cursor: pointer;
+    visibility: hidden;
 }
 
 .close_btn {
@@ -94,14 +112,14 @@
     cursor: pointer;
 } */
 
-.watermark{
+/* .watermark{
     position: absolute;
     bottom: 5px;
     right: 5px;
     font-size: 10px;
     line-height: 10px;
     color: gray;
-}
+} */
 
 .hvr-grow {
     display: inline-block;
@@ -126,7 +144,7 @@
 .add_btn {
     font-size: xx-large;
     padding: 7px 15px;
-    background-color: white;
+    /* background-color: white; */
     border: 0.05px solid darkgray;
     outline: none;
     position: absolute;
@@ -135,6 +153,6 @@
     border-radius: 5px;
 }
 
-.add_btn:hover {
+/* .add_btn:hover {
     color: white;
-}
+} */

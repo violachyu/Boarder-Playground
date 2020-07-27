@@ -3,11 +3,11 @@ const dashboard_model = require('../model/dashboard_model');
 let createWhiteboard = async (req, res) => {
     console.log('create', req.body);
     // verify user by id 
-    let { user_id, title } = req.body;
+    let { wb_id, user_id, title } = req.body;
     if (!title) {
-        res.status(400).send({ message: 'Whiteboard title is required!' })
+        res.status(400).send({ error: 'Whiteboard title is required!' })
     } else {
-        let { message, error } = await dashboard_model.createWhiteboard(user_id, title);
+        let { message, error } = await dashboard_model.createWhiteboard(wb_id, user_id, title);
         if (error) {
             res.status(400).send({ error })
         } else {
@@ -18,6 +18,7 @@ let createWhiteboard = async (req, res) => {
 
 let deleteWhiteboard = async (req, res) => {
     let { user_id, title } = req.body;
+    console.log('delete', req.body);
     let { message, error } = await dashboard_model.deleteWhiteboard(user_id, title);
     if (error) {
         res.status(400).send({ error })

@@ -41,7 +41,7 @@ const deleteWorkspace = async (delete_postit_id) => {
         transaction();
         await query(`UPDATE postit SET del = 'deleted' WHERE postit_id = '${delete_postit_id}'`)
         commit();
-        return { message: 'Delete Postit Success!' }
+        return { message: 'Postit deleted!' }
     } catch (error) {
         rollback();
         return { error }

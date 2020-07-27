@@ -2,13 +2,124 @@ let access_token = localStorage.getItem('access_token');
 let username = localStorage.getItem('username');
 let user_id = localStorage.getItem('user_id');
 
-/*---Function---*/
-function deleteWhiteboard(e) {
-    // get wb title & user_id
-    let title = e.target.previousSibling.previousSibling.innerHTML || e.target.previousSibling.previousSibling.value;
 
-    // ask if delete
-    alert('Delete whiteboard?');
+/*---Get WB---*/
+fetch(`/api/1.0/dashboard/${user_id}`, {
+    method: 'GET',
+    headers: {
+        'content-type': 'application/json',
+        'authorization': access_token
+    }
+})
+    .then((res) => res.json())
+    .then((data) => {
+        for (let i = 0; i < data.length; i++) {
+            $('.whiteboard').append(`
+            <div class='wb_block hvr-grow' id='${data[i].wb_id}'>
+                <div class='wb_back'></div>
+                <input class='wb_title'><img class='edit old' src='./img/edit.png'>
+                <div class='close_btn'>X</div>
+            </div>`)
+            // set wb_id/title on each wb
+            $(`#${data[i].wb_id} > .wb_title`).val(`${data[i].title}`)
+        }
+
+        $('.whiteboard').on('mouseover', '.wb_block', function () {
+            $(this).children('.close_btn').show();
+            $(this).children('.edit').css({ 'visibility': 'visible' })
+        })
+        $('.whiteboard').on('mouseout', '.wb_block', function () {
+            $(this).children('.close_btn').hide();
+            $(this).children('.edit').css({ 'visibility': 'hidden' })
+        })
+        return;
+
+    })
+
+/*---Add whiteboard by add_btn---*/
+// set add_btn bg color 
+$('.add_btn').on('click', function () {
+    $(this).css({ 'background-color': 'white', 'color': 'black' })
+})
+$('.add_btn').on('mouseover', function () {
+    $(this).css({ 'background-color': 'black', 'color': 'white' })
+})
+let add_whiteboard = () => {
+    let wb_id = Date.now();
+    $('.whiteboard').append(`
+        <div class='wb_block hvr-grow' id='${wb_id}'>
+            <div class='wb_back'></div>
+            <input class='wb_title' style='pointer-events: auto;'><img class='edit' src='./img/save.png'></input>
+            <div class='close_btn'>X</div>
+        </div>`)
+
+    /*---Style---*/
+    $('.whiteboard').on('mouseover', '.wb_block', function () {
+        // $(this).children('.wb_title').css({ 'pointer-events': 'auto' })
+        $(this).children('.close_btn').show();
+        $(this).children('.edit').css({ 'visibility': 'visible' })
+    })
+    $('.whiteboard').on('mouseout', '.wb_block', function () {
+        $(this).children('.close_btn').hide();
+    })
+}
+
+/*---Edit WB name---*/
+$('.whiteboard').on('click', '.edit', function () {
+    console.log($(this).siblings('.wb_title'), 'sibling')
+    $(this).siblings('.wb_title').css({ 'pointer-events': 'auto', 'color': 'darkgray' })
+    $(this).attr('src', './img/save.png')
+    $(this).addClass('save');
+})
+/*---Save WB---*/
+$('.whiteboard').on('click', 'img[src="./img/save.png"]', function (e) {
+    $(this).siblings('.wb_title').css({ 'pointer-events': 'none', 'color': 'black' })
+    $(this).attr('src', './img/edit.png')
+    $(this).removeClass('save');
+    createWhiteboard(e);
+
+})
+
+function createWhiteboard(e) {
+    // get wb title & wb_id
+    let title = $(e.target).siblings('.wb_title').val();
+    let wb_id = $(e.target).parent('.wb_block').attr('id');
+    console.log('wb_id', wb_id)
+
+    if (title.includes("'")) {
+        alert("Cannot input symbols including:\" and \'")
+    } else {
+        fetch('/api/1.0/dashboard/createWhiteboard', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': access_token
+            },
+            body: JSON.stringify({
+                wb_id, user_id, title
+            })
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                let { message, error } = data;
+                if (message) {
+                    alertMessage(message, 'success');
+                } else {
+                    alertMessage(error, 'danger');
+                }
+
+            })
+    }
+
+}
+
+/*---Delete WB---*/
+$('.whiteboard').on('click', '.close_btn', function (e) {
+    // get wb title & user_id
+    let title = $(e.target).siblings('.wb_title').val();
+
+    // (WIP)ask if delete
+    // alertMessage('Delete whiteboard?', 'info');
 
     fetch('api/1.0/dashboard/deleteWhiteboard', {
         method: 'DELETE',
@@ -23,84 +134,26 @@ function deleteWhiteboard(e) {
         .then((res) => res.json())
         .then((data) => {
             let { message, error } = data;
-            alert(message || error)
+            if (message) {
+                alertMessage(message, 'success');
+            } else {
+                alertMessage(error, 'danger');
+            }
         })
 
     // delete whiteboard effect
     e.target.closest('.wb_block').remove();
-}
-function createWhiteboard(e) {
-    // get wb title & user_id
-    let title = $('input.wb_title').val();
-    let wb_id = Date.now();
-    if (title.includes("'")) {
-        alert("Cannot input symbols including:\" and \'")
-    } else {
-        fetch('/api/1.0/dashboard/createWhiteboard', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'authorization': access_token
-            },
-            body: JSON.stringify({
-                user_id, title, wb_id
-            })
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                let { message, error } = data;
-                alert(message || error);
-            })
-    }
-
-}
-
-/*---Get WB---*/
-fetch(`/api/1.0/dashboard/${user_id}`, {
-    method: 'GET',
-    headers: {
-        'content-type': 'application/json',
-        'authorization': access_token
-    }
-})
-    .then((res) => res.json())
-    .then((data) => {
-        for (let i = 0; i < data.length; i++) {
-            let org_wb = document.createElement('div');
-            setAttributes(org_wb, { "class": "wb_block hvr-grow" });
-            org_wb.innerHTML = `<div class='wb_title'>${data[i].title}</div>
-            <div class='close_btn'>X</div>
-            <div class='watermark'>BP</div>`;
-            // set wb_id on each wb
-            org_wb.dataset.wb_id = data[i].wb_id
-            whiteboard.appendChild(org_wb);
-
-            /*---Delete WB---*/
-            org_wb.querySelector('.close_btn').addEventListener('click', deleteWhiteboard);
-        }
+});
 
 
-        $('.wb_block').on('mouseover', function () {
-            $(this).addClass('current');
-            $(this).children('.close_btn').addClass('current');
-            $('.current').show();
-        });
-        $('.wb_block').on('mouseout', function () {
-            $(this).removeClass('current')
-            $(this).children('.close_btn').removeClass('current')
-            $(this).children('.close_btn').hide();
-        });
-        return;
 
-    })
 
-/*---Get Workspace(postit) when clicked on WB---*/
-$('.whiteboard').click('.wb_block', function (e) {
-    let target = $(e.target)
-    let wb_id = target.data('wb_id');
-    let title = target.children('.wb_title').html();
+/*---Go to Workspace(postit) when clicked on WB---*/
+$('section').on('click', '.wb_block', function (e) {
+    let wb_id = $(e.target).attr('id');
+    let title = $(e.target).children('.wb_title').val();
     // redirect excluding input
-    if (!$(e.target).hasClass('wb_title') && !$(e.target).hasClass('close_btn')) {
+    if ($(e.target).hasClass('wb_block')) {
         window.location.href = `workspace.html?wb_id=${wb_id}&title=${title}`
     }
 
@@ -136,46 +189,8 @@ function setAttributes(el, options) {
     })
 }
 
-// Create whiteboard by add_btn
-let whiteboard = document.getElementsByClassName('whiteboard')[0]
-let add_btn = document.getElementsByClassName('add_btn')[0]
-let add_whiteboard = () => {
-    let new_div = document.createElement('div');
-    setAttributes(new_div, { "class": "wb_block hvr-grow" });
-    new_div.innerHTML = `
-    <input class='wb_title' placeholder='Type in title...'>
-    <div class='close_btn'>X</div>
-    <div class='watermark'>BP</div>`
-    whiteboard.appendChild(new_div);
 
-    $('.whiteboard').on('mouseover', '.wb_block', function () {
-        $(this).children('.close_btn').show();
-    })
-    $('.whiteboard').on('mouseout', '.wb_block', function () {
-        $(this).children('.close_btn').hide();
-    })
-
-    new_div.querySelector('.close_btn').addEventListener('click', deleteWhiteboard)
-    // new_div.querySelector('.create_wb').addEventListener('click', createWhiteboard)
-
-}
-/*---Create WB---*/
-$('body').on('click', function (e) {
-    console.log('helloooooooo');
-    // redirect excluding button
-    if (!$(e.target).hasClass('add_btn') && !$(e.target).hasClass('wb_block') && !$(e.target).hasClass('wb_title') || !$(e.target).hasClass('close_btn')) {
-        createWhiteboard();
-    }
-    // } else if (!$(e.target).hasClass('wb_block')) {
-    //     createWhiteboard();
-    // } else if (!$(e.target).hasClass('wb_title')) {
-    //     createWhiteboard();
-    // }
-})
-
-/*---Delete WB---*/
-
-/*---Cursor Style---*/
+/*---(WIP) Cursor Style---*/
 $('body').awesomeCursor('pencil',
     { color: 'black' });
 

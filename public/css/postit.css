@@ -1,4 +1,24 @@
 /* Workspace-- Postit Settings */
+#loading {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    display: block;
+    opacity: 0.7;
+    background-color: #fff;
+    z-index: 99;
+    text-align: center;
+  }
+  
+  #loading-image {
+    position: absolute;
+    top: 100px;
+    left: 240px;
+    z-index: 100;
+  }
+  
 #workspace_title {
     position: absolute;
     left: 135px;
@@ -13,6 +33,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    position: relative;
     flex-wrap: wrap;
     height: 75vh;
     width: 100vw;
@@ -20,20 +41,6 @@
     max-width:100%;
 }
 
-.saveStatus{
-    position: absolute;
-    top: 15px;
-    right: 30px;
-    color: #7A7A7A;
-    font-weight: 400;
-    font-family: Verdana;
-    font-size: 10px;
-    border-bottom: #7A7A7A solid 1px;
-    animation: 
-        blink-caret .75s step-end infinite;
-        /* animation-duration: 10s; */
-    
-}
   
 /* The typewriter cursor effect */
 @keyframes blink-caret {
@@ -46,6 +53,39 @@
     outline: none;
 }
 
+/* Toolbar */
+.cowork{
+    cursor: pointer;
+}
+.shareLink{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 69px;
+    left: 105px;
+    width: 250px;
+    height: 47px;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+
+.link{
+    display: inline-block;
+    width: 200px;
+    height: 25px;
+    border: darkgray 1px solid;
+    font-size: 14px;
+    overflow: hidden;
+    white-space:nowrap;
+}
+.copyLink{
+    cursor: pointer;
+    margin: 0px 5px;
+}
+
+/* Postit Editing Area*/
 [data-toggle="popover"] {
     line-height: 1;
     text-align: center;
@@ -67,7 +107,7 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
     white-space: normal;
-    position: relative; 
+    /* position: relative;  */
 
     /* -o-transition: all .5s;
     -webkit-transition: all .5s;
@@ -258,6 +298,85 @@ span {
     border-width: .5rem 0 .5rem .5rem;
     border-right-color: lightgray;
 }
+/* Collaboration */
+.dropdown{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: inline-block;
+}
+.dropImg{
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+}
+.dropShow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 0px 5px;
+    /* border: black 1px solid; */
+}
+.dropShow:hover{
+    filter: brightness(0%);
+}
+
+  /* Dropdown Content (Hidden by Default) */
+.dropdown_content {
+    display: none;
+    position:absolute;
+    top:30px;
+    right:0px;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Show the dropdown menu on hover */
+.dropdown:hover .dropdown_content {
+    display: block;
+}
+  
+.dropNumber{
+    color: gray;
+    font-size: 13px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.dropdown_item{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.dropName{
+    font-size: 14px;
+}
+.dropColor{
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+.saveStatus{
+    position: absolute;
+    top: 15px;
+    right: 80px;
+    color: #7A7A7A;
+    font-weight: 400;
+    font-family: Verdana;
+    font-size: 10px;
+    border-bottom: #7A7A7A solid 1px;
+    animation: 
+        blink-caret .75s step-end infinite;
+        /* animation-duration: 10s; */
+    
+}
 .lock_msg{
     display: flex;
     flex-direction: column;
@@ -278,3 +397,98 @@ span {
 #lock_content{
     margin-bottom: 0px;
 }
+.collab_cursor{
+    position: absolute;
+    top:-68px;
+    left:-66px;
+    visibility: hidden;
+    -webkit-clip-path: polygon(86% 87%, 87% 62%, 100% 100%, 56% 86%);
+    clip-path: polygon(86% 87%, 87% 62%, 100% 100%, 56% 86%);
+    margin: 15px;
+    width: 50px;
+    height: 50px;
+    background-color: black;
+}
+.collab_name{
+    position: absolute;
+    top:-40px;
+    left:-73px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px 5px 0px 5px;
+    visibility: hidden;
+    color: black;
+    width: 60px;
+    height: 25px;
+}
+@-webkit-keyframes hvr-wobble-to-bottom-right {
+    16.65% {
+      -webkit-transform: translate(8px, 8px);
+      transform: translate(8px, 8px);
+    }
+    33.3% {
+      -webkit-transform: translate(-6px, -6px);
+      transform: translate(-6px, -6px);
+    }
+    49.95% {
+      -webkit-transform: translate(4px, 4px);
+      transform: translate(4px, 4px);
+    }
+    66.6% {
+      -webkit-transform: translate(-2px, -2px);
+      transform: translate(-2px, -2px);
+    }
+    83.25% {
+      -webkit-transform: translate(1px, 1px);
+      transform: translate(1px, 1px);
+    }
+    100% {
+      -webkit-transform: translate(0, 0);
+      transform: translate(0, 0);
+    }
+  }
+  @keyframes hvr-wobble-to-bottom-right {
+    16.65% {
+      -webkit-transform: translate(8px, 8px);
+      transform: translate(8px, 8px);
+    }
+    33.3% {
+      -webkit-transform: translate(-6px, -6px);
+      transform: translate(-6px, -6px);
+    }
+    49.95% {
+      -webkit-transform: translate(4px, 4px);
+      transform: translate(4px, 4px);
+    }
+    66.6% {
+      -webkit-transform: translate(-2px, -2px);
+      transform: translate(-2px, -2px);
+    }
+    83.25% {
+      -webkit-transform: translate(1px, 1px);
+      transform: translate(1px, 1px);
+    }
+    100% {
+      -webkit-transform: translate(0, 0);
+      transform: translate(0, 0);
+    }
+  }
+  .hvr-wobble-to-bottom-right {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+
+    -webkit-animation-name: hvr-wobble-to-bottom-right;
+    animation-name: hvr-wobble-to-bottom-right;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+  }
+

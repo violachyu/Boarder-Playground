@@ -52,9 +52,9 @@ io.on('connection', socket => {
     socket.emit('message', 'Welcome to Boarder Playground!')
 
     // Join room
-    socket.on('joinRoom', function ({ user_id, username, wb_id, wb_name }) {
+    socket.on('joinRoom', function ({ user_id, username, userColor, wb_id, wb_name }) {
         // organize user object
-        let user = userJoin(user_id, username, wb_id, wb_name);
+        let user = userJoin(user_id, username, userColor, wb_id, wb_name);
 
         socket.join(user.wb_id);
 
@@ -69,43 +69,49 @@ io.on('connection', socket => {
             );
 
         // Send users and room info
-        io.to(wb_id)
+        io.to(user.wb_id)
             .emit('roomUsers', {
                 room: user.wb_id,
                 room_name: user.wb_name,
                 users: getRoomUsers(user.wb_id),
                 user_count: getUserCount(),
             });
+
+        // (WIP)Listen for chatMessage
+        socket.on('chatMessage', msg => {
+            const user = getCurrentUser(user_id);
+            io.to(user.room).emit('message', formatMessage(user.username, msg));
+        });
+
+        // Sync on add postit
+        socket.on('addPostit', function (postit_id) {
+            socket.to(user.wb_id).emit('addRender', postit_id)
+        })
+
+        // Sync on edit postit
+        socket.on('editPostit', function (postit_item) {
+            socket.to(user.wb_id).emit('editRender', postit_item)
+        })
+
+        // Sync on delete postit
+        socket.on('deletePostit', function (deleteId) {
+            socket.to(user.wb_id).emit('deleteRender', deleteId)
+        })
+        // Lock postit
+        socket.on('lock', function (id) {
+            let currentUser = getCurrentUser(user.user_id);
+            socket.to(user.wb_id).emit('lockRender', id, currentUser)
+        })
+        // remove cover after editing 
+        socket.on('lockRemove', function (id) {
+            socket.to(user.wb_id).emit('lockRemoveRender', id);
+        })
+
+
+
     })
 
-    // (WIP)Listen for chatMessage
-    socket.on('chatMessage', msg => {
-        const user = getCurrentUser(user_id);
-        io.to(user.room).emit('message', formatMessage(user.username, msg));
-    });
 
-    // Sync on add postit
-    socket.on('addPostit', function (postit_id) {
-        socket.broadcast.emit('addRender', postit_id)
-    })
-
-    // Sync on edit postit
-    socket.on('editPostit', function (postit_item) {
-        socket.broadcast.emit('editRender', postit_item)
-    })
-
-    // Sync on delete postit
-    socket.on('deletePostit', function (deleteId) {
-        socket.broadcast.emit('deleteRender', deleteId)
-    })
-    // Lock postit
-    socket.on('lock', function (id) {
-        socket.broadcast.emit('lockRender', id)
-    })
-    // remove cover after editing 
-    socket.on('lockRemove', function (id) {
-        socket.broadcast.emit('lockRemoveRender', id);
-    })
 
     // Runs when client disconnects
     socket.on('disconnect', ({ user_id }) => {

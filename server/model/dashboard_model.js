@@ -1,22 +1,27 @@
 const { transaction, commit, rollback, query } = require('../../util/con');
 
-const createWhiteboard = async (user_id, title, wb_id) => {
+const createWhiteboard = async (wb_id, user_id, title) => {
     try {
         // reform date format
         let now = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-        // check duplicate wb
-        let DB_title = await query(`SELECT title FROM wb WHERE user_id = '${user_id}' AND title = '${title}'`)
+        // save old wb
+        let DB_title = await query(`SELECT title FROM wb WHERE user_id = '${user_id}' AND wb_id = '${wb_id}'`)
 
         if (DB_title[0]) {
-            return { message: 'You\'ve created the same whiteboard title!' }
+            transaction();
+            let wb_data = [[wb_id, user_id, title, now, 'null']]
+            // verify user & insert data into DB
+            await query(`REPLACE INTO wb VALUES ?`, [wb_data]);
+            commit();
+            return { message: 'Saved WB successfully!' }
         } else {
             transaction();
-            let wb_data = [[wb_id, user_id, title, now]]
+            let wb_data = [[wb_id, user_id, title, now, 'null']]
             // verify user & insert data into DB
-            await query(`INSERT INTO wb(wb_id, user_id, title, create_time) VALUES ?`, [wb_data]);
+            await query(`REPLACE INTO wb VALUES ?`, [wb_data]);
             commit();
-            return { message: 'Create WB successful!' }
+            return { message: 'Create WB successfully!' }
         }
     } catch (error) {
         rollback();
@@ -30,10 +35,10 @@ const deleteWhiteboard = async (user_id, title) => {
             transaction();
             let result = await query(`DELETE FROM wb WHERE user_id = '${user_id}' AND title = '${title}'`);
             if (result.affectedRows == 0) {
-                return { message: 'Cannot delete whiteboard...' }
+                return { error: 'Cannot delete whiteboard...' }
             } else {
                 commit();
-                return { message: 'Delete whiteboard successful!' }
+                return { message: 'Delete whiteboard successfully!' }
             }
         } else {
             return { message: 'Blank board deleted!' }
@@ -47,7 +52,6 @@ const deleteWhiteboard = async (user_id, title) => {
 const getWhiteboard = async (access_token, user_id_params) => {
     // get all wb by user_id
     const all_wb = await query(`SELECT wb_id, title FROM wb WHERE user_id = '${user_id_params}'`);
-    console.log('all', all_wb);
     return { all_wb };
 }
 
