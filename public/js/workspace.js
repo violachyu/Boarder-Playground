@@ -594,11 +594,6 @@ socket.on('lockRemoveRender', function (id) {
     $(`#${id} .hvr-wobble-to-bottom-right`).css({ 'background-color': `${randomColor}`, 'visibility': 'hidden' })
 })
 
-
-
-
-
-
 /*---Popover and Postit settings---*/
 $('.workspace').on('mouseover', '[data-toggle="popover"]', function (e) {
     // show popover on postit

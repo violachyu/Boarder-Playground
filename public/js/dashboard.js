@@ -16,17 +16,23 @@ fetch(`/api/1.0/dashboard/${user_id}`, {
         for (let i = 0; i < data.length; i++) {
             $('.whiteboard').append(`
             <div class='wb_block hvr-grow' id='${data[i].wb_id}'>
+                <div class='wb_bookmark'></div>
                 <div class='wb_back'></div>
                 <input class='wb_title'><img class='edit old' src='./img/edit.png'>
                 <div class='close_btn'>X</div>
             </div>`)
-            // set wb_id/title on each wb
+            // set title/bookmark on each wb
             $(`#${data[i].wb_id} > .wb_title`).val(`${data[i].title}`)
+            if (data[i].bookmark == 'bookmarked') {
+                $(`#${data[i].wb_id} > .wb_bookmark`).data('bookmark', `${data[i].bookmark}`)
+                $(`#${data[i].wb_id} > .wb_bookmark`).addClass('bookmarked')
+            }
         }
 
         $('.whiteboard').on('mouseover', '.wb_block', function () {
             $(this).children('.close_btn').show();
             $(this).children('.edit').css({ 'visibility': 'visible' })
+
         })
         $('.whiteboard').on('mouseout', '.wb_block', function () {
             $(this).children('.close_btn').hide();
@@ -44,10 +50,14 @@ $('.add_btn').on('click', function () {
 $('.add_btn').on('mouseover', function () {
     $(this).css({ 'background-color': 'black', 'color': 'white' })
 })
+$('.add_btn').on('mouseout', function () {
+    $(this).css({ 'background-color': 'white', 'color': 'black' })
+})
 let add_whiteboard = () => {
     let wb_id = Date.now();
     $('.whiteboard').append(`
         <div class='wb_block hvr-grow' id='${wb_id}'>
+            <div class='wb_bookmark'></div>
             <div class='wb_back'></div>
             <input class='wb_title' style='pointer-events: auto;'><img class='edit' src='./img/save.png'></input>
             <div class='close_btn'>X</div>
@@ -55,7 +65,6 @@ let add_whiteboard = () => {
 
     /*---Style---*/
     $('.whiteboard').on('mouseover', '.wb_block', function () {
-        // $(this).children('.wb_title').css({ 'pointer-events': 'auto' })
         $(this).children('.close_btn').show();
         $(this).children('.edit').css({ 'visibility': 'visible' })
     })
@@ -66,7 +75,6 @@ let add_whiteboard = () => {
 
 /*---Edit WB name---*/
 $('.whiteboard').on('click', '.edit', function () {
-    console.log($(this).siblings('.wb_title'), 'sibling')
     $(this).siblings('.wb_title').css({ 'pointer-events': 'auto', 'color': 'darkgray' })
     $(this).attr('src', './img/save.png')
     $(this).addClass('save');
@@ -81,13 +89,16 @@ $('.whiteboard').on('click', 'img[src="./img/save.png"]', function (e) {
 })
 
 function createWhiteboard(e) {
-    // get wb title & wb_id
+    // get wb title & wb_id & bookmark
     let title = $(e.target).siblings('.wb_title').val();
     let wb_id = $(e.target).parent('.wb_block').attr('id');
-    console.log('wb_id', wb_id)
+    let bookmark = $(e.target).siblings('.wb_bookmark').data('bookmark') || $(e.target).data('bookmark')
+    if (bookmark == undefined) {
+        bookmark = 'null'
+    }
 
     if (title.includes("'")) {
-        alert("Cannot input symbols including:\" and \'")
+        alertMessage("Cannot input symbols including:\" and \'", 'danger')
     } else {
         fetch('/api/1.0/dashboard/createWhiteboard', {
             method: 'POST',
@@ -96,7 +107,7 @@ function createWhiteboard(e) {
                 'authorization': access_token
             },
             body: JSON.stringify({
-                wb_id, user_id, title
+                wb_id, user_id, title, bookmark
             })
         })
             .then((res) => res.json())
@@ -107,7 +118,6 @@ function createWhiteboard(e) {
                 } else {
                     alertMessage(error, 'danger');
                 }
-
             })
     }
 
@@ -119,6 +129,23 @@ $('.whiteboard').on('click', '.close_btn', function (e) {
     let title = $(e.target).siblings('.wb_title').val();
 
     // (WIP)ask if delete
+    // Swal.fire({
+    //     title: 'Delete whiteboard?',
+    //     text: "You won't be able to revert this!",
+    //     icon: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#3085d6',
+    //     cancelButtonColor: '#d33',
+    //     confirmButtonText: 'Yes, delete it!'
+    // }).then((result) => {
+    //     if (result.value) {
+    //         Swal.fire(
+    //             'Deleted!',
+    //             'Whiteboard has been deleted.',
+    //             'success'
+    //         )
+    //     }
+    // })
     // alertMessage('Delete whiteboard?', 'info');
 
     fetch('api/1.0/dashboard/deleteWhiteboard', {
@@ -153,10 +180,22 @@ $('section').on('click', '.wb_block', function (e) {
     let wb_id = $(e.target).attr('id');
     let title = $(e.target).children('.wb_title').val();
     // redirect excluding input
-    if ($(e.target).hasClass('wb_block')) {
+    if (wb_id && title && $(e.target).hasClass('wb_block')) {
         window.location.href = `workspace.html?wb_id=${wb_id}&title=${title}`
     }
 
+})
+
+/*---Bookmark---*/
+$('.whiteboard').on('click', '.wb_bookmark', function (e) {
+    $(this).data('bookmark', 'bookmarked');
+    $(this).addClass('bookmarked');
+    createWhiteboard(e);
+})
+$('.whiteboard').on('click', '.bookmarked', function (e) {
+    $(this).removeData('bookmark');
+    $(this).removeClass('bookmarked');
+    createWhiteboard(e);
 })
 
 // token verification

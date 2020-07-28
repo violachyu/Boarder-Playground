@@ -1,6 +1,6 @@
 const { transaction, commit, rollback, query } = require('../../util/con');
 
-const createWhiteboard = async (wb_id, user_id, title) => {
+const createWhiteboard = async (wb_id, user_id, title, bookmark) => {
     try {
         // reform date format
         let now = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -10,18 +10,18 @@ const createWhiteboard = async (wb_id, user_id, title) => {
 
         if (DB_title[0]) {
             transaction();
-            let wb_data = [[wb_id, user_id, title, now, 'null']]
+            let wb_data = [[wb_id, user_id, title, now, bookmark, 'null']]
             // verify user & insert data into DB
             await query(`REPLACE INTO wb VALUES ?`, [wb_data]);
             commit();
-            return { message: 'Saved WB successfully!' }
+            return { message: 'Whiteboard saved!' }
         } else {
             transaction();
-            let wb_data = [[wb_id, user_id, title, now, 'null']]
+            let wb_data = [[wb_id, user_id, title, now, bookmark, 'null']]
             // verify user & insert data into DB
             await query(`REPLACE INTO wb VALUES ?`, [wb_data]);
             commit();
-            return { message: 'Create WB successfully!' }
+            return { message: 'Whiteboard created!' }
         }
     } catch (error) {
         rollback();
@@ -38,10 +38,10 @@ const deleteWhiteboard = async (user_id, title) => {
                 return { error: 'Cannot delete whiteboard...' }
             } else {
                 commit();
-                return { message: 'Delete whiteboard successfully!' }
+                return { message: 'Whiteboard deleted!' }
             }
         } else {
-            return { message: 'Blank board deleted!' }
+            return { message: 'Blank whiteboard deleted!' }
         }
     } catch (error) {
         rollback();
@@ -51,7 +51,7 @@ const deleteWhiteboard = async (user_id, title) => {
 
 const getWhiteboard = async (access_token, user_id_params) => {
     // get all wb by user_id
-    const all_wb = await query(`SELECT wb_id, title FROM wb WHERE user_id = '${user_id_params}'`);
+    const all_wb = await query(`SELECT wb_id, title, bookmark FROM wb WHERE user_id = '${user_id_params}'`);
     return { all_wb };
 }
 

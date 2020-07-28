@@ -59,6 +59,7 @@
         </div>
     </footer>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script>
     // insert into DB on button click
     $('.reg_enter_btn').click(function () {
@@ -81,7 +82,12 @@
             .then((data) => {
                 const { access_token, username, user_id, message, error } = data;
                 if (error) {
-                    alert(error);
+                    // alert(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${error}`,
+                    })
                 } else if (access_token) {
                     localStorage.setItem('access_token', access_token);
                     localStorage.setItem('username', username);
@@ -113,7 +119,11 @@
                 // console.log(data);
                 const { error, access_token, username, user_id } = data;
                 if (error) {
-                    alert(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${error}`,
+                    })
                 } else if (access_token) {
                     localStorage.setItem('access_token', access_token);
                     localStorage.setItem('username', username);
