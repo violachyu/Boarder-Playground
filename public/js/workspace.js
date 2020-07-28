@@ -575,8 +575,6 @@ $('.workspace').on('mouseleave dragstop', '.postit, .postit_input', function () 
 
     setTimeout(function () {
         socket.emit('lockRemove', id);
-        // enable other user's events
-        $(`#${id}`).css({ 'pointer-events': 'auto' });
     }, 2000)
 
 })
@@ -592,6 +590,8 @@ socket.on('lockRemoveRender', function (id) {
 
     // remove collab_cursor
     $(`#${id} .hvr-wobble-to-bottom-right`).css({ 'background-color': `${randomColor}`, 'visibility': 'hidden' })
+    // enable other user's events
+    $(`#${id}`).css({ 'pointer-events': 'auto' });
 })
 
 /*---Popover and Postit settings---*/
