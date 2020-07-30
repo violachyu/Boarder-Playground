@@ -17,9 +17,9 @@ let createWhiteboard = async (req, res) => {
 }
 
 let deleteWhiteboard = async (req, res) => {
-    let { user_id, title } = req.body;
+    let { wb_id, title } = req.body;
     // console.log('delete', req.body);
-    let { message, error } = await dashboard_model.deleteWhiteboard(user_id, title);
+    let { message, error } = await dashboard_model.deleteWhiteboard(wb_id, title);
     if (error) {
         res.status(400).send({ error })
     } else {

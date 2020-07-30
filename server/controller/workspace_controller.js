@@ -33,11 +33,25 @@ const saveWorkspace = async (req, res) => {
     }
 }
 
+const guestWorkspace = async (req, res) => {
+    let access_token = req.headers.authorization
+    let wb_id = req.body.wb_id
+    let user_id = req.body.user_id
+
+    let { message, error } = await workspace_model.guestWorkspace(access_token, wb_id, user_id);
+    if (error) {
+        res.status(400).send({ error });
+    } else {
+        res.status(200).send({ message });
+    }
+}
+
 
 
 module.exports = {
     getWorkspace,
-    saveWorkspace
+    saveWorkspace,
+    guestWorkspace
 }
 
 

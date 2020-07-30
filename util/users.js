@@ -1,9 +1,10 @@
 const allUsers = [];
 
 // Join user to chat
-function userJoin(user_id, username, userColor, wb_id, wb_name) {
-  const user = { user_id, username, userColor, wb_id, wb_name };
+function userJoin(socket_id, user_id, username, userColor, wb_id, wb_name) {
+  const user = { socket_id, user_id, username, userColor, wb_id, wb_name };
   allUsers.push(user);
+  // console.log('allUsers', allUsers);  //
   return user;
 }
 
@@ -45,13 +46,18 @@ function getCurrentUser(user_id) {
 }
 
 // User leaves chat
-function userLeave(user_id) {
-  const index = allUsers.findIndex(user => user.user_id === user_id);
+function userLeave(socket_id) {
+  // get user that just left
+  let index = allUsers.findIndex(user => user.socket_id === socket_id);
+  // delete leaving user from allUsers
+  let newUsers = allUsers.reduce((p, c) => (c.socket_id !== socket_id && p.push(c), p), []);
 
   if (index !== -1) {
-    return allUsers.splice(index, 1)[0];
+    let userLeft = allUsers.splice(index, 1)[0];
+    return { userLeft, newUsers }
   }
 }
+
 
 
 

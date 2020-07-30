@@ -54,7 +54,7 @@ io.on('connection', socket => {
     // Join room
     socket.on('joinRoom', function ({ user_id, username, userColor, wb_id, wb_name }) {
         // organize user object
-        let user = userJoin(user_id, username, userColor, wb_id, wb_name);
+        let user = userJoin(socket.id, user_id, username, userColor, wb_id, wb_name);
 
         socket.join(user.wb_id);
 
@@ -76,12 +76,6 @@ io.on('connection', socket => {
                 users: getRoomUsers(user.wb_id),
                 user_count: getUserCount(),
             });
-
-        // (WIP)Listen for chatMessage
-        socket.on('chatMessage', msg => {
-            const user = getCurrentUser(user_id);
-            io.to(user.room).emit('message', formatMessage(user.username, msg));
-        });
 
         // Sync on add postit
         socket.on('addPostit', function (postit_id) {
@@ -107,26 +101,24 @@ io.on('connection', socket => {
             socket.to(user.wb_id).emit('lockRemoveRender', id);
         })
 
-
-
     })
 
-
-
     // Runs when client disconnects
-    socket.on('disconnect', ({ user_id }) => {
-        let user = userLeave(user_id); // get the user who just left
+    socket.on('disconnect', function () {
+        let newUserList = userLeave(socket.id);
 
-        if (user) {
-            io.to(user.room).emit(
+        if (newUserList && newUserList.userLeft) {
+            io.to(newUserList.userLeft.wb_id).emit(
                 'statusMessage',
-                `${user.username} has left the chat`
+                `${newUserList.userLeft.username} has left this whiteboard`
             );
 
             // Send users and room info
-            io.to(user.room).emit('roomUsers', {
-                room: user.room,
-                users: getRoomUsers(user.room)
+            io.to(newUserList.userLeft.wb_id).emit('roomUsers', {
+                room: newUserList.userLeft.wb_id,
+                room_name: newUserList.userLeft.wb_name,
+                users: getRoomUsers(newUserList.userLeft.wb_id),
+                user_count: getUserCount(),
             });
         }
     });

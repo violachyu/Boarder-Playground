@@ -19,27 +19,7 @@
     z-index: 100;
   }
   
-#workspace_title {
-    position: absolute;
-    left: 135px;
-    bottom: -50px;
-    letter-spacing: -15px;
-    font-size: 100px;
-    color: white;
-    opacity: 70%;
-}
-.workspace{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    flex-wrap: wrap;
-    height: 75vh;
-    width: 100vw;
-    overflow: auto;
-    max-width:100%;
-}
+
 
   
 /* The typewriter cursor effect */
@@ -53,37 +33,6 @@
     outline: none;
 }
 
-/* Toolbar */
-.cowork{
-    cursor: pointer;
-}
-.shareLink{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 69px;
-    left: 105px;
-    width: 250px;
-    height: 47px;
-    background-color: lightgray;
-    border-radius: 5px;
-}
-
-.link{
-    display: inline-block;
-    width: 200px;
-    height: 25px;
-    border: darkgray 1px solid;
-    font-size: 14px;
-    overflow: hidden;
-    white-space:nowrap;
-}
-.copyLink{
-    cursor: pointer;
-    margin: 0px 5px;
-}
 
 /* Postit Editing Area*/
 [data-toggle="popover"] {
@@ -298,85 +247,8 @@ span {
     border-width: .5rem 0 .5rem .5rem;
     border-right-color: lightgray;
 }
-/* Collaboration */
-.dropdown{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: inline-block;
-}
-.dropImg{
-    width: 30px;
-    height: 30px;
-    margin-right: 5px;
-}
-.dropShow{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    border-radius: 5px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 0px 5px;
-    /* border: black 1px solid; */
-}
-.dropShow:hover{
-    filter: brightness(0%);
-}
-
-  /* Dropdown Content (Hidden by Default) */
-.dropdown_content {
-    display: none;
-    position:absolute;
-    top:30px;
-    right:0px;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
   
-  /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown_content {
-    display: block;
-}
   
-.dropNumber{
-    color: gray;
-    font-size: 13px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-.dropdown_item{
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-.dropName{
-    font-size: 14px;
-}
-.dropColor{
-    height: 7px;
-    width: 7px;
-    border-radius: 50%;
-    margin-left: 5px;
-}
-.saveStatus{
-    position: absolute;
-    top: 15px;
-    right: 80px;
-    color: #7A7A7A;
-    font-weight: 400;
-    font-family: Verdana;
-    font-size: 10px;
-    border-bottom: #7A7A7A solid 1px;
-    animation: 
-        blink-caret .75s step-end infinite;
-        /* animation-duration: 10s; */
-    
-}
 .lock_msg{
     display: flex;
     flex-direction: column;
@@ -399,29 +271,30 @@ span {
 }
 .collab_cursor{
     position: absolute;
-    top:-68px;
-    left:-66px;
+    top:-45px;
+    left:-45px;
     visibility: hidden;
-    -webkit-clip-path: polygon(86% 87%, 87% 62%, 100% 100%, 56% 86%);
-    clip-path: polygon(86% 87%, 87% 62%, 100% 100%, 56% 86%);
+    -webkit-clip-path: polygon(62% 42%, 0 42%, 100% 100%);
+    clip-path: polygon(62% 42%, 0 42%, 100% 100%);
     margin: 15px;
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
     background-color: black;
 }
 .collab_name{
     position: absolute;
-    top:-40px;
-    left:-73px;
+    top:-50px;
+    left:-80px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 14px;
     text-align: center;
     padding: 5px;
-    border-radius: 5px 5px 0px 5px;
+    border-radius: 5px 5px 5px 5px;
     visibility: hidden;
     color: black;
-    width: 60px;
+    max-width: 150px;
     height: 25px;
+    overflow-wrap: break-word;
 }
 @-webkit-keyframes hvr-wobble-to-bottom-right {
     16.65% {
@@ -491,4 +364,6 @@ span {
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
   }
+
+
 

@@ -1,9 +1,10 @@
 /*---Preceding Operations---*/
-// hide buffering loading page
+// (WIP)hide buffering loading page
 $(document).ready(function () {
     $('#loading').hide();
 });
 let access_token = localStorage.getItem('access_token');
+
 if (!access_token) {
     // Anonymous user
     let anonymousList = ['Batman', 'Superman', 'Wonder Woman', 'Green Lantern', 'The Flash', 'Aquaman', 'Atom',
@@ -11,13 +12,14 @@ if (!access_token) {
         'Scarlet Witch', 'War Machine', 'Rocket Racoon', 'Dr.Strange', 'Dead Pool']
     let character = anonymousList[Math.floor(Math.random() * anonymousList.length)]
     localStorage.setItem('username', character)
+    localStorage.setItem('user_id', Date.now());
     // disable buttons
     $('.right_nav > a').removeAttr('href')
     $('.right_nav > a').css({ 'color': 'grey', 'border': 'grey', 'pointer-events': 'none' })
 }
 // Set a color for each user
 let randomColorList = ['#e0f0ea', '#95adbe',
-    '#9da8a7', '#9da8a7', '#fbfffe', '#f0e6e0', '#a8a19d']
+    '#9da8a7', '#9da8a7', '#f0e6e0', '#a8a19d']
 let randomColor = randomColorList[Math.floor(Math.random() * randomColorList.length)]
 localStorage.setItem('userColor', randomColor);
 
@@ -28,7 +30,6 @@ let userColor = localStorage.getItem('userColor');
 // Greetings
 $('.logout').html('LOGOUT');
 $('.greeting').html(`Hello, ${username}`);
-$('.greeting').css({ 'background-color': 'lightgray', 'color': 'black', 'border-radius': '2px', 'padding': '1px 5px 8px 5px', 'font-weight': 'bold' })
 
 
 
@@ -44,13 +45,31 @@ $('.logout').click(function () {
     }
 })
 
-/*---Get Workspace---*/
+/*---(WIP)Save Workspace for Guest User---*/
 // get wb_id from query
 const urlParams = new URLSearchParams(window.location.search);
 let wb_id = urlParams.get('wb_id');
 let title = urlParams.get('title');
 $('#workspace_title').html(title);  // set workspace page title
 
+// form data
+fetch(`api/1.0/guestWorkspace`, {
+    method: 'POST',
+    headers: {
+        'content-type': 'application/json',
+        'authorization': access_token
+    },
+    body: JSON.stringify({
+        wb_id, user_id
+    })
+})
+    .then((res) => res.json())
+    .then((data) => {
+        let { message, error } = data
+        console.log(message || error);
+    })
+
+/*---Get Workspace---*/
 // get wb data from database
 fetch(`api/1.0/getWorkspace/${wb_id}`, {
     method: 'GET',
@@ -157,6 +176,7 @@ socket.on('statusMessage', function (message) { // Welcome
 // Render room info
 socket.on('roomUsers', ({ room, room_name, users, user_count }) => {
     let roomInfo = { room, room_name, users, user_count }
+    console.log('roomUsers', roomInfo);//
     $('.dropNumber').html(`${roomInfo.user_count}`)   // show user count
     // show user status
     $('.dropdown_content').html('');
@@ -174,7 +194,7 @@ socket.on('roomUsers', ({ room, room_name, users, user_count }) => {
             $('.dropColor').css({ 'background-color': 'gray' }) //WIP
         }
     }
-    // (WIP) Detect idle user
+    // Detect idle user
     let idleTime = 0;
     $(document).ready(function () {
         //Increment the idle time counter every minute
@@ -190,6 +210,8 @@ socket.on('roomUsers', ({ room, room_name, users, user_count }) => {
     });
 });
 
+// io.to(wb_id).emit('disconnect', { user_id });
+
 
 /* Sync postit appearance and movement: Add/Edit/Move Postit */
 // Sync on add postit
@@ -202,21 +224,6 @@ socket.on('addRender', function (postit_id) {
 })
 
 /*---Add post-it---*/
-// Function: set multiple attributes
-function setAttributes(el, options) {
-    Object.keys(options).forEach(function (attr) {
-        el.setAttribute(attr, options[attr]);
-    })
-}
-
-// autosize textarea
-function autogrow(textarea) {
-    let adjustedHeight = textarea.clientHeight;
-    adjustedHeight = Math.max(textarea.scrollHeight, adjustedHeight);
-    if (adjustedHeight > textarea.clientHeight) {
-        textarea.style.height = adjustedHeight + 'px';
-    }
-}
 function add_postit() {
     let workspace = document.querySelector('.workspace');
     let new_postit = document.createElement('main');
@@ -379,7 +386,7 @@ $('body').on('resize keyup', '.postit', _.debounce(function () {
     fetch('api/1.0/saveWorkspace/save', saveInit)
         .then((res) => res.json())
         .then((data) => {
-            console.log(data.error || data.message)
+            console.log(data.error || data.message);//
             $('.saveStatus').delay(50000).html('DOCUMENT SAVED!!')
         })
 }, 2000))
@@ -489,24 +496,17 @@ $('.workspace').on('click', '.close_postit', function (e) {
             }
         })
     $(this).parent('.postit').remove();
-
-    // hide popover when hover on other postit
-    $('.popover').each(function () {
-        $(this).hide();
-    })
+    // $(`[data-id="${deleteId}"]`).remove();
 })
-
-// (WIP) hide popover when white space is clicked
-// $('body').on('click', function (e) {
-// if (!$(e.target).hasClass('postit') || !$(e.target).hasClass('postit_input')) {
-//     $('.popover').each(function () {
-//         $(this).hide();
-//     })
-// }
-// })
 
 socket.on('deleteRender', function (deleteId) {
     $(`#${deleteId}`).remove();
+})
+// hide popover when postit deleted
+$('.workspace').on('click', '.close_postit', function () {
+    $('.popover').each(function () {
+        $(this).hide();
+    })
 })
 
 /*---Lock Postit---*/
@@ -595,20 +595,43 @@ socket.on('lockRemoveRender', function (id) {
 })
 
 /*---Popover and Postit settings---*/
+// // show popover when clicked on postit
+// $('.workspace').on('click', '.postit, .postit_input', function () {
+//     $('.postit').popover({
+//         title: 'Postit Details',
+//         html: true,
+//         sanitize: false,
+//         animation: true,
+//         placement: 'right'
+//     })
+// })
+
+// (WIP) hide popover when white space is clicked
+// $('section').on('mousedown', '.workspace', function (e) {
+//     if ($(e.target).hasClass('postit_input') == false) {
+//         console.log('hidepop---', $(e.target).hasClass('workspace'));  //
+//         $('.popover').each(function () {
+//             $(this).hide();
+//         })
+//     }
+// })
+
 $('.workspace').on('mouseover', '[data-toggle="popover"]', function (e) {
-    // show popover on postit
-    if (!$(e.target).hasClass('postit_input')) {
-        $('[data-toggle="popover"]').popover({
-            title: 'Postit Details',
-            html: true,
-            sanitize: false,
-            animation: true,
-            placement: 'right'
-        })
-    }
+    // (WIP)show popover on postit
+    // if (!$(e.target).hasClass('close_postit')) {
+    // console.log('mouseover', $(e.target));
+    $('[data-toggle="popover"]').popover({
+        title: 'Postit Details',
+        html: true,
+        sanitize: false,
+        animation: true,
+        placement: 'right'
+    })
+    // }
 
     // hide other popovers
     $('[data-toggle="popover"]').not(this).popover('hide');
+
 
     // get id of postit
     let postitID = $(this).attr('id');
@@ -689,18 +712,25 @@ $('.workspace').on('click', '.postit', function (e) {
     $(`#${postitID}`).css('zIndex', '+=1')
     console.log('zIndex', $(`#${postitID}`).css('zIndex'))  //
     // (WIP)hide "send to back" btn if at bottom
-    if ($(`#${postitID}`).css('zIndex') == 0 || $(`#${postitID}`).css('zIndex') == 1) { // not working
+    if ($(`#${postitID}`).css('zIndex') == 1) { // not working
         // console.log('zIndex=0', $(`#${postitID}`).css('zIndex'))  //
         // console.log($(`[data-id="${postitID}"]`));
-        $(`[data-id="${postitID}"] > #back`).css({ 'pointer-events': 'none' })
-        $(`[data-id="${postitID}"] > span`).css({ 'color': 'blue' })
+        console.log('helloorder');
+        $(`[data-id="${postitID}"] #back`).css({ 'pointer-events': 'none' }) //not working
+        $(`[data-id="${postitID}"] span`).css({ 'color': 'blue' })
     }
+    // if ($(`#${postitID}`).css('zIndex') == 0 || $(`#${postitID}`).css('zIndex') == 1) { // not working
+    //     // console.log('zIndex=0', $(`#${postitID}`).css('zIndex'))  //
+    //     // console.log($(`[data-id="${postitID}"]`));
+    //     $(`[data-id="${postitID}"] > #back`).css({ 'pointer-events': 'none' })
+    //     $(`[data-id="${postitID}"] > span`).css({ 'color': 'blue' })
+    // }
     $('.show input[type="radio"]').on('change', function () {
         // single choice_radio
         $('input[type="radio"]').not(this).prop('checked', false);
         // get selected option
         if ($("input:checked").attr('id') == 'front') {
-            $(`#${postitID}`).css('zIndex', '+=1');
+            $(`#${postitID}`).css('zIndex', '+=20');
         } else if (($("input:checked").attr('id') == 'back')) {
             $(`#${postitID}`).css('zIndex', '-=2');
         }
@@ -751,8 +781,6 @@ $('.cowork').on('click', function () {
     })
 })
 
-
-
 $('.expando__close').on('click', function () {
     $('.shareLink').hide();
 })
@@ -774,6 +802,23 @@ function screenshot() {
         a.download = 'workspace.jpg';
         a.click();
     });
+}
+
+/*---Other Functions---*/
+// Function: set multiple attributes
+function setAttributes(el, options) {
+    Object.keys(options).forEach(function (attr) {
+        el.setAttribute(attr, options[attr]);
+    })
+}
+
+// autosize textarea
+function autogrow(textarea) {
+    let adjustedHeight = textarea.clientHeight;
+    adjustedHeight = Math.max(textarea.scrollHeight, adjustedHeight);
+    if (adjustedHeight > textarea.clientHeight) {
+        textarea.style.height = adjustedHeight + 'px';
+    }
 }
 
 

@@ -1,7 +1,10 @@
 let access_token = localStorage.getItem('access_token');
 let username = localStorage.getItem('username');
 let user_id = localStorage.getItem('user_id');
-
+/*---JQuery Tooltip---*/
+$(function () {
+    $(document).tooltip();
+});
 
 /*---Get WB---*/
 fetch(`/api/1.0/dashboard/${user_id}`, {
@@ -26,6 +29,13 @@ fetch(`/api/1.0/dashboard/${user_id}`, {
             if (data[i].bookmark == 'bookmarked') {
                 $(`#${data[i].wb_id} > .wb_bookmark`).data('bookmark', `${data[i].bookmark}`)
                 $(`#${data[i].wb_id} > .wb_bookmark`).addClass('bookmarked')
+            }
+            // set "guest" wb to read-only
+            if (data[i].role == 'guest') {
+                $(`#${data[i].wb_id}`).append(`<img class='readonly' src='../img/lock.png'>`)
+                $(`#${data[i].wb_id}`).attr('title', `Title editing not authorized`);
+                $(`#${data[i].wb_id} > .edit, #${data[i].wb_id} > .close_btn`).remove()
+                $(`#${data[i].wb_id} > .wb_bookmark`).remove()
             }
         }
 
@@ -127,6 +137,7 @@ function createWhiteboard(e) {
 $('.whiteboard').on('click', '.close_btn', function (e) {
     // get wb title & user_id
     let title = $(e.target).siblings('.wb_title').val();
+    let wb_id = $(e.target).parent('.wb_block').attr('id');
 
     // (WIP)ask if delete
     // Swal.fire({
@@ -155,7 +166,7 @@ $('.whiteboard').on('click', '.close_btn', function (e) {
             'authorization': access_token
         },
         body: JSON.stringify({
-            user_id, title
+            wb_id, title
         })
     })
         .then((res) => res.json())

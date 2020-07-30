@@ -4,19 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Home</title>
     <link rel="stylesheet" href="./css/landing.css">
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;700&family=Space+Mono&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:900|Work+Sans:300" rel="stylesheet">
 </head>
 
 <body>
     <header>
         <div class='land_mainNav'>
-            <img class='land_logo' src='./img/bp_white.png'>
+            <img class='land_logo' src='./img/BP_fav_white.png'>
             <div class='land_navBar'>
                 <li class='land_navList topList hvr-underline-from-center'><a href='./welcome.html'>Home</a></li>
                 <li class='land_navList topList hvr-underline-from-center'>About</li>
@@ -32,11 +35,13 @@
             <img class='land_bg1' src='./img/section1_bg2.jpg'>
             <div class='land_sloganBox'>
                 <div class='land_slogan'>Just Post-it.</div>
-                <div class='land_sloganContent'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                <div class='land_sloganContent'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
                     reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>
-                <button class='land_start'>Get started &#8594;</button>
+                <button class='land_start' onclick="location.href='./login.html'">Get started<img class='hvr-icon'
+                        src='./img/arrow.png'></button>
             </div>
         </div>
 

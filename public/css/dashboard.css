@@ -1,3 +1,10 @@
+/*---JQuery Tooltip---*/
+.ui-tooltip-content {
+    font-size: 12px;
+    font-family:'Rowdies', cursive;
+}
+
+/* Main */
 .section {
     height: 75vh;
     display: flex;
@@ -89,6 +96,13 @@
     right: 10px;
     cursor: pointer;
     visibility: hidden;
+}
+.readonly{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 50px;
+    left: 67px;
 }
 
 .close_btn {
