@@ -755,7 +755,8 @@ function addFile() {
 
 /*---Toolbar Functions---*/
 // cowork
-$('.cowork').on('click', function () {
+$('section').on('click', '.cowork', function () {
+    console.log('cowork_click')
     // Get sharing link
     let link = document.location.href
 
@@ -765,7 +766,6 @@ $('.cowork').on('click', function () {
 
     // copy link to clipboard
     $('.copyLink').on('click', function () {
-        console.log('COPY!!!!!')
         //Get the text field
         let copyText = document.querySelector('.link');
 
@@ -778,11 +778,10 @@ $('.cowork').on('click', function () {
 
         /* Alert the copied text */
         alertMessage(`Text Copied!`, 'success');
-    })
-})
 
-$('.expando__close').on('click', function () {
-    $('.shareLink').hide();
+        // hide shareLink after copy
+        $('.shareLink').hide();
+    })
 })
 
 // screenshot
@@ -820,5 +819,5 @@ function autogrow(textarea) {
         textarea.style.height = adjustedHeight + 'px';
     }
 }
-
+/*---User Flow Fix---*/
 

@@ -71,6 +71,7 @@ a {
 #workspace_title{
     color: black;
     font-weight: bold;
+    font-size: 30px;
 }
 .right_nav{
     display: flex;
