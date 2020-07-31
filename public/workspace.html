@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workspace</title>
-    <!-- Reenie Beanie Font library -->
+    <!-- Font library -->
     <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie:regular' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:900|Work+Sans:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;700&family=Space+Mono&display=swap"
+        rel="stylesheet">
     <!-- jQuery library -->
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
     <!-- Jquery UI -->
@@ -21,7 +24,9 @@
     <link rel="stylesheet" href="./expand effect/expando.css">
     <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/workspace.css">
     <link rel="stylesheet" href="./css/postit.css">
+    <link rel="stylesheet" href="./css/alert.css">
 </head>
 
 
@@ -29,65 +34,53 @@
     <header>
         <div class="main_nav">
             <div class='left_nav'>
-                <img class='logo' width=83px height=80px src="img/bp_white.png" alt="Boarder Playground Logo">
-                <div class='page_title' id='workspace_title'>WORKSPACE</div>
+                <img class='logo' src="img/BP_fav.png" alt="Boarder Playground Logo"
+                    onclick="location.href='./dashboard.html'">
+                <div class='break'></div>
+                <div id='workspace_title'></div>
             </div>
             <ul class='right_nav'>
-                <a href="/welcome.html" id="home">HOME</a>
-                <a href="/dashboard.html" id='dashboard'>DASHBOARD</a>
-                <a href="#" class="logout" id='login'>LOGIN/OUT</a>
-                <a href="#" class="greeting"></a>
+                <div class='saveStatus'></div>
+                <div class="dropdown">
+                    <div class='dropShow'>
+                        <img class='dropImg' src='./img/group.png'></img>
+                        <div class='dropNumber'></div>
+                    </div>
+                    <div class="dropdown_content"></div>
+                </div>
+                <!-- <div class='statusMessage'></div> -->
+                <a class="greeting"></a>
+
             </ul>
+            <div class='break_header'></div>
         </div>
     </header>
 
     <section class='section' id='print'>
         <!-- Toolbar -->
-        <div class="expando js-expando">
-            <div class="expando__inner js-expando-inner">
-                <div class="expando__inner-inverter js-expando-inner-inverter">
-                    <div class="expando__content js-content">
-                        <ul class="expando__content-list" width=100px height=280px>
-                            <li><img src='./img/idea.png' width=30px height=30px></li>
-                            <li><img src='./img/cowork.png' width=30px height=30px></li>
-                            <li><img src='./img/export.png' width=30px height=30px onclick='screenshot();'
-                                    id='print_btn'>
-                            </li>
-                            <li><img src='./img/template.png' width=30px height=30px></li>
-                            <li class='addPostit'><img src='./img/plus.png' width=30px height=30px></li>
-                        </ul>
-                        <button class="expando__close js-expando-collapse-btn" id='close'>X</button>
-                    </div>
-                    <button class="expando__btn js-expando-expand-btn" id='setting_btn'>
-                        <img src='./img/settings.png'>
-                    </button>
-                </div>
-            </div>
-        </div>
-
+        <ul class="toolbar" width=100px height=280px>
+            <!-- <li><img src='./img/idea.png' width=30px height=30px></li> -->
+            <li class='addPostit toolbar_item'><img class='icon' src='./img/plus.png'>
+            </li>
+            <li class='cowork toolbar_item'>
+                <img class='icon cowork' src='./img/cowork.png'>
+            </li>
+            <li class='toolbar_item'><img class='icon' src='./img/download.png' onclick='screenshot();' id='print_btn'>
+            </li>
+            <li class='toolbar_item'><img class='icon' src='./img/template.png'></li>
+        </ul>
         <!-- Workspace -->
-        <div class='workspace' id='dragspace'>
-            <div class='alertArea'>
-                <div class='saveStatus'></div>
-                <div class='statusMessage'></div>
-                <!-- <img class='userOnline' src='./img/'></img> -->
-            </div>
-        </div>
+        <div class='workspace' id='dragspace'></div>
     </section>
-
-    <footer>
-        <div class='footer'>
-            <div class='copyright'>Copyright © 2020 Boarder Playground All Rights Reserved</div>
-        </div>
-    </footer>
 </body>
 
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.19/lodash.min.js"
     integrity="sha256-Jvh9+A4HNbbWsWl1Dw7kAzNsU3y8elGIjLnUSUNMtLg=" crossorigin="anonymous"></script>
+<script src='./js/alert.js'></script>
 <script src='./js/workspace.js'></script>
-<script src="./expand effect/expando.js"></script>
+<!-- <script src="./expand effect/expando.js"></script> -->
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
 <script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>

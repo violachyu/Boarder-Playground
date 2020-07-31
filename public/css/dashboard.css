@@ -1,3 +1,10 @@
+/*---JQuery Tooltip---*/
+.ui-tooltip-content {
+    font-size: 12px;
+    font-family:'Rowdies', cursive;
+}
+
+/* Main */
 .section {
     height: 75vh;
     display: flex;
@@ -24,7 +31,7 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    width: 150px;
+    width: 160px;
     height: 175px;
     background-color: darkgrey;
     border-radius: 5px;
@@ -36,6 +43,26 @@
 .wb_block:hover{
     color: white;
 }
+.wb_bookmark{
+    clip-path: polygon(100% 0%, 100% 82%, 68% 43%, 34% 82%, 34% 0);
+    width: 25px;
+    height:35px;
+    background-color: gray;
+    cursor: pointer;
+    position: absolute;
+    left: 10px;
+    top: 0px;
+}
+.bookmarked{
+    background-color: lightsalmon;
+}
+.wb_back{
+    position: absolute;
+    left: 5px;
+    width: 4px;
+    height: 175px;
+    background-color: white;
+}
 
 
 .wb_title {
@@ -46,7 +73,6 @@
     background-color: lightgrey;
     text-align: center;
     align-self: center;
-    flex-wrap: wrap;
     width: 150px;
     /* height: 30px; */
     line-height: 18px;
@@ -54,11 +80,29 @@
     color: black;
     position: absolute;
     bottom: 30px;
-    left: 0px;
+    left: 9px;
+    pointer-events: none;
 }
 
 ::placeholder {
     font-size: 10px;
+}
+
+.edit{
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    cursor: pointer;
+    visibility: hidden;
+}
+.readonly{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 50px;
+    left: 67px;
 }
 
 .close_btn {
@@ -94,14 +138,14 @@
     cursor: pointer;
 } */
 
-.watermark{
+/* .watermark{
     position: absolute;
     bottom: 5px;
     right: 5px;
     font-size: 10px;
     line-height: 10px;
     color: gray;
-}
+} */
 
 .hvr-grow {
     display: inline-block;
@@ -126,7 +170,7 @@
 .add_btn {
     font-size: xx-large;
     padding: 7px 15px;
-    background-color: white;
+    /* background-color: white; */
     border: 0.05px solid darkgray;
     outline: none;
     position: absolute;
@@ -135,6 +179,6 @@
     border-radius: 5px;
 }
 
-.add_btn:hover {
+/* .add_btn:hover {
     color: white;
-}
+} */

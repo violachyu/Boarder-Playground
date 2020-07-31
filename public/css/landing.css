@@ -5,19 +5,24 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Space Mono', monospace;
+    /* font-family: 'Space Mono', monospace; */
+    font-family: 'Rowdies',cursive, monospace;
     width: 100vw;
     overflow-x: hidden;
 }
 li{
     list-style: none;
 }
+a{
+    text-decoration: none;
+    color: white;
+}
 
 
 /*---Header---*/
 .land_logo{
-    width: 70px;
-    height: 64px;
+    width: 60px;
+    height: 60px;
     margin: 10px 20px;
 }
 .land_mainNav{
@@ -66,7 +71,7 @@ li{
     left: 51%;
     right: 51%;
     bottom: 0;
-    background:white;
+    background:#FFCC33;
     height: 2px;
     -webkit-transition-property: left, right;
     transition-property: left, right;
@@ -87,8 +92,9 @@ li{
     position: relative;
 }
 .land_bg1{
-    /* width:100%;
-    height:100%; */
+    width:100vw;
+    height:100vh;
+    object-fit: cover;
     max-width:100%;
     max-height:100%;
 }
@@ -96,44 +102,39 @@ li{
     background-color: black;
     opacity: 50%;
     position: absolute;
-    width: 100%;
-    height: 98%;
+    width: 100vw;
+    height: 100vh;
 }
-/* .land_sloganBox{
+.land_sloganBox{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 10vw;
+    position: relative;
     position: absolute;
-    z-index: 1;
-    background-color: blue;
-    opacity: 50%;
-    position: absolute;
-    width: 100%;
-    height: 98%;
-} */
+    top: 0vw;
+    left: 0vw;
+    width: 100vw;
+    height: 100vh;
+}
 
 .land_slogan{
     font-family: 'Rowdies', cursive;
     font-weight: Bold;
     font-size: 80px;
-    position: absolute;
-    left: 5%;
-    top:20%;
-    color:white;
+    margin: 6vh 0 1vh 2vw;
+    color:#FFCC33;
 }
 .land_sloganContent{
-    font-size: 10px;
-    position: absolute;
-    left: 5%;
-    top:35%;
+    font-size: 12px;
+    line-height: 20px;
     width: 50%;
     color:white;
+    margin: 0 0 5vh 2vw;
 }
 .land_start{
-    /* margin: 10px 30px; */
     padding: 5px 20px;
-    position: absolute;
-    left: 5%;
-    top:48%;
     font-family: 'Rowdies', cursive;
     font-size: 20px;
     font-weight: 300;
@@ -141,8 +142,21 @@ li{
     color: black;
     border:none;
     border-radius: 20px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 0 1vh 2vw;
 
 }
+.land_start:hover, .land_start:focus{
+    border: 3px #FFCC33 solid;
+    outline: none;
+}
+.hvr-icon{
+    width: 15px;
+    height: 15px;
+    margin-left: 1vw;
+}
+/* width='10px' height='10px' */
 
 /*---Footer---*/
 

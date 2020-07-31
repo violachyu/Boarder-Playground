@@ -15,7 +15,7 @@ const register = async (email, pwd) => {
         let access_token = jwt.sign(payload_token, signingKey, expireTime);
 
         // create random user_id (6 digits)
-        let user_id = Math.floor(100000 + Math.random() * 900000);
+        let user_id = Date.now();
 
         // get username
         let username = email.split('@')[0]

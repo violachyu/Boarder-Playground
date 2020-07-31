@@ -52,8 +52,9 @@ input {
     border-radius: 5px;
 }
 
-button:hover {
+button:hover, button:focus {
     background-color: black;
     color: white;
+    outline: none;
     /* border: solid black 1px; */
 }

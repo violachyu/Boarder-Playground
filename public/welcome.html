@@ -7,7 +7,7 @@
     <title>Welcome!</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style0.css">
 </head>
 <style>
     /*---Section---*/
@@ -56,6 +56,7 @@
         </div>
     </footer>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script>
     // token verification
     let access_token = localStorage.getItem('access_token');
@@ -66,8 +67,19 @@
         $('.greeting').css({ 'background-color': 'lightgray', 'color': 'black', 'border-radius': '2px', 'padding': '1px 5px 8px 5px', 'font-weight': 'bold' })
     } else {
         $('.logout').html('LOGIN');
-        alert('Please Login, my friend!')
-        location.href = '/login.html'
+        // alert('Please Login, my friend!')
+        Swal.fire({
+            title: 'Please Login, my friend!',
+            text: "You won't regret this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Let\'s Login!'
+        }).then((result) => {
+            location.href = '/login.html'
+        })
+
     }
 
     // Logout

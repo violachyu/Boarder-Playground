@@ -1,22 +1,29 @@
 const { transaction, commit, rollback, query } = require('../../util/con');
 
-const createWhiteboard = async (user_id, title, wb_id) => {
+const createWhiteboard = async (wb_id, user_id, title, bookmark) => {
     try {
         // reform date format
         let now = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-        // check duplicate wb
-        let DB_title = await query(`SELECT title FROM wb WHERE user_id = '${user_id}' AND title = '${title}'`)
+        // save old wb
+        let oldWB = await query(`SELECT * FROM wb WHERE host = '${user_id}' AND wb_id = '${wb_id}'`)
+        let wb_data = [[wb_id, user_id, title, now, bookmark, 'null']]
+        let wb_pair = [[user_id, wb_id, 'host']]
 
-        if (DB_title[0]) {
-            return { message: 'You\'ve created the same whiteboard title!' }
+        if (oldWB[0]) {  // if user is host & WB is old
+            transaction();
+            // verify user & insert data into DB
+            await query(`REPLACE INTO wb VALUES ?`, [wb_data]);
+            await query(`REPLACE INTO user_wb VALUES ?`, [wb_pair]);
+            commit();
+            return { message: 'Whiteboard saved!' }
         } else {
             transaction();
-            let wb_data = [[wb_id, user_id, title, now]]
-            // verify user & insert data into DB
-            await query(`INSERT INTO wb(wb_id, user_id, title, create_time) VALUES ?`, [wb_data]);
+            // record guest into DB
+            await query(`REPLACE INTO wb VALUES ?`, [wb_data]);
+            await query(`REPLACE INTO user_wb VALUES ?`, [wb_pair]);
             commit();
-            return { message: 'Create WB successful!' }
+            return { message: 'Whiteboard created!' }
         }
     } catch (error) {
         rollback();
@@ -24,19 +31,20 @@ const createWhiteboard = async (user_id, title, wb_id) => {
     }
 
 }
-const deleteWhiteboard = async (user_id, title) => {
+const deleteWhiteboard = async (wb_id, title) => {
     try {
         if (title) {
             transaction();
-            let result = await query(`DELETE FROM wb WHERE user_id = '${user_id}' AND title = '${title}'`);
-            if (result.affectedRows == 0) {
-                return { message: 'Cannot delete whiteboard...' }
-            } else {
-                commit();
-                return { message: 'Delete whiteboard successful!' }
-            }
+            // let result = await query(`DELETE FROM wb WHERE wb_id = '${wb_id}'`);
+            await query(`DELETE FROM wb WHERE wb_id = '${wb_id}'`);
+            // if (result.affectedRows == 0) {
+            //     return { error: 'Cannot delete whiteboard...' }
+            // } else {
+            commit();
+            return { message: 'Whiteboard deleted!' }
+            // }
         } else {
-            return { message: 'Blank board deleted!' }
+            return { message: 'Blank whiteboard deleted!' }
         }
     } catch (error) {
         rollback();
@@ -46,8 +54,13 @@ const deleteWhiteboard = async (user_id, title) => {
 
 const getWhiteboard = async (access_token, user_id_params) => {
     // get all wb by user_id
-    const all_wb = await query(`SELECT wb_id, title FROM wb WHERE user_id = '${user_id_params}'`);
-    console.log('all', all_wb);
+    // const all_wb = await query(`SELECT wb_id, title, bookmark FROM wb 
+    // WHERE user_id = '${user_id_params}'`);
+    const all_wb = await query(`SELECT wb.wb_id, title, bookmark, role FROM wb 
+    LEFT JOIN user_wb ON wb.wb_id = user_wb.wb_id 
+    WHERE user_wb.user_id = '${user_id_params}' `);
+
+    console.log(all_wb);
     return { all_wb };
 }
 

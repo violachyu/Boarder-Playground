@@ -1,23 +1,21 @@
-  /*---Basic Style---*/
-  * {
+ /*---Basic Style---*/
+ * {
     box-sizing: border-box;
     /* border: solid 1px white; */
 }
 li {
     list-style: none;
 }
-.section {
-    height: 90vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+
+/*---Header---*/
+header {
+    height: 15vh;
 }
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Rowdies','cursive', sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     width: 100vw;
     overflow-x: hidden;
 }
@@ -31,69 +29,50 @@ a {
     height: 20px;
     margin: 2px 10px;
     border: none;
+    border-bottom: 0.05px solid white;
 }
 
-/*---Header---*/
-/* Workspace Nav */
-.main_nav{
+.main_nav {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    height: 8vh;
+    justify-content: space-between;
+    margin: auto;
+    height: 100%;
+    background-color: black;
     position: relative;
-    /* background-color: black; */
 }
-.break_header{
-    position: absolute;
-    bottom: 0px;
-    left: 2vw;
-    border-bottom: darkgray 1px solid;
-    width: 96vw;
-}
-.left_nav{
+
+.left_nav,
+.right_nav {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.logo{
-    width: 42px;
-    height: 30px;
-    padding-right: 10px;
-    margin-left: 30px;
-    cursor: pointer;
-}
-.break{
-    width:1px;
-    height: 15px;
-    margin-right: 10px;
-    border-right: 1px solid black;
-}
-#workspace_title{
-    color: black;
-    font-weight: bold;
-    font-size: 30px;
-}
-.right_nav{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-left:auto;
+
+.right_nav {
     margin-right: 20px;
-    margin-bottom: 0px;
-    padding-left: 0px;
+    font-size: 12px;
+    z-index: 2;
 }
-.saveStatus{
-    color: #7A7A7A;
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 12px;
-    letter-spacing: 1.5px;
-    margin-right: 10px;
-    border-bottom: #7A7A7A solid 1px;
-    animation: 
-        blink-caret .75s step-end infinite;
-        /* animation-duration: 10s;
-        animation-iteration-count: infinite; */
+#home, #dashboard, #login{
+    text-decoration: none;
+    color: white;
+}
+
+
+.logo {
+    margin: 10px 10px 10px 30px;
+}
+
+.page_title {
+    position: absolute;
+    left: 135px;
+    bottom: -35px;
+    z-index: 1;
+    letter-spacing: -15px;
+    font-size: 100px;
+    color: white;
+    opacity: 70%;
 }
 .greeting{
     background-color: lightgray;
@@ -102,8 +81,18 @@ a {
     padding: 1px 5px 8px 5px;
     font-weight: bold;
     font-size: 13px;
+    border-bottom: none;
 }
 
+
+/*---Section---*/
+.section {
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
 /* Dashboard */
 .hvr-grow {
     display: inline-block;
