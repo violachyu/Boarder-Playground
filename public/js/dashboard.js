@@ -1,5 +1,6 @@
 let access_token = localStorage.getItem('access_token');
 let username = localStorage.getItem('username');
+let username_abv = username.split("")[0];
 let user_id = localStorage.getItem('user_id');
 /*---JQuery Tooltip---*/
 $(function () {
@@ -58,7 +59,7 @@ $('.add_btn').on('click', function () {
     $(this).css({ 'background-color': 'white', 'color': 'black' })
 })
 $('.add_btn').on('mouseover', function () {
-    $(this).css({ 'background-color': 'black', 'color': 'white' })
+    $(this).css({ 'background-color': '#Fc3', 'color': 'black' })
 })
 $('.add_btn').on('mouseout', function () {
     $(this).css({ 'background-color': 'white', 'color': 'black' })
@@ -212,8 +213,7 @@ $('.whiteboard').on('click', '.bookmarked', function (e) {
 // token verification
 if (access_token && username) {
     $('.logout').html('LOGOUT');
-    $('.greeting').html(`Hello, ${username}`);
-    $('.greeting').css({ 'background-color': 'lightgray', 'color': 'black', 'border-radius': '2px', 'padding': '1px 5px 8px 5px', 'font-weight': 'bold' })
+    $('.greeting').html(`${username_abv}`);
 } else {
     $('.logout').html('LOGIN');
     alert('Please Login, my friend!')

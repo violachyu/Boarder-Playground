@@ -1,4 +1,9 @@
 /*---Preceding Operations---*/
+/*---JQuery Tooltip---*/
+$(function () {
+    $(document).tooltip();
+});
+
 // (WIP)hide buffering loading page
 $(document).ready(function () {
     $('#loading').hide();
@@ -25,11 +30,12 @@ localStorage.setItem('userColor', randomColor);
 
 // Get localstorage info
 let username = localStorage.getItem('username');
+let username_abv = username.split("")[0];
 let user_id = localStorage.getItem('user_id');
 let userColor = localStorage.getItem('userColor');
 // Greetings
 $('.logout').html('LOGOUT');
-$('.greeting').html(`Hello, ${username}`);
+$('.greeting').html(`${username_abv}`);
 
 
 
@@ -607,14 +613,18 @@ socket.on('lockRemoveRender', function (id) {
 // })
 
 // (WIP) hide popover when white space is clicked
-// $('section').on('mousedown', '.workspace', function (e) {
-//     if ($(e.target).hasClass('postit_input') == false) {
-//         console.log('hidepop---', $(e.target).hasClass('workspace'));  //
-//         $('.popover').each(function () {
-//             $(this).hide();
-//         })
-//     }
-// })
+$(".workspace").on('mousedown', function (e) {
+    console.log('hide_popover');
+    $('.popover').addClass('hidden')
+
+    // if ($(e.target).hasClass('postit_input') == false) {
+    //     console.log('hidepop---', $(e.target).hasClass('workspace'));  //
+    //     $('.popover').each(function () {
+    //         $(this).hide();
+    //     })
+    // }
+
+})
 
 $('.workspace').on('mouseover', '[data-toggle="popover"]', function (e) {
     // (WIP)show popover on postit
@@ -647,6 +657,8 @@ $('.workspace').on('mouseover', '[data-toggle="popover"]', function (e) {
 })
 
 $('.workspace').on('click', '.postit', function (e) {
+    $('.popover').removeClass('hidden');
+
     // prevent default events
     e.preventDefault();
     e.stopPropagation();
@@ -743,6 +755,7 @@ function addFile() {
         $(this).siblings('div[id="filename"]').html(e.target.files[0].name);
     });
 }
+$()
 
 
 

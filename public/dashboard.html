@@ -9,37 +9,42 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;700&family=Space+Mono&display=swap"
-        rel="stylesheet">
     <!-- Cursor Style -->
     <!-- <link rel="stylesheet" href="path/to/font-awesome.min.css">
     <script src="path/to/jquery.min.js"></script> -->
     <script src="https://cdn.rawgit.com/jwarby/jquery-awesome-cursor/master/dist/jquery.awesome-cursor.min.js"></script>
     </pre>
     <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
-    <link rel="stylesheet" href="./css/style0.css">
+    <link rel="stylesheet" href="./css/style0731.css">
     <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="./css/landing.css">
     <link rel="stylesheet" href="./css/alert.css">
+    <!-- Font -->
+    <link rel='stylesheet' href='./css/font.css'>
+
 </head>
 
 <body>
     <header>
         <div class="main_nav">
             <div class='left_nav'>
-                <img class='logo' width=83px height=80px src="img/bp_white.png" alt="Boarder Playground Logo">
-                <div class='page_title'>DASHBOARD</div>
+                <img class='logo' src="img/BP_fav_white.png" alt="Boarder Playground Logo"
+                    onclick="location.href='./dashboard.html'">
+                <div class='break'></div>
+                <div class='boarder'>Boarder Playground</div>
+                <!-- <div class='page_title dash_title'>Dashboard</div> -->
             </div>
             <ul class='right_nav'>
-                <a href="/welcome.html">HOME</a>
-                <a href="/dashboard.html">DASHBOARD</a>
-                <a href="#" class="logout">LOGIN/OUT</a>
-                <a href="#" class="greeting"></a>
+                <a class='list_item hvr-underline-from-center' href="/welcome.html">HOME</a>
+                <a class='list_item hvr-underline-from-center' href="/dashboard.html">DASHBOARD</a>
+                <a class='list_item hvr-underline-from-center' href="/logout.html" class="logout">LOGOUT</a>
+                <a class="greeting"></a>
             </ul>
         </div>
     </header>
 
-    <section class='section'>
+    <section class='section dash_section'>
+        <img class='dash_bg' src='./img/dash_bg_2.jpg'>
         <div class='whiteboard'></div>
         <button class='add_btn hvr-grow' onclick='add_whiteboard()'>+</button>
         <!-- <button class='add_btn hvr-grow'>+</button> -->
@@ -47,6 +52,7 @@
 
     <footer>
         <div class='footer'>
+            <div class='break_footer'></div>
             <!-- <img class='logo' width=105px height=100px src="img/bp_white.png" alt="Boarder Playground Logo"> -->
             <div class='copyright'>Copyright © 2020 Boarder Playground All Rights Reserved</div>
         </div>

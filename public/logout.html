@@ -148,14 +148,13 @@
     // token verification
     let access_token = localStorage.getItem('access_token');
     let username = localStorage.getItem('username');
+    let username_abv = username.split("")[0];
     if (access_token && username) {
         $('.logout_btn').html('LOGOUT');
-        $('.greeting').html(`HELLO, ${username}`);
-        $('.greeting').css({ 'background-color': 'lightgray', 'color': 'black', 'border-radius': '2px', 'padding': '1px 5px 8px 5px', 'font-weight': 'bold' })
+        $('.greeting').html(`${username_abv}`);
     } else {
         $('.logout_btn').html('LOGIN');
         $('.greeting').html(`BYE!`);
-        $('.greeting').css({ 'background-color': 'lightgray', 'color': 'black', 'border-radius': '2px', 'padding': '1px 5px 8px 5px', 'font-weight': 'bold' })
 
     }
     // Logout

@@ -60,7 +60,6 @@ const getWhiteboard = async (access_token, user_id_params) => {
     LEFT JOIN user_wb ON wb.wb_id = user_wb.wb_id 
     WHERE user_wb.user_id = '${user_id_params}' `);
 
-    console.log(all_wb);
     return { all_wb };
 }
 

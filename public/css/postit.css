@@ -364,6 +364,8 @@ span {
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
   }
-
+.hidden{
+    display: none;
+}
 
 

@@ -5,21 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="./css/landing.css">
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;700&family=Space+Mono&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:900|Work+Sans:300" rel="stylesheet">
+    <link rel='stylesheet' href='./css/font.css'>
+    <link rel="stylesheet" href="./css/style0731.css">
+    <link rel="stylesheet" href="./css/landing.css">
+    <link rel="stylesheet" href="./css/login.css">
+
 </head>
 
 <body>
     <header>
-        <div class='land_mainNav'>
+        <div class="main_nav">
+            <div class='left_nav'>
+                <img class='logo' src="img/BP_fav_white.png" alt="Boarder Playground Logo"
+                    onclick="location.href='./dashboard.html'">
+                <div class='break'></div>
+                <div class='boarder'>Boarder Playground</div>
+                <!-- <div class='page_title dash_title'>Dashboard</div> -->
+            </div>
+            <ul class='right_nav'>
+                <a class='list_item hvr-underline-from-center' href="/">HOME</a>
+                <a class='list_item hvr-underline-from-center' href="">ABOUT</a>
+                <a class='list_item hvr-underline-from-center' href="">WORK</a>
+                <a class='list_item hvr-underline-from-center' href="">CONTACT</a>
+                <a class='list_item hvr-underline-from-center login_nav'>LOGIN</a>
+            </ul>
+        </div>
+        <!-- <div class='land_mainNav'>
             <img class='land_logo' src='./img/BP_fav_white.png'>
+            <div class='land_boarder'>Boarder Playground</div>
             <div class='land_navBar'>
                 <li class='land_navList topList hvr-underline-from-center'><a href='./welcome.html'>Home</a></li>
                 <li class='land_navList topList hvr-underline-from-center'>About</li>
@@ -27,7 +45,7 @@
                 <li class='land_navList topList hvr-underline-from-center'>Contact</li>
                 <li class='land_navList topList hvr-underline-from-center'><a href='./login.html'>Login</a></li>
             </div>
-        </div>
+        </div> -->
     </header>
     <section1>
         <div class='land_bgBox'>
@@ -40,30 +58,47 @@
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
                     reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>
-                <button class='land_start' onclick="location.href='./login.html'">Get started<img class='hvr-icon'
-                        src='./img/arrow.png'></button>
+                <button class='land_start'>Get started<img class='hvr-icon' src='./img/arrow.png'></button>
             </div>
         </div>
 
 
     </section1>
-    <section2>
-
-    </section2>
-    <!-- <footer>
-        <div class='land_footNav'>
-            <li class='land_footTitle'>Navigation</li>
-            <li class='land_navList'>Home</li>
-            <li class='land_navList'>About</li>
-            <li class='land_navList'>Work</li>
-            <li class='land_navList'>Contact</li>
-            <li class='land_navList'>Dashboard</li>
-            <li class='land_navList'>Sign In</li>
+    <section2 class='member'>
+        <div class='modal_cover'></div>
+        <div class='mem_form'>
+            <div class='register'>
+                <img class='mem_decor' src='./img/section1_bg2.jpg'>
+                <form class='form'>
+                    <div class='mem_title'>REGISTER</div>
+                    <label>Email</label>
+                    <input class="reg_email" type="text"></br>
+                    <label>Password</label>
+                    <input class="reg_pwd" type="password"></br>
+                    <div class='login_break'></div>
+                    <div class='ques'>Already have an account? <a class='ques_login'>Login</a></div>
+                    <button type="button" class='reg_enter_btn btn'>Enter</button>
+                </form>
+            </div>
+            <div class='login'>
+                <img class='mem_decor decor_login' src='./img/dash_bg_1.jpg'>
+                <form class='form'>
+                    <div class='mem_title'>LOGIN</div>
+                    <label>Email</label>
+                    <input class="login_email" type="text"></br>
+                    <label>Password</label>
+                    <input class='login_pwd' type="password"></br>
+                    <div class='ques'>Don't have an account? <a class='ques_register'>Register</a></div>
+                    <button type="button" class='login_enter_btn btn'>Enter</button>
+                </form>
+            </div>
         </div>
 
-    </footer> -->
-
-
+    </section2>
 </body>
+<!-- Sweet Alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src='./js/login.js'></script>
+
 
 </html>

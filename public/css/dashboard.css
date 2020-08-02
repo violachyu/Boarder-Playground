@@ -3,17 +3,28 @@
     font-size: 12px;
     font-family:'Rowdies', cursive;
 }
+/*---Header---*/
+/* .dash_title{
+    position: fixed;
+    top: 2vh;
+    left: -2vw;
+    z-index: -2;
+    letter-spacing: -0.5vw;
+    opacity: 09%;
+    transform: rotate(-10deg);
+    font-size: 15vw;
+    text-transform: uppercase;
+} */
 
 /* Main */
-.section {
-    height: 75vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
+.dash_bg{
+    width: 100vw;
+    height: 94vh;
+    filter: grayscale(100%) brightness(50%);
+    position: fixed;
+    top:0;
+    left:0;
 }
-
-
 .whiteboard {
     align-self: center;
     width: 80vw;
@@ -24,6 +35,8 @@
     flex-wrap: wrap;
     overflow: scroll;
     position: relative;
+    background: transparent;
+    padding-top: 5vh;
 }
 
 .wb_block {
@@ -41,7 +54,8 @@
     position: relative;
 }
 .wb_block:hover{
-    color: white;
+    background-color: #000000;
+    /* background-color: #2b2d42; */
 }
 .wb_bookmark{
     clip-path: polygon(100% 0%, 100% 82%, 68% 43%, 34% 82%, 34% 0);
@@ -54,7 +68,7 @@
     top: 0px;
 }
 .bookmarked{
-    background-color: lightsalmon;
+    background-color: #DAA520;
 }
 .wb_back{
     position: absolute;
@@ -82,6 +96,9 @@
     bottom: 30px;
     left: 9px;
     pointer-events: none;
+    /* font-family: 'Rowdies', cursive, sans-serif; */
+    font-family: 'Playfair Display', cursive, monospace;
+
 }
 
 ::placeholder {
@@ -107,7 +124,7 @@
 
 .close_btn {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: medium;
+    font-size: small;
     position: absolute;
     right: 13px;
     top: 7px;
@@ -164,7 +181,6 @@
 .hvr-grow:active {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
-    background-color: black;
 }
 
 .add_btn {
@@ -178,7 +194,3 @@
     bottom: 50px;
     border-radius: 5px;
 }
-
-/* .add_btn:hover {
-    color: white;
-} */
