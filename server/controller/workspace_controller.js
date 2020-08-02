@@ -30,6 +30,15 @@ const saveWorkspace = async (req, res) => {
         } else {
             res.status(200).send({ message });
         }
+    } else if (req.params.id == 'template') {
+        let wb_id = req.body.wb_id;
+        let template = req.body.template;
+        let { message, error } = await workspace_model.templateWorkspace(wb_id, template);
+        if (error) {
+            res.status(400).send({ error });
+        } else {
+            res.status(200).send({ message });
+        }
     }
 }
 

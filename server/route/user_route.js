@@ -10,6 +10,9 @@ userRouter.route('/register')
 userRouter.route('/login')
     .post(wrapAsync(login));
 
+// userRouter.route('/verify')
+//     .get(wrapAsync(verify));
+
 
 module.exports = userRouter;
 

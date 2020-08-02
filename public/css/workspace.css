@@ -1,3 +1,20 @@
+/*---Workspace---*/
+.workspace{
+    /* display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative; */
+    flex-wrap: wrap;
+    height: 106vh;
+    width: 100vw;
+    overflow: auto;
+    max-width:100%;
+    margin-top: 28vh;
+    /* background-image: url("../img/BP_fav.png"); */
+    /* background-repeat: repeat space; */
+}
+
 /* Collaboration */
 .dropdown{
     /* position: absolute;
@@ -66,6 +83,13 @@
 
 
 /*---Section---*/
+/* Alert Position */
+.work_alert{
+    position: absolute;
+    top: 9vh;
+    right: 2vw;
+}
+
 /* Toolbar */
 .toolbar{
     display: flex;
@@ -74,11 +98,13 @@
     box-shadow:2px -3px 3px 1px lightgrey;
     padding-left: 0px;
     border-radius: 0px 5px 5px 0px;
-    border: solid lightgrey 1px; 
+    border: solid #FFCC33 3px;
+    z-index: 2; 
+    background-color: #FFCC33;
 }
 .toolbar_item{
     padding: 5px 10px 10px;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 .icon{
     width: 25px;
@@ -88,6 +114,9 @@
 }
 .cowork{
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    position: relative;
 }
 .shareLink{
     display: flex;
@@ -95,12 +124,13 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 216px;
+    top: 0vh;
     left: 55px;
     width: 250px;
-    height: 47px;
-    background-color: lightgray;
+    height: 42px;
+    background-color: #FFCC33;
     border-radius: 5px;
+    text-overflow: ellipsis;
 }
 
 .link{
@@ -117,6 +147,34 @@
     margin: 0px 5px;
 }
 
+.template{
+    position: relative;
+}
+.template_list{
+    position: absolute;
+    top: 0;
+    left: 55px;
+    width: 225px;
+    padding: 5px 10px;
+    background-color: #FFCC33;
+    border-radius: 6px;
+}
+.template_list_item{
+    padding: 3px 5px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.template_bg{
+    /* display:none; */
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top:0px;
+    left: 0px;
+    filter: grayscale(100%);
+    object-fit: fill;
+    /* object-position: 0px 35px; */
+}
 
 /*---Scrollbar Style---*/
 /* width */
@@ -142,18 +200,4 @@
     cursor: pointer;
   }
 
-/*---Workspace---*/
-.workspace{
-    /* display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: relative; */
-    flex-wrap: wrap;
-    height: 90vh;
-    width: 100vw;
-    overflow: auto;
-    max-width:100%;
-    /* background-image: url("../img/BP_fav.png"); */
-    /* background-repeat: repeat space; */
-}
+

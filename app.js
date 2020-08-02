@@ -100,6 +100,10 @@ io.on('connection', socket => {
         socket.on('lockRemove', function (id) {
             socket.to(user.wb_id).emit('lockRemoveRender', id);
         })
+        // Sync template
+        socket.on('template', function (template) {
+            io.to(user.wb_id).emit('templateRender', template)
+        })
 
     })
 

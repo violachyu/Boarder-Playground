@@ -1,9 +1,4 @@
 /*---Preceding Operations---*/
-/*---JQuery Tooltip---*/
-$(function () {
-    $(document).tooltip();
-});
-
 // (WIP)hide buffering loading page
 $(document).ready(function () {
     $('#loading').hide();
@@ -152,6 +147,21 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
             // $(`#${data[i].postit_id}`).draggable({ handle: '.triangle' });  // make postit draggable
             $(`#${data[i].postit_id}`).draggable({ containment: 'parent' });  // make postit draggable
             $(`#${data[i].postit_id}`).resizable({ maxHeight: 500, maxWidth: 800, minHeight: 50, minWidth: 50, containment: 'parent' });  // make postit resizable
+        }
+        console.log('data', data)
+        if (data[0]) {
+            $('.template_bg').attr('src', `../img/${data[0].template}.png`)  //WIP: template
+            if (data[0].template === 'bmc') {
+                $('.template_bg').css({ 'object-position': ' 0px 35px' })
+            } else if (data[0].template === 'persona') {
+                $('.template_bg').css({ 'object-position': ' 0px 35px' })
+            } else if (data[0].template === 'empathy') {
+                $('.template_bg').css({ 'object-position': ' 0px 45px' })
+            } else if (data[0].template === 'storyBoard') {
+                $('.template_bg').css({ 'object-position': ' 0px 40px' })
+            } else if (data[0].template === 'none') {
+                $('.template_bg').attr('src', '')
+            }
         }
     })
 
@@ -768,17 +778,19 @@ $()
 
 /*---Toolbar Functions---*/
 // cowork
-$('section').on('click', '.cowork', function () {
-    console.log('cowork_click')
+$('.cowork > .cowork_icon').on('click', function () {
+    // console.log('cowork_click');
     // Get sharing link
     let link = document.location.href
 
-    $('section').append(`<div class='shareLink'>
+    $('.cowork').append(`<div class='shareLink'>
     <input class='link' value='${link}'><img class='copyLink' src='./img/copy.png' width='15px' height='15px'></img>
     </div>`);
 
     // copy link to clipboard
-    $('.copyLink').on('click', function () {
+    $('.copyLink').on('click', function (e) {
+        e.stopPropagation();
+
         //Get the text field
         let copyText = document.querySelector('.link');
 
@@ -793,9 +805,13 @@ $('section').on('click', '.cowork', function () {
         alertMessage(`Text Copied!`, 'success');
 
         // hide shareLink after copy
-        $('.shareLink').hide();
+        $('.shareLink').remove();
     })
+
+}).children().on('click', function () {
+    return false;
 })
+
 
 // screenshot
 function screenshot() {
@@ -815,6 +831,63 @@ function screenshot() {
         a.click();
     });
 }
+//template
+$('.template > .template_icon').on('click', function () {
+    $('.template').append(`<ul class='template_list'>
+    <li class='template_list_item' id='bmc'>Business Model Canvas</li>
+    <li class='template_list_item' id='persona'>Persona Template</li>
+    <li class='template_list_item' id='empathy'>Empathy Map</li>
+    <li class='template_list_item' id='storyBoard'>Story Board</li>
+    <li class='template_list_item' id='none'>- None -</li>
+</ul>`)
+    $('.template_list_item').on('mouseover', function (e) {
+        $(this).css({ 'background-color': 'white' })
+        $('.template_list_item').not(this).css({ 'background-color': 'transparent' })
+    })
+    $('.template_list_item').on('click', function (e) {
+        e.stopPropagation();
+
+        // sync template
+        let template = $(this).attr('id');
+        socket.emit('template', template)
+
+        // hide shareLink after copy
+        $('.template_list').remove();
+
+        // save template to DB
+        fetch(`api/1.0/saveWorkspace/template`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': access_token
+            },
+            body: JSON.stringify({
+                wb_id, template
+            })
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                let { message, error } = data
+                console.log(message || error);
+            })
+    })
+
+})
+// broadcast template
+socket.on('templateRender', function (template) {
+    $('.template_bg').attr('src', `../img/${template}.png`)
+    if (template === 'bmc') {
+        $('.template_bg').css({ 'object-position': ' 0px 35px' })
+    } else if (template === 'persona') {
+        $('.template_bg').css({ 'object-position': ' 0px 35px' })
+    } else if (template === 'empathy') {
+        $('.template_bg').css({ 'object-position': ' 0px 45px' })
+    } else if (template === 'storyBoard') {
+        $('.template_bg').css({ 'object-position': ' 0px 40px' })
+    } else if (template === 'none') {
+        $('.template_bg').attr('src', '')
+    }
+})
 
 /*---Other Functions---*/
 // Function: set multiple attributes
@@ -833,4 +906,22 @@ function autogrow(textarea) {
     }
 }
 /*---User Flow Fix---*/
+
+
+/*---Style---*/
+// toolbar
+$('.toolbar_item').on('mouseover', function () {
+    $(this).css({ 'background-color': 'white' })
+    $('.toolbar_item').not(this).css({ 'background-color': 'transparent' })
+})
+$('.toolbar_item').on('mouseout', function () {
+    $('.toolbar_item').css({ 'background-color': 'transparent' })
+})
+$('.template_list_item').on('mouseover', function () {
+    $('.template_list_item').css({ 'background-color': 'white' })
+    $('.template_list_item').not(this).css({ 'background-color': '#FFCC33' })
+})
+$('.template_list_item').on('mouseout', function () {
+    $('.template_list_item').css({ 'background-color': '#FFCC33' })
+})
 

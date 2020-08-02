@@ -21,6 +21,7 @@
     width: 100vw;
     height: 94vh;
     filter: grayscale(100%) brightness(50%);
+    /* filter: grayscale(100%) brightness(50%) contrast(130%); */
     position: fixed;
     top:0;
     left:0;
@@ -47,6 +48,7 @@
     width: 160px;
     height: 175px;
     background-color: darkgrey;
+    /* background-color: #411d0d; */
     border-radius: 5px;
     margin: 10px;
     line-height: 30px;
@@ -76,6 +78,7 @@
     width: 4px;
     height: 175px;
     background-color: white;
+    /* background-color: lightgray; */
 }
 
 

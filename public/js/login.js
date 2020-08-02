@@ -20,6 +20,26 @@ $('.mem_form').on('click', function () {
     return false;
 })
 
+/*---Auto Login---*/
+let access_token = localStorage.getItem('access_token');
+if (access_token) {
+    // (WIP) User verification
+    // fetch('/api/1.0/verify', {
+    //     method: 'GET',
+    //     headers: {
+    //         'content-type': 'application/json',
+    //         'authorization': access_token
+    //     }
+    // })
+    //     .then(res => res.json())
+    //     .then(() => {
+    //         console.log('Verification Success!')
+    //         location.href = '/dashboard.html'
+    //     })
+
+    location.href = '/dashboard.html'
+
+}
 /*---Register----*/
 // insert into DB on button click
 $('.reg_enter_btn').click(function () {
