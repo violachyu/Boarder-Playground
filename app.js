@@ -112,6 +112,7 @@ io.on('connection', socket => {
         let newUserList = userLeave(socket.id);
 
         if (newUserList && newUserList.userLeft) {
+            console.log('socketfix', newUserList)
             io.to(newUserList.userLeft.wb_id).emit(
                 'statusMessage',
                 `${newUserList.userLeft.username} has left this whiteboard`

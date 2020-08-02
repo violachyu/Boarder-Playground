@@ -858,6 +858,7 @@ $('.template > .template_icon').on('click', function () {
 })
 // broadcast template
 socket.on('templateRender', function (template) {
+    console.log('templateRender', template);
     $('.template_bg').attr('src', `../img/${template}.png`)
     if (template === 'bmc') {
         $('.template_bg').css({ 'object-position': ' 0px 35px' })
