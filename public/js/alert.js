@@ -25,7 +25,7 @@ function alertMessage(message, status) {
         setTimeout(function () {
             $('.alert').remove();
         }, 500);
-    }, 1000 + delay);
+    }, 2000 + delay);
 
     // remove by clicking
     $('.alert-dismiss').on('click', function dismissAlert(e) {

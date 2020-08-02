@@ -10,11 +10,9 @@ const getWorkspace = async (access_token, wb_id) => {
         //     INNER JOIN wb ON wb.wb_id = postit.wb_id 
         //     WHERE postit.wb_id = '${wb_id}' AND postit.del IS NULL`
         // );
-        console.log('wb_id', wb_id)
         let workspaceData = await query(
             `SELECT * FROM postit WHERE wb_id = '${wb_id}' AND del IS NULL`
         );
-        console.log('getWork', workspaceData)
 
         // return workspace data
         return { workspaceData };

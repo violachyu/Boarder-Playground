@@ -37,7 +37,7 @@ if (access_token) {
     //         location.href = '/dashboard.html'
     //     })
 
-    location.href = '/dashboard.html'
+    // location.href = '/dashboard.html'
 
 }
 /*---Register----*/
@@ -62,7 +62,7 @@ $('.reg_enter_btn').click(function () {
         .then((data) => {
             const { access_token, username, user_id, message, error } = data;
             if (error) {
-                // alert(error);
+                console.log(error);   //
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -99,6 +99,8 @@ $('.login_enter_btn').click(function () {
             // console.log(data);
             const { error, access_token, username, user_id } = data;
             if (error) {
+                console.log(error);   //
+
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -108,7 +110,7 @@ $('.login_enter_btn').click(function () {
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('username', username);
                 localStorage.setItem('user_id', user_id);
-                location.href = '/welcome.html';
+                location.href = '/dashboard.html';
             }
         })
 })

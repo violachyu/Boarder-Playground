@@ -1,8 +1,4 @@
 /*---Preceding Operations---*/
-// (WIP)hide buffering loading page
-$(document).ready(function () {
-    $('#loading').hide();
-});
 let access_token = localStorage.getItem('access_token');
 
 if (!access_token) {
@@ -29,22 +25,8 @@ let username_abv = username.split("")[0];
 let user_id = localStorage.getItem('user_id');
 let userColor = localStorage.getItem('userColor');
 // Greetings
-$('.logout').html('LOGOUT');
 $('.greeting').html(`${username_abv}`);
 
-
-
-// Logout
-$('.logout').click(function () {
-    let access_token = localStorage.getItem('access_token');
-    if (access_token) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('username');
-        location.href = '/logout.html';
-    } else {
-        location.href = '/login.html'
-    }
-})
 
 /*---(WIP)Save Workspace for Guest User---*/
 // get wb_id from query
@@ -148,9 +130,10 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
             $(`#${data[i].postit_id}`).draggable({ containment: 'parent' });  // make postit draggable
             $(`#${data[i].postit_id}`).resizable({ maxHeight: 500, maxWidth: 800, minHeight: 50, minWidth: 50, containment: 'parent' });  // make postit resizable
         }
-        console.log('data', data)
+
+        // Get template
         if (data[0]) {
-            $('.template_bg').attr('src', `../img/${data[0].template}.png`)  //WIP: template
+            $('.template_bg').attr('src', `../img/${data[0].template}.png`)
             if (data[0].template === 'bmc') {
                 $('.template_bg').css({ 'object-position': ' 0px 35px' })
             } else if (data[0].template === 'persona') {

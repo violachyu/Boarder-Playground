@@ -216,18 +216,20 @@ if (access_token && username) {
     $('.greeting').html(`${username_abv}`);
 } else {
     $('.logout').html('LOGIN');
-    alert('Please Login, my friend!')
-    location.href = '/login.html'
+    alertMessage('Please Login, my friend!', 'danger')
+    location.href = '/';
 }
 
 // Logout
-$('.logout').click(function () {
+$('.logout').on('click', function () {
+    console.log('logouttttt');
     if (access_token) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('username');
-        location.href = '/logout.html';
+        alertMessage('You\'re logged out, have a great day!', 'success')
+        location.href = '/';
     } else {
-        location.href = '/login.html'
+        location.href = '/'
     }
 })
 

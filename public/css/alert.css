@@ -45,7 +45,7 @@
     bottom: 0;
     height: 3px;
     width: 0;
-    animation: border 1s forwards linear;
+    animation: border 2s forwards linear;
 }
 
 .alert.alert-active {
