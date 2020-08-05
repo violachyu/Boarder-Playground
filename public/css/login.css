@@ -1,7 +1,8 @@
-/*---Attribute Class---*/
-.hide{
-    display: none;
+/*---Basic Style---*/
+label{
+    font-size: 1.4vw;
 }
+
 /*---Section---*/
 .member, .register, .login{
     display: none;
@@ -85,10 +86,11 @@
     outline: none;
 }
 .ques{
-    font-size: 10px;
+    font-size: 0.8vw;
     color: rgb(141, 141, 141);
 }
 .ques_login, .ques_register{
+    font-size: 0.8vw;
     color: #363636;
     text-decoration: underline;
     cursor: pointer;
@@ -97,8 +99,8 @@
 .btn {
     background-color: white;
     font-family: 'Playfair Display';
-    font-size: 2.3vh;
-    padding: 0.6vh 1.4vw;
+    font-size: 1vw;
+    padding: 0.4vh 1.2vw;
     border: 0.05px solid darkgray;
     border-radius: 5px;
     position: absolute;

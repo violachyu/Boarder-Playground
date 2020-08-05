@@ -2,6 +2,7 @@ let access_token = localStorage.getItem('access_token');
 let username = localStorage.getItem('username');
 let username_abv = username.split("")[0];
 let user_id = localStorage.getItem('user_id');
+
 /*---JQuery Tooltip---*/
 $(function () {
     $(document).tooltip();
@@ -111,7 +112,7 @@ function createWhiteboard(e) {
     if (title.includes("'")) {
         alertMessage("Cannot input symbols including:\" and \'", 'danger')
     } else {
-        fetch('/api/1.0/dashboard/createWhiteboard', {
+        fetch('/api/1.0/dashboard/create', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -160,8 +161,8 @@ $('.whiteboard').on('click', '.close_btn', function (e) {
     // })
     // alertMessage('Delete whiteboard?', 'info');
 
-    fetch('api/1.0/dashboard/deleteWhiteboard', {
-        method: 'DELETE',
+    fetch('api/1.0/dashboard/delete', {
+        method: 'POST',
         headers: {
             'content-type': 'application/json',
             'authorization': access_token

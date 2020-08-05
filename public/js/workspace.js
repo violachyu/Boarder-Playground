@@ -13,6 +13,7 @@ if (!access_token) {
     $('.right_nav > a').removeAttr('href')
     $('.right_nav > a').css({ 'color': 'grey', 'border': 'grey', 'pointer-events': 'none' })
 }
+
 // Set a color for each user
 let randomColorList = ['#e0f0ea', '#95adbe',
     '#9da8a7', '#9da8a7', '#f0e6e0', '#a8a19d']
@@ -36,7 +37,7 @@ let title = urlParams.get('title');
 $('#workspace_title').html(title);  // set workspace page title
 
 // form data
-fetch(`api/1.0/guestWorkspace`, {
+fetch(`api/1.0/shareRecord`, {
     method: 'POST',
     headers: {
         'content-type': 'application/json',
@@ -54,7 +55,7 @@ fetch(`api/1.0/guestWorkspace`, {
 
 /*---Get Workspace---*/
 // get wb data from database
-fetch(`api/1.0/getWorkspace/${wb_id}`, {
+fetch(`api/1.0/workspace/${wb_id}`, {
     method: 'GET',
     headers: {
         'content-type': 'application/json',
@@ -62,7 +63,9 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
     }
 })
     .then((res) => res.json())
-    .then((data) => {
+    .then((jsonData) => {
+        let data = jsonData.workspace_data
+
         for (let i = 0; i < data.length; i++) {
             let workspace = document.querySelector('.workspace');
             let new_postit = document.createElement('main');
@@ -129,11 +132,12 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
             // $(`#${data[i].postit_id}`).draggable({ handle: '.triangle' });  // make postit draggable
             $(`#${data[i].postit_id}`).draggable({ containment: 'parent' });  // make postit draggable
             $(`#${data[i].postit_id}`).resizable({ maxHeight: 500, maxWidth: 800, minHeight: 50, minWidth: 50, containment: 'parent' });  // make postit resizable
-        }
 
+        }
         // Get template
         if (data[0]) {
             $('.template_bg').attr('src', `../img/${data[0].template}.png`)
+
             if (data[0].template === 'bmc') {
                 $('.template_bg').css({ 'object-position': ' 0px 35px' })
             } else if (data[0].template === 'persona') {
@@ -146,6 +150,8 @@ fetch(`api/1.0/getWorkspace/${wb_id}`, {
                 $('.template_bg').attr('src', '')
             }
         }
+
+
     })
 
 // (WIP)make workspace selectable
@@ -169,13 +175,11 @@ socket.emit('joinRoom', { user_id, username, userColor, wb_id, wb_name })
 // Send message
 socket.on('statusMessage', function (message) { // Welcome
     alertMessage(message, 'info')
-    // $('.statusMessage').html(message)
 })
 
 // Render room info
 socket.on('roomUsers', ({ room, room_name, users, user_count }) => {
     let roomInfo = { room, room_name, users, user_count }
-    console.log('roomUsers', roomInfo);//
     $('.dropNumber').html(`${roomInfo.user_count}`)   // show user count
     // show user status
     $('.dropdown_content').html('');
@@ -197,7 +201,7 @@ socket.on('roomUsers', ({ room, room_name, users, user_count }) => {
     let idleTime = 0;
     $(document).ready(function () {
         //Increment the idle time counter every minute
-        let idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+        let idleInterval = setInterval(timerIncrement, 600000); // 10 minute
 
         //Reset the idle timer on mouse movement
         $(this).mousemove(function (e) {
@@ -209,7 +213,6 @@ socket.on('roomUsers', ({ room, room_name, users, user_count }) => {
     });
 });
 
-// io.to(wb_id).emit('disconnect', { user_id });
 
 
 /* Sync postit appearance and movement: Add/Edit/Move Postit */
@@ -324,7 +327,7 @@ $('body').on('click change dragstop', '.postit, .popover', function () {
         })
     }
 
-    fetch('api/1.0/saveWorkspace/save', saveInit)
+    fetch('api/1.0/postit/save', saveInit)
         .then((res) => res.json())
         .then((data) => {
             console.log(data.error || data.message)
@@ -382,7 +385,7 @@ $('body').on('resize keyup', '.postit', _.debounce(function () {
         })
     }
 
-    fetch('api/1.0/saveWorkspace/save', saveInit)
+    fetch('api/1.0/postit/save', saveInit)
         .then((res) => res.json())
         .then((data) => {
             console.log(data.error || data.message);//
@@ -484,7 +487,7 @@ $('.workspace').on('click', '.close_postit', function (e) {
             postit_id: deleteId
         })
     }
-    fetch('api/1.0/saveWorkspace/delete', deleteInit)
+    fetch('api/1.0/postit/delete', deleteInit)
         .then((res) => res.json())
         .then((data) => {
             let { message, error } = data;
@@ -831,21 +834,21 @@ $('.template > .template_icon').on('click', function () {
         e.stopPropagation();
 
         // sync template
-        let template = $(this).attr('id');
-        socket.emit('template', template)
+        let template_name = $(this).attr('id');
+        socket.emit('template', template_name)
 
         // hide shareLink after copy
         $('.template_list').remove();
 
         // save template to DB
-        fetch(`api/1.0/saveWorkspace/template`, {
+        fetch(`api/1.0/template`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 'authorization': access_token
             },
             body: JSON.stringify({
-                wb_id, template
+                wb_id, template_name
             })
         })
             .then((res) => res.json())
@@ -858,7 +861,6 @@ $('.template > .template_icon').on('click', function () {
 })
 // broadcast template
 socket.on('templateRender', function (template) {
-    console.log('templateRender', template);
     $('.template_bg').attr('src', `../img/${template}.png`)
     if (template === 'bmc') {
         $('.template_bg').css({ 'object-position': ' 0px 35px' })

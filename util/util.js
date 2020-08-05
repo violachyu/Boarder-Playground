@@ -7,6 +7,16 @@ const wrapAsync = (fn) => {
     };
 };
 
+// WIP: responseObj
+const responseObj = async (req, res, data, error) => {
+    if (error) {
+        await res.status(400).send(error);
+    } else {
+        await res.status(200).send(data);
+    }
+}
+
 module.exports = {
-    wrapAsync
+    wrapAsync,
+    responseObj
 };
