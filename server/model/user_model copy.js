@@ -19,6 +19,7 @@ const register = async (email, pwd) => {
 
         // get username
         let username = email.split('@')[0]
+        console.log(username);
 
         // duplicate email check
         let exist_email = await query(`SELECT email FROM user WHERE email = ? FOR UPDATE`, [email])
@@ -55,7 +56,6 @@ const login = async (email, pwd) => {
 
         // verify email & password
         let decoded_pwd = jwt.verify(result[0].pwd, signingKey);
-
         if (email == result[0].email && pwd == decoded_pwd.pwd) {
             return { access_token: result[0].access_token, username, user_id };
         } else {

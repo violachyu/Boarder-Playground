@@ -1,5 +1,6 @@
-/*---Render Login/Register Block---*/
+/*---Member Initiative---*/
 $('.login_nav, .land_start').on('click', function () {
+    // $('.member').show();
     $('.member').css({ 'display': 'flex' });
     $('.register').addClass('mem_block')
     $('.login').removeClass('mem_block')
@@ -12,8 +13,7 @@ $('.ques_register').on('click', function () {
     $('.login').removeClass('mem_block')
     $('.register').addClass('mem_block')
 })
-
-// hide member form when clicked on whitespace
+// hide member form
 $('.mem_form').on('click', function () {
     $('.member').hide();
 }).children().on('click', function () {
@@ -42,13 +42,13 @@ if (access_token) {
 }
 /*---Register----*/
 // insert into DB on button click
-$('.reg_enter_btn').on('click', function () {
+$('.reg_enter_btn').click(function () {
     // get register data
-    let reg_email = $('.reg_email').val();
-    let reg_pwd = $('.reg_pwd').val();
+    let reg_email = document.querySelector('.reg_email').value;
+    let reg_pwd = document.querySelector('.reg_pwd').value;
 
     // call register api
-    fetch('/api/1.0/user/register', {
+    fetch('/api/1.0/register', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -62,7 +62,7 @@ $('.reg_enter_btn').on('click', function () {
         .then((data) => {
             const { access_token, username, user_id, message, error } = data;
             if (error) {
-                // console.log(error);   //
+                console.log(error);   //
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -84,7 +84,7 @@ $('.login_enter_btn').click(function () {
     let login_pwd = document.querySelector('.login_pwd').value;
 
     // verify login data
-    fetch('/api/1.0/user/login', {
+    fetch('/api/1.0/login', {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
