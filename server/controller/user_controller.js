@@ -1,5 +1,4 @@
-const user_model = require('../model/user_model')
-const expire = process.env.TOKEN_EXPIRE;
+const user_model = require('../model/user_model');
 const validator = require('validator');
 
 const user = async (req, res) => {
@@ -36,6 +35,6 @@ const user = async (req, res) => {
             res.status(200).send({ access_token, username, user_id });
         }
     }
-}
+};
 
-module.exports = { user }
+module.exports = { user };

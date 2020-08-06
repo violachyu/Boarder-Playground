@@ -8,9 +8,5 @@ userRouter.route('/user/:action')
     .post(wrapAsync(user));
 
 
-// userRouter.route('/verify')
-//     .get(wrapAsync(verify));
-
-
 module.exports = userRouter;
 

@@ -5,19 +5,19 @@ if (!access_token) {
     // Anonymous user
     let anonymousList = ['Batman', 'Superman', 'Wonder Woman', 'Green Lantern', 'The Flash', 'Aquaman', 'Atom',
         'Captain America', 'Antman', 'Loki', 'Grook', 'Black Widow', 'Spider-Man', 'Vision', 'Black Panther', 'Iron-Man',
-        'Scarlet Witch', 'War Machine', 'Rocket Racoon', 'Dr.Strange', 'Dead Pool']
-    let character = anonymousList[Math.floor(Math.random() * anonymousList.length)]
-    localStorage.setItem('username', character)
+        'Scarlet Witch', 'War Machine', 'Rocket Racoon', 'Dr.Strange', 'Dead Pool'];
+    let character = anonymousList[Math.floor(Math.random() * anonymousList.length)];
+    localStorage.setItem('username', character);
     localStorage.setItem('user_id', Date.now());
     // disable buttons
-    $('.right_nav > a').removeAttr('href')
-    $('.right_nav > a').css({ 'color': 'grey', 'border': 'grey', 'pointer-events': 'none' })
+    $('.right_nav > a').removeAttr('href');
+    $('.right_nav > a').css({ 'color': 'grey', 'border': 'grey', 'pointer-events': 'none' });
 }
 
 // Set a color for each user
 let randomColorList = ['#e0f0ea', '#95adbe',
-    '#9da8a7', '#9da8a7', '#f0e6e0', '#a8a19d']
-let randomColor = randomColorList[Math.floor(Math.random() * randomColorList.length)]
+    '#9da8a7', '#9da8a7', '#f0e6e0', '#a8a19d'];
+let randomColor = randomColorList[Math.floor(Math.random() * randomColorList.length)];
 localStorage.setItem('user_color', randomColor);
 
 // Get localstorage info
@@ -49,9 +49,9 @@ fetch(`api/1.0/shareRecord`, {
 })
     .then((res) => res.json())
     .then((data) => {
-        let { message, error } = data
+        let { message, error } = data;
         console.log(message || error);
-    })
+    });
 
 /*---Get Workspace---*/
 // get wb data from database
@@ -64,7 +64,7 @@ fetch(`api/1.0/workspace/${wb_id}`, {
 })
     .then((res) => res.json())
     .then((jsonData) => {
-        let data = jsonData.workspace_data
+        let data = jsonData.workspace_data;
 
         for (let i = 0; i < data.length; i++) {
             let workspace = document.querySelector('.workspace');
@@ -74,8 +74,8 @@ fetch(`api/1.0/workspace/${wb_id}`, {
             <div class='close_postit'>X</div>
             <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>
             <div class='collab_cursor hvr-wobble-to-bottom-right'></div><div class='collab_name hvr-wobble-to-bottom-right'></div>
-            <div class='lock_msg'><p id='lock_content'>Someone else is editing this postit...</p></div>`
-            workspace.append(new_postit)
+            <div class='lock_msg'><p id='lock_content'>Someone else is editing this postit...</p></div>`;
+            workspace.append(new_postit);
 
             setAttributes(new_postit, {
                 'class': 'postit', 'draggable': 'true', 'id': data[i].postit_id, 'data-toggle': 'popover', 'data-container': 'body', 'title': 'Postit Details', 'placeholder': 'Write something on Post-it!',
@@ -107,7 +107,7 @@ fetch(`api/1.0/workspace/${wb_id}`, {
                                 <label for='back'><input type='radio' id='back'><span>Send to back</span></label>
                             </div>
                         </div>
-                </form>`})
+                </form>`});
             // add img if exists
             if (data[i].img !== null) {
                 $(`${data[i].postit_id}`).append(`<img class='upload_pic' src=${data[i].img}>`);
@@ -122,7 +122,7 @@ fetch(`api/1.0/workspace/${wb_id}`, {
             width:${data[i].width}; 
             height: ${data[i].height};
             font-size: ${data[i].font_size};
-            zIndex:${data[i]['z-index']};`) // WIP: comments
+            zIndex:${data[i]['z-index']};`); // WIP: comments
 
             // Textarea settings
             $(`#${data[i].postit_id} > .postit_input`).val(data[i].text);  // text content
@@ -136,23 +136,23 @@ fetch(`api/1.0/workspace/${wb_id}`, {
         }
         // Get template
         if (data[0]) {
-            $('.template_bg').attr('src', `../img/${data[0].template}.png`)
+            $('.template_bg').attr('src', `../img/${data[0].template}.png`);
 
             if (data[0].template === 'bmc') {
-                $('.template_bg').css({ 'object-position': ' 0px 35px' })
+                $('.template_bg').css({ 'object-position': ' 0px 35px' });
             } else if (data[0].template === 'persona') {
-                $('.template_bg').css({ 'object-position': ' 0px 35px' })
+                $('.template_bg').css({ 'object-position': ' 0px 35px' });
             } else if (data[0].template === 'empathy') {
-                $('.template_bg').css({ 'object-position': ' 0px 45px' })
+                $('.template_bg').css({ 'object-position': ' 0px 45px' });
             } else if (data[0].template === 'storyBoard') {
-                $('.template_bg').css({ 'object-position': ' 0px 40px' })
+                $('.template_bg').css({ 'object-position': ' 0px 40px' });
             } else if (data[0].template === 'none') {
-                $('.template_bg').attr('src', '')
+                $('.template_bg').attr('src', '');
             }
         }
 
 
-    })
+    });
 
 /*---Socket IO---*/
 // Create socket connection
@@ -161,35 +161,35 @@ const socket = io();
 // Check socket connection
 socket.on('message', (message) => {
     console.log(message);
-})
+});
 
 // Join Room 
 let wb_name = $('#workspace_title').html();
-socket.emit('join_room', { user_id, username, user_color, wb_id, wb_name })
+socket.emit('join_room', { user_id, username, user_color, wb_id, wb_name });
 
 // Send message
 socket.on('status_message', function (message) { // Welcome
-    alertMessage(message, 'info')
-})
+    alertMessage(message, 'info');
+});
 
 // Render room info
 socket.on('room_users', ({ room, room_name, users, user_count }) => {
-    let room_info = { room, room_name, users, user_count }
-    $('.dropNumber').html(`${room_info.user_count}`)   // show user count
+    let room_info = { room, room_name, users, user_count };
+    $('.dropNumber').html(`${room_info.user_count}`);   // show user count
     // show user status
     $('.dropdown_content').html('');
     for (let i = 0; i < room_info['users'].length; i++) {
         $('.dropdown_content').append(`<div class='dropdown_item'>
         <div class='dropName'>${room_info.users[i].username}</div>
         <div class='dropColor'></div>
-        </div>`)
-        $('.dropColor').css({ 'background-color': 'green' })
+        </div>`);
+        $('.dropColor').css({ 'background-color': 'green' });
     }
     // status: turn gray if idle
     function timerIncrement() {
         idleTime = idleTime + 1;
         if (idleTime > 1) { // 20 minutes
-            $('.dropColor').css({ 'background-color': 'gray' }) //WIP
+            $('.dropColor').css({ 'background-color': 'gray' }); //WIP
         }
     }
     // Detect idle user
@@ -215,10 +215,10 @@ socket.on('room_users', ({ room, room_name, users, user_count }) => {
 $('section').on('click', '.add_postit', function () {
     let postit_id = { postit_id: add_postit() };
     socket.emit('add_postit', postit_id);
-})
+});
 socket.on('add_render', function (postit_id) {
     render(postit_id);
-})
+});
 
 /*---Add post-it---*/
 function add_postit() {
@@ -229,8 +229,8 @@ function add_postit() {
     <div class='close_postit'>X</div>
     <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>
     <div class='collab_cursor hvr-wobble-to-bottom-right'></div><div class='collab_name hvr-wobble-to-bottom-right'></div>
-    <div class='lock_msg'><p id='lock_content'>Someone else is editing this postit...</p></div>`
-    workspace.append(new_postit)
+    <div class='lock_msg'><p id='lock_content'>Someone else is editing this postit...</p></div>`;
+    workspace.append(new_postit);
 
     let id = 'id_' + Date.now();
     setAttributes(new_postit, {
@@ -263,7 +263,7 @@ function add_postit() {
                         <label for='back'><input type='radio' id='back'><span>Send to back</span></label>
                     </div>
                 </div>
-        </form>`})
+        </form>`});
 
     $(`#${id}`).css('position', 'absolute');
     $(`#${id}`).data('user_id', user_id);   // store user_id in postit
@@ -277,7 +277,7 @@ function add_postit() {
 $('body').on('click change dragstop', '.postit, .popover', function () {
     let id;
     if ($(this).data('id')) {
-        id = $(this).data('id') // popover contains data-id property
+        id = $(this).data('id'); // popover contains data-id property
     } else {
         id = $(this).attr('id');
     }
@@ -320,21 +320,21 @@ $('body').on('click change dragstop', '.postit, .popover', function () {
         body: JSON.stringify({
             postit_data
         })
-    }
+    };
 
-    fetch('api/1.0/postit/save', saveInit)
+    fetch('api/1.0/postit', saveInit)
         .then((res) => res.json())
         .then((data) => {
-            console.log(data.error || data.message)
-            $('.saveStatus').delay(50000).html('DOCUMENT SAVED!!')
-        })
-})
+            console.log(data.error || data.message);
+            $('.saveStatus').delay(50000).html('DOCUMENT SAVED!!');
+        });
+});
 
 // Save on resizeEND & keyup
 $('body').on('resize keyup', '.postit', _.debounce(function () {
     let id;
     if ($(this).data('id')) {
-        id = $(this).data('id')
+        id = $(this).data('id');
     } else {
         id = $(this).attr('id');
     }
@@ -368,7 +368,7 @@ $('body').on('resize keyup', '.postit', _.debounce(function () {
 
     /*---Save Postit---*/
     // Auto saving Status
-    $('.saveStatus').html('AUTO-SAVING DOCUMENT...')
+    $('.saveStatus').html('AUTO-SAVING DOCUMENT...');
     let saveInit = {
         method: 'POST',
         headers: {
@@ -378,21 +378,21 @@ $('body').on('resize keyup', '.postit', _.debounce(function () {
         body: JSON.stringify({
             postit_data
         })
-    }
+    };
 
-    fetch('api/1.0/postit/save', saveInit)
+    fetch('api/1.0/postit', saveInit)
         .then((res) => res.json())
         .then((data) => {
             console.log(data.error || data.message);//
-            $('.saveStatus').delay(50000).html('DOCUMENT SAVED!!')
-        })
-}, 2000))
+            $('.saveStatus').delay(50000).html('DOCUMENT SAVED!!');
+        });
+}, 2000));
 
 
 // render edited data
 socket.on('edit_render', function (postit_item) {
     render_edit(postit_item);
-})
+});
 
 function render(data) {
     let workspace = document.querySelector('.workspace');
@@ -401,7 +401,7 @@ function render(data) {
         <div class='close_postit'>X</div>
         <textarea class='postit_input' placeholder='Write something on this post-it!' onkeyup="autogrow(this);"></textarea>
         <div class='collab_cursor hvr-wobble-to-bottom-right'></div><div class='collab_name hvr-wobble-to-bottom-right'></div>
-        <div class='lock_msg'><p id='lock_content'>Someone else is editing this postit...</p></div>`
+        <div class='lock_msg'><p id='lock_content'>Someone else is editing this postit...</p></div>`;
     setAttributes(new_postit, {
         'class': 'postit ui-widget-content', 'draggable': 'true', 'id': data.postit_id, 'data-toggle': 'popover', 'data-container': 'body', 'title': 'Postit Details', 'placeholder': 'Write something on Post-it!',
         'data-content': `<form class='postit_detail' id='popover-content' enctype=''>
@@ -432,8 +432,8 @@ function render(data) {
                             <label for='back'><input type='radio' id='back'><span>Send to back</span></label>
                         </div>
                     </div>
-            </form>`})
-    workspace.append(new_postit)
+            </form>`});
+    workspace.append(new_postit);
 
     $(`#${data.postit_id}`).data('user_id', user_id);   // store user_id in postit
     $(`#${data.postit_id}`).css({ 'position': 'absolute' });   // set postit absolute
@@ -451,11 +451,11 @@ function render_edit(data) {
         'height': data.height,
         'font-size': data.font_size,
         'zIndex': data.zIndex
-    }
+    };
 
 
     // postit basic settings
-    $(`#${data.postit_id}`).css(styles)
+    $(`#${data.postit_id}`).css(styles);
 
     // Textarea settings
     $(`#${data.postit_id} > .postit_input`).val(data.text);  // text content
@@ -470,10 +470,10 @@ function render_edit(data) {
 /*---Delete Postit---*/
 $('.workspace').on('click', '.close_postit', function (e) {
     let delete_id = $(this).parent('.postit').attr('id');
-    socket.emit('delete_postit', delete_id)
+    socket.emit('delete_postit', delete_id);
 
     let deleteInit = {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'content-type': 'application/json',
             'authorization': access_token
@@ -481,30 +481,30 @@ $('.workspace').on('click', '.close_postit', function (e) {
         body: JSON.stringify({
             postit_id: delete_id
         })
-    }
-    fetch('api/1.0/postit/delete', deleteInit)
+    };
+    fetch('api/1.0/postit', deleteInit)
         .then((res) => res.json())
         .then((data) => {
             let { message, error } = data;
             if (message) {
-                alertMessage(message, 'success')
+                alertMessage(message, 'success');
             } else {
-                alertMessage(error, 'danger')
+                alertMessage(error, 'danger');
             }
-        })
+        });
     $(this).parent('.postit').remove();
     // $(`[data-id="${delete_id}"]`).remove();
-})
+});
 
 socket.on('delete_render', function (delete_id) {
     $(`#${delete_id}`).remove();
-})
+});
 // hide popover when postit deleted
 $('.workspace').on('click', '.close_postit', function () {
     $('.popover').each(function () {
         $(this).hide();
-    })
-})
+    });
+});
 
 /*---Lock Postit---*/
 // lock when user1 is editing
@@ -512,27 +512,27 @@ $('.workspace').on('click resize keydown dragstart drag', '.postit, .postit_inpu
 
     let id;
     if ($(this).hasClass('postit')) {
-        id = $(this).attr('id')
+        id = $(this).attr('id');
     } else if ($(this).hasClass('popover')) {
-        id = $(this).data('id')
+        id = $(this).data('id');
     } else {
         id = $(this).parent('.postit').attr('id');
     }
-    socket.emit('lock', id)
+    socket.emit('lock', id);
 
-})
+});
 // lock when user1 clicks on popover
 $('body').on('click', '.popover', function () {
     let id;
     if ($(this).hasClass('postit')) {
-        id = $(this).attr('id')
+        id = $(this).attr('id');
     } else if ($(this).hasClass('popover')) {
-        id = $(this).data('id')
+        id = $(this).data('id');
     } else {
         id = $(this).parent('.postit').attr('id');
     }
-    socket.emit('lock', id)
-})
+    socket.emit('lock', id);
+});
 
 socket.on('lock_render', function (id, current_user) {
     console.log('lock_render');  //
@@ -545,36 +545,36 @@ socket.on('lock_render', function (id, current_user) {
     // Show collaborator's name
     $(`#${id} .hvr-wobble-to-bottom-right`).css({
         'background-color': `${current_user.user_color}`, 'visibility': 'visible'
-    })
+    });
     $(`#${id} .collab_name`).html(`${current_user.username}`);
-})
+});
 
 
 // remove cover after editing
 $('.workspace').on('keyup mouseup', '.postit, .postit_input', _.debounce(function () {
     let id;
     if ($(this).hasClass('postit')) {
-        id = $(this).attr('id')
+        id = $(this).attr('id');
     } else {
         id = $(this).parent('.postit').attr('id');
     }
 
     socket.emit('lock_remove', id);
-}, 2000))
+}, 2000));
 
 $('.workspace').on('mouseleave dragstop', '.postit, .postit_input', function () {
     let id;
     if ($(this).hasClass('postit')) {
-        id = $(this).attr('id')
+        id = $(this).attr('id');
     } else {
         id = $(this).parent('.postit').attr('id');
     }
 
     setTimeout(function () {
         socket.emit('lock_remove', id);
-    }, 2000)
+    }, 2000);
 
-})
+});
 
 socket.on('lock_remove_render', function (id) {
     if (typeof id == Array) {
@@ -586,10 +586,10 @@ socket.on('lock_remove_render', function (id) {
     }
 
     // remove collab_cursor
-    $(`#${id} .hvr-wobble-to-bottom-right`).css({ 'background-color': `${randomColor}`, 'visibility': 'hidden' })
+    $(`#${id} .hvr-wobble-to-bottom-right`).css({ 'background-color': `${randomColor}`, 'visibility': 'hidden' });
     // enable other user's events
     $(`#${id}`).css({ 'pointer-events': 'auto' });
-})
+});
 
 /*---Popover and Postit settings---*/
 // // show popover when clicked on postit
@@ -606,7 +606,7 @@ socket.on('lock_remove_render', function (id) {
 // (WIP) hide popover when white space is clicked
 $(".workspace").on('mousedown', function (e) {
     console.log('hide_popover');
-    $('.popover').addClass('hidden')
+    $('.popover').addClass('hidden');
 
     // if ($(e.target).hasClass('postit_input') == false) {
     //     console.log('hidepop---', $(e.target).hasClass('workspace'));  //
@@ -615,7 +615,7 @@ $(".workspace").on('mousedown', function (e) {
     //     })
     // }
 
-})
+});
 
 $('.workspace').on('mouseover', '[data-toggle="popover"]', function (e) {
     // (WIP)show popover on postit
@@ -627,7 +627,7 @@ $('.workspace').on('mouseover', '[data-toggle="popover"]', function (e) {
         sanitize: false,
         animation: true,
         placement: 'right'
-    })
+    });
     // }
 
     // hide other popovers
@@ -639,13 +639,13 @@ $('.workspace').on('mouseover', '[data-toggle="popover"]', function (e) {
 
     // show X when hover on postit
     $(`#${postitID}`).mouseover(function () {
-        $(`#${postitID} > .close_postit`).css({ 'color': 'white', 'text-shadow': '#000 0px 0px 2px', 'fontWeight': 'bold', '-webkit-font-smoothing': 'antialiased' })
-    })
+        $(`#${postitID} > .close_postit`).css({ 'color': 'white', 'text-shadow': '#000 0px 0px 2px', 'fontWeight': 'bold', '-webkit-font-smoothing': 'antialiased' });
+    });
     $(`#${postitID}`).mouseout(function () {
-        $(`#${postitID} > .close_postit`).css({ 'color': 'transparent', 'text-shadow': 'none' })
-    })
+        $(`#${postitID} > .close_postit`).css({ 'color': 'transparent', 'text-shadow': 'none' });
+    });
 
-})
+});
 
 $('.workspace').on('click', '.postit', function (e) {
     $('.popover').removeClass('hidden');
@@ -662,21 +662,21 @@ $('.workspace').on('click', '.postit', function (e) {
         let popoverID = $(this).attr('id');
         // pass postitID into popover
         $(`#${popoverID}`).data('id', postitID);
-    })
+    });
 
 
     // Font Size
     $('.font_size').on('change', function () {
         let font_size = $(this).val();
         $(`#${postitID}`).css('font-size', `${font_size}px`);
-    })
+    });
     // Font Color
     $('.show .font_color').on('change', function () {
         // get color of selected
         let color = $(this).val();
         // change font color
-        $(`#${postitID} .postit_input`).css('color', `${color}`)
-    })
+        $(`#${postitID} .postit_input`).css('color', `${color}`);
+    });
 
 
     // Color
@@ -690,7 +690,7 @@ $('.workspace').on('click', '.postit', function (e) {
     // Img upload
     $('#files').on('change', function () {
         readURL(this);
-    })
+    });
 
     function readURL(input) {
         let img_id = Date.now();
@@ -698,7 +698,7 @@ $('.workspace').on('click', '.postit', function (e) {
             let reader = new FileReader();
             reader.onload = function (e) {
                 $(`#${postitID}`).append(`<img src=${e.target.result} id=${img_id} class="upload_pic">`);
-            }
+            };
             reader.readAsDataURL(input.files[0]); // convert to base64 string
         }
     }
@@ -707,20 +707,20 @@ $('.workspace').on('click', '.postit', function (e) {
     $('.upload_pic').dblclick(function () {
         console.log('double click');
         $(this).hide();
-    })
+    });
 
 
     // Order
     // move to front whenever postit is clicked
-    $(`#${postitID}`).css('zIndex', '+=1')
-    console.log('zIndex', $(`#${postitID}`).css('zIndex'))  //
+    $(`#${postitID}`).css('zIndex', '+=1');
+    console.log('zIndex', $(`#${postitID}`).css('zIndex'));  //
     // (WIP)hide "send to back" btn if at bottom
     if ($(`#${postitID}`).css('zIndex') == 1) { // not working
         // console.log('zIndex=0', $(`#${postitID}`).css('zIndex'))  //
         // console.log($(`[data-id="${postitID}"]`));
         console.log('helloorder');
-        $(`[data-id="${postitID}"] #back`).css({ 'pointer-events': 'none' }) //not working
-        $(`[data-id="${postitID}"] span`).css({ 'color': 'blue' })
+        $(`[data-id="${postitID}"] #back`).css({ 'pointer-events': 'none' }); //not working
+        $(`[data-id="${postitID}"] span`).css({ 'color': 'blue' });
     }
     // if ($(`#${postitID}`).css('zIndex') == 0 || $(`#${postitID}`).css('zIndex') == 1) { // not working
     //     // console.log('zIndex=0', $(`#${postitID}`).css('zIndex'))  //
@@ -738,7 +738,7 @@ $('.workspace').on('click', '.postit', function (e) {
             $(`#${postitID}`).css('zIndex', '-=2');
         }
     });
-})
+});
 
 // upload selected img for postit
 function addFile() {
@@ -746,7 +746,7 @@ function addFile() {
         $(this).siblings('div[id="filename"]').html(e.target.files[0].name);
     });
 }
-$()
+$();
 
 
 
@@ -762,7 +762,7 @@ $()
 $('.cowork > .cowork_icon').on('click', function () {
     // console.log('cowork_click');
     // Get sharing link
-    let link = document.location.href
+    let link = document.location.href;
 
     $('.cowork').append(`<div class='shareLink'>
     <input class='link' value='${link}'><img class='copyLink' src='./img/copy.png' width='15px' height='15px'></img>
@@ -787,11 +787,11 @@ $('.cowork > .cowork_icon').on('click', function () {
 
         // hide shareLink after copy
         $('.shareLink').remove();
-    })
+    });
 
 }).children().on('click', function () {
     return false;
-})
+});
 
 
 // screenshot
@@ -799,10 +799,10 @@ function screenshot() {
     html2canvas(document.getElementById('print')).then(function (canvas) {
         // add watermark
         let ctx = canvas.getContext("2d");
-        ctx.fillStyle = 'gray'
-        ctx.font = '10px courier'
+        ctx.fillStyle = 'gray';
+        ctx.font = '10px courier';
         // ctx.fillText('Copyright © 2020 Boarder Playground All Rights Reserved', 780, 650)
-        ctx.fillText('Copyright © 2020 Boarder Playground All Rights Reserved', 350, 500)
+        ctx.fillText('Copyright © 2020 Boarder Playground All Rights Reserved', 350, 500);
 
         // export img
         document.body.appendChild(canvas);
@@ -820,24 +820,24 @@ $('.template > .template_icon').on('click', function () {
     <li class='template_list_item' id='empathy'>Empathy Map</li>
     <li class='template_list_item' id='storyBoard'>Story Board</li>
     <li class='template_list_item' id='none'>- None -</li>
-</ul>`)
+</ul>`);
     $('.template_list_item').on('mouseover', function (e) {
-        $(this).css({ 'background-color': 'white' })
-        $('.template_list_item').not(this).css({ 'background-color': 'transparent' })
-    })
+        $(this).css({ 'background-color': 'white' });
+        $('.template_list_item').not(this).css({ 'background-color': 'transparent' });
+    });
     $('.template_list_item').on('click', function (e) {
         e.stopPropagation();
 
         // sync template
         let template_name = $(this).attr('id');
-        socket.emit('template', template_name)
+        socket.emit('template', template_name);
 
         // hide shareLink after copy
         $('.template_list').remove();
 
         // save template to DB
         fetch(`api/1.0/template`, {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
                 'authorization': access_token
@@ -848,34 +848,34 @@ $('.template > .template_icon').on('click', function () {
         })
             .then((res) => res.json())
             .then((data) => {
-                let { message, error } = data
+                let { message, error } = data;
                 console.log(message || error);
-            })
-    })
+            });
+    });
 
-})
+});
 // broadcast template
 socket.on('template_render', function (template) {
-    $('.template_bg').attr('src', `../img/${template}.png`)
+    $('.template_bg').attr('src', `../img/${template}.png`);
     if (template === 'bmc') {
-        $('.template_bg').css({ 'object-position': ' 0px 35px' })
+        $('.template_bg').css({ 'object-position': ' 0px 35px' });
     } else if (template === 'persona') {
-        $('.template_bg').css({ 'object-position': ' 0px 35px' })
+        $('.template_bg').css({ 'object-position': ' 0px 35px' });
     } else if (template === 'empathy') {
-        $('.template_bg').css({ 'object-position': ' 0px 45px' })
+        $('.template_bg').css({ 'object-position': ' 0px 45px' });
     } else if (template === 'storyBoard') {
-        $('.template_bg').css({ 'object-position': ' 0px 40px' })
+        $('.template_bg').css({ 'object-position': ' 0px 40px' });
     } else if (template === 'none') {
-        $('.template_bg').attr('src', '')
+        $('.template_bg').attr('src', '');
     }
-})
+});
 
 /*---Other Functions---*/
 // Function: set multiple attributes
 function setAttributes(el, options) {
     Object.keys(options).forEach(function (attr) {
         el.setAttribute(attr, options[attr]);
-    })
+    });
 }
 
 // autosize textarea
@@ -892,17 +892,17 @@ function autogrow(textarea) {
 /*---Style---*/
 // toolbar
 $('.toolbar_item').on('mouseover', function () {
-    $(this).css({ 'background-color': 'white' })
-    $('.toolbar_item').not(this).css({ 'background-color': 'transparent' })
-})
+    $(this).css({ 'background-color': 'white' });
+    $('.toolbar_item').not(this).css({ 'background-color': 'transparent' });
+});
 $('.toolbar_item').on('mouseout', function () {
-    $('.toolbar_item').css({ 'background-color': 'transparent' })
-})
+    $('.toolbar_item').css({ 'background-color': 'transparent' });
+});
 $('.template_list_item').on('mouseover', function () {
-    $('.template_list_item').css({ 'background-color': 'white' })
-    $('.template_list_item').not(this).css({ 'background-color': '#FFCC33' })
-})
+    $('.template_list_item').css({ 'background-color': 'white' });
+    $('.template_list_item').not(this).css({ 'background-color': '#FFCC33' });
+});
 $('.template_list_item').on('mouseout', function () {
-    $('.template_list_item').css({ 'background-color': '#FFCC33' })
-})
+    $('.template_list_item').css({ 'background-color': '#FFCC33' });
+});
 

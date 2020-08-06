@@ -25,46 +25,46 @@ fetch(`/api/1.0/dashboard/${user_id}`, {
                 <div class='wb_back'></div>
                 <input class='wb_title'><img class='edit old' src='./img/edit.png'>
                 <div class='close_btn'>X</div>
-            </div>`)
+            </div>`);
             // set title/bookmark on each wb
-            $(`#${data[i].wb_id} > .wb_title`).val(`${data[i].title}`)
+            $(`#${data[i].wb_id} > .wb_title`).val(`${data[i].title}`);
             if (data[i].bookmark == 'bookmarked') {
-                $(`#${data[i].wb_id} > .wb_bookmark`).data('bookmark', `${data[i].bookmark}`)
-                $(`#${data[i].wb_id} > .wb_bookmark`).addClass('bookmarked')
+                $(`#${data[i].wb_id} > .wb_bookmark`).data('bookmark', `${data[i].bookmark}`);
+                $(`#${data[i].wb_id} > .wb_bookmark`).addClass('bookmarked');
             }
             // set "guest" wb to read-only
             if (data[i].role == 'guest') {
-                $(`#${data[i].wb_id}`).append(`<img class='readonly' src='../img/lock.png'>`)
+                $(`#${data[i].wb_id}`).append(`<img class='readonly' src='../img/lock.png'>`);
                 $(`#${data[i].wb_id}`).attr('title', `Title editing not authorized`);
-                $(`#${data[i].wb_id} > .edit, #${data[i].wb_id} > .close_btn`).remove()
-                $(`#${data[i].wb_id} > .wb_bookmark`).remove()
+                $(`#${data[i].wb_id} > .edit, #${data[i].wb_id} > .close_btn`).remove();
+                $(`#${data[i].wb_id} > .wb_bookmark`).remove();
             }
         }
 
         $('.whiteboard').on('mouseover', '.wb_block', function () {
             $(this).children('.close_btn').show();
-            $(this).children('.edit').css({ 'visibility': 'visible' })
+            $(this).children('.edit').css({ 'visibility': 'visible' });
 
-        })
+        });
         $('.whiteboard').on('mouseout', '.wb_block', function () {
             $(this).children('.close_btn').hide();
-            $(this).children('.edit').css({ 'visibility': 'hidden' })
-        })
+            $(this).children('.edit').css({ 'visibility': 'hidden' });
+        });
         return;
 
-    })
+    });
 
 /*---Add whiteboard by add_btn---*/
 // set add_btn bg color 
 $('.add_btn').on('click', function () {
-    $(this).css({ 'background-color': 'white', 'color': 'black' })
-})
+    $(this).css({ 'background-color': 'white', 'color': 'black' });
+});
 $('.add_btn').on('mouseover', function () {
-    $(this).css({ 'background-color': '#Fc3', 'color': 'black' })
-})
+    $(this).css({ 'background-color': '#Fc3', 'color': 'black' });
+});
 $('.add_btn').on('mouseout', function () {
-    $(this).css({ 'background-color': 'white', 'color': 'black' })
-})
+    $(this).css({ 'background-color': 'white', 'color': 'black' });
+});
 let add_whiteboard = () => {
     let wb_id = Date.now();
     $('.whiteboard').append(`
@@ -73,46 +73,46 @@ let add_whiteboard = () => {
             <div class='wb_back'></div>
             <input class='wb_title' style='pointer-events: auto;'><img class='edit' src='./img/save.png'></input>
             <div class='close_btn'>X</div>
-        </div>`)
+        </div>`);
 
     /*---Style---*/
     $('.whiteboard').on('mouseover', '.wb_block', function () {
         $(this).children('.close_btn').show();
-        $(this).children('.edit').css({ 'visibility': 'visible' })
-    })
+        $(this).children('.edit').css({ 'visibility': 'visible' });
+    });
     $('.whiteboard').on('mouseout', '.wb_block', function () {
         $(this).children('.close_btn').hide();
-    })
-}
+    });
+};
 
 /*---Edit WB name---*/
 $('.whiteboard').on('click', '.edit', function () {
-    $(this).siblings('.wb_title').css({ 'pointer-events': 'auto', 'color': 'darkgray' })
-    $(this).attr('src', './img/save.png')
+    $(this).siblings('.wb_title').css({ 'pointer-events': 'auto', 'color': 'darkgray' });
+    $(this).attr('src', './img/save.png');
     $(this).addClass('save');
-})
+});
 /*---Save WB---*/
 $('.whiteboard').on('click', 'img[src="./img/save.png"]', function (e) {
-    $(this).siblings('.wb_title').css({ 'pointer-events': 'none', 'color': 'black' })
-    $(this).attr('src', './img/edit.png')
+    $(this).siblings('.wb_title').css({ 'pointer-events': 'none', 'color': 'black' });
+    $(this).attr('src', './img/edit.png');
     $(this).removeClass('save');
     createWhiteboard(e);
 
-})
+});
 
 function createWhiteboard(e) {
     // get wb title & wb_id & bookmark
     let title = $(e.target).siblings('.wb_title').val();
     let wb_id = $(e.target).parent('.wb_block').attr('id');
-    let bookmark = $(e.target).siblings('.wb_bookmark').data('bookmark') || $(e.target).data('bookmark')
+    let bookmark = $(e.target).siblings('.wb_bookmark').data('bookmark') || $(e.target).data('bookmark');
     if (bookmark == undefined) {
-        bookmark = 'null'
+        bookmark = 'null';
     }
 
     if (title.includes("'")) {
-        alertMessage("Cannot input symbols including:\" and \'", 'danger')
+        alertMessage("Cannot input symbols including:\" and \'", 'danger');
     } else {
-        fetch('/api/1.0/dashboard/create', {
+        fetch('/api/1.0/dashboard', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -130,7 +130,7 @@ function createWhiteboard(e) {
                 } else {
                     alertMessage(error, 'danger');
                 }
-            })
+            });
     }
 
 }
@@ -161,8 +161,8 @@ $('.whiteboard').on('click', '.close_btn', function (e) {
     // })
     // alertMessage('Delete whiteboard?', 'info');
 
-    fetch('api/1.0/dashboard/delete', {
-        method: 'POST',
+    fetch('api/1.0/dashboard', {
+        method: 'DELETE',
         headers: {
             'content-type': 'application/json',
             'authorization': access_token
@@ -179,7 +179,7 @@ $('.whiteboard').on('click', '.close_btn', function (e) {
             } else {
                 alertMessage(error, 'danger');
             }
-        })
+        });
 
     // delete whiteboard effect
     e.target.closest('.wb_block').remove();
@@ -194,22 +194,22 @@ $('section').on('click', '.wb_block', function (e) {
     let title = $(e.target).children('.wb_title').val();
     // redirect excluding input
     if (wb_id && title && $(e.target).hasClass('wb_block')) {
-        window.location.href = `workspace.html?wb_id=${wb_id}&title=${title}`
+        window.location.href = `workspace.html?wb_id=${wb_id}&title=${title}`;
     }
 
-})
+});
 
 /*---Bookmark---*/
 $('.whiteboard').on('click', '.wb_bookmark', function (e) {
     $(this).data('bookmark', 'bookmarked');
     $(this).addClass('bookmarked');
     createWhiteboard(e);
-})
+});
 $('.whiteboard').on('click', '.bookmarked', function (e) {
     $(this).removeData('bookmark');
     $(this).removeClass('bookmarked');
     createWhiteboard(e);
-})
+});
 
 // token verification
 if (access_token && username) {
@@ -217,29 +217,28 @@ if (access_token && username) {
     $('.greeting').html(`${username_abv}`);
 } else {
     $('.logout').html('LOGIN');
-    alertMessage('Please Login, my friend!', 'danger')
+    alertMessage('Please Login, my friend!', 'danger');
     location.href = '/';
 }
 
 // Logout
 $('.logout').on('click', function () {
-    console.log('logouttttt');
     if (access_token) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('username');
-        alertMessage('You\'re logged out, have a great day!', 'success')
+        alertMessage('You\'re logged out, have a great day!', 'success');
         location.href = '/';
     } else {
-        location.href = '/'
+        location.href = '/';
     }
-})
+});
 
 
 // Function: set multiple attributes
 function setAttributes(el, options) {
     Object.keys(options).forEach(function (attr) {
         el.setAttribute(attr, options[attr]);
-    })
+    });
 }
 
 

@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT;
 const API_VERSION = process.env.API_VERSION;
-const path = require('path');
 const socketio = require('socket.io');
 const http = require('http');
 const server = http.createServer(app);
@@ -14,11 +13,11 @@ app.use(express.static('public'));
 
 // socket utils library
 const {
-    userJoin,
-    getCurrentUser,
-    userLeave,
-    getRoomUsers,
-    getUserCount
+    user_join,
+    get_current_user,
+    user_leave,
+    get_room_users,
+    get_user_count
 } = require('./util/users');
 
 /*---Parser---*/
@@ -49,12 +48,12 @@ app.use('/api/' + API_VERSION,
 // Socket Server
 io.on('connection', socket => {
     // check connection
-    socket.emit('message', 'Welcome to Boarder Playground!')
+    socket.emit('message', 'Welcome to Boarder Playground!');
 
     // Join room
     socket.on('join_room', function ({ user_id, username, user_color, wb_id, wb_name }) {
         // organize user object
-        let user = userJoin(socket.id, user_id, username, user_color, wb_id, wb_name);
+        let user = user_join(socket.id, user_id, username, user_color, wb_id, wb_name);
 
         socket.join(user.wb_id);
 
@@ -73,43 +72,43 @@ io.on('connection', socket => {
             .emit('room_users', {
                 room: user.wb_id,
                 room_name: user.wb_name,
-                users: getRoomUsers(user.wb_id),
-                user_count: getUserCount(),
+                users: get_room_users(user.wb_id),
+                user_count: get_user_count(),
             });
 
         // Sync on add postit
         socket.on('add_postit', function (postit_id) {
-            socket.to(user.wb_id).emit('add_render', postit_id)
-        })
+            socket.to(user.wb_id).emit('add_render', postit_id);
+        });
 
         // Sync on edit postit
         socket.on('edit_postit', function (postit_item) {
-            socket.to(user.wb_id).emit('edit_render', postit_item)
-        })
+            socket.to(user.wb_id).emit('edit_render', postit_item);
+        });
 
         // Sync on delete postit
         socket.on('delete_postit', function (delete_id) {
-            socket.to(user.wb_id).emit('delete_render', delete_id)
-        })
+            socket.to(user.wb_id).emit('delete_render', delete_id);
+        });
         // Lock postit
         socket.on('lock', function (id) {
-            let current_user = getCurrentUser(user.user_id);
-            socket.to(user.wb_id).emit('lock_render', id, current_user)
-        })
+            let current_user = get_current_user(user.user_id);
+            socket.to(user.wb_id).emit('lock_render', id, current_user);
+        });
         // remove cover after editing 
         socket.on('lock_remove', function (id) {
             socket.to(user.wb_id).emit('lock_remove_render', id);
-        })
+        });
         // Sync template
         socket.on('template', function (template) {
-            io.to(user.wb_id).emit('template_render', template)
-        })
+            io.to(user.wb_id).emit('template_render', template);
+        });
 
-    })
+    });
 
     // Runs when client disconnects
     socket.on('disconnect', function () {
-        let new_user_list = userLeave(socket.id);
+        let new_user_list = user_leave(socket.id);
 
         if (new_user_list && new_user_list.user_left) {
             io.to(new_user_list.user_left.wb_id).emit(
@@ -121,13 +120,13 @@ io.on('connection', socket => {
             io.to(new_user_list.user_left.wb_id).emit('room_users', {
                 room: new_user_list.user_left.wb_id,
                 room_name: new_user_list.user_left.wb_name,
-                users: getRoomUsers(new_user_list.user_left.wb_id),
-                user_count: getUserCount(),
+                users: get_room_users(new_user_list.user_left.wb_id),
+                user_count: get_user_count(),
             });
         }
     });
 
-})
+});
 
 // Page not found
 app.use(function (req, res, next) {
@@ -154,7 +153,7 @@ app.use(function (err, req, res, next) {
 
 
 server.listen(PORT, () => {
-    console.log(`Boarder Playground connected to port ${PORT}`)
-})
+    console.log(`Boarder Playground connected to port ${PORT}`);
+});
 
 module.exports = app;

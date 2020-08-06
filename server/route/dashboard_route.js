@@ -2,14 +2,18 @@ const dashboardRouter = require('express').Router();
 const { wrapAsync } = require('../../util/util');
 
 const {
-    getWhiteboard,
-    updateWhiteboard
+    get_whiteboard,
+    update_whiteboard,
+    delete_whiteboard
 } = require('../controller/dashboard_controller');
 
 dashboardRouter.route('/dashboard/:id')
-    .get(wrapAsync(getWhiteboard));
+    .get(wrapAsync(get_whiteboard));
 
-dashboardRouter.route('/dashboard/:action')
-    .post(wrapAsync(updateWhiteboard));
+dashboardRouter.route('/dashboard')
+    .post(wrapAsync(update_whiteboard));
+
+dashboardRouter.route('/dashboard')
+    .delete(wrapAsync(delete_whiteboard));
 
 module.exports = dashboardRouter; 

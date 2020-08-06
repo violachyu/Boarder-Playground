@@ -1,24 +1,24 @@
 /*---Render Login/Register Block---*/
 $('.login_nav, .land_start').on('click', function () {
     $('.member').css({ 'display': 'flex' });
-    $('.register').addClass('mem_block')
-    $('.login').removeClass('mem_block')
-})
+    $('.register').addClass('mem_block');
+    $('.login').removeClass('mem_block');
+});
 $('.ques_login').on('click', function () {
-    $('.register').removeClass('mem_block')
-    $('.login').addClass('mem_block')
-})
+    $('.register').removeClass('mem_block');
+    $('.login').addClass('mem_block');
+});
 $('.ques_register').on('click', function () {
-    $('.login').removeClass('mem_block')
-    $('.register').addClass('mem_block')
-})
+    $('.login').removeClass('mem_block');
+    $('.register').addClass('mem_block');
+});
 
 // hide member form when clicked on whitespace
 $('.mem_form').on('click', function () {
     $('.member').hide();
 }).children().on('click', function () {
     return false;
-})
+});
 
 /*---Auto Login---*/
 let access_token = localStorage.getItem('access_token');
@@ -36,10 +36,10 @@ if (access_token) {
     //         console.log('Verification Success!')
     //         location.href = '/dashboard.html'
     //     })
-
     // location.href = '/dashboard.html'
 
 }
+
 /*---Register----*/
 // insert into DB on button click
 $('.reg_enter_btn').on('click', function () {
@@ -67,18 +67,18 @@ $('.reg_enter_btn').on('click', function () {
                     icon: 'error',
                     title: 'Oops...',
                     text: `${error}`,
-                })
+                });
             } else if (access_token) {
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('username', username);
                 localStorage.setItem('user_id', user_id);
                 location.href = '/dashboard.html';
             }
-        })
-})
+        });
+});
 
 /*---Login---*/
-$('.login_enter_btn').click(function () {
+$('.login_enter_btn').on('click', function () {
     // get login data
     let login_email = document.querySelector('.login_email').value;
     let login_pwd = document.querySelector('.login_pwd').value;
@@ -96,24 +96,21 @@ $('.login_enter_btn').click(function () {
     })
         .then((res) => res.json())
         .then((data) => {
-            // console.log(data);
             const { error, access_token, username, user_id } = data;
             if (error) {
-                console.log(error);   //
-
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: `${error}`,
-                })
+                });
             } else if (access_token) {
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('username', username);
                 localStorage.setItem('user_id', user_id);
                 location.href = '/dashboard.html';
             }
-        })
-})
+        });
+});
 
 
 // // token verification
@@ -140,8 +137,8 @@ $('.login_enter_btn').click(function () {
 // })
 /*---Style---*/
 $('.btn').on('mouseover', function () {
-    $(this).css({ 'background-color': 'black', 'color': 'white' })
-})
+    $(this).css({ 'background-color': 'black', 'color': 'white' });
+});
 $('.btn').on('mouseout', function () {
-    $(this).css({ 'background-color': 'white', 'color': 'black' })
-})
+    $(this).css({ 'background-color': 'white', 'color': 'black' });
+});
