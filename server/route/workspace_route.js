@@ -1,9 +1,9 @@
 const workspaceRouter = require('express').Router();
-const { wrapAsync } = require('../../util/util');
+const { wrapAsync, verify_token } = require('../../util/util');
 const { get_workspace, update_postit, delete_postit, template, share_record } = require('../controller/workspace_controller');
 
 workspaceRouter.route('/workspace/:id')
-    .get(wrapAsync(get_workspace));
+    .get(verify_token, wrapAsync(get_workspace));
 
 workspaceRouter.route('/postit')
     .post(wrapAsync(update_postit));

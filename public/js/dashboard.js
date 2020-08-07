@@ -17,40 +17,54 @@ fetch(`/api/1.0/dashboard/${user_id}`, {
     }
 })
     .then((res) => res.json())
-    .then((data) => {
-        for (let i = 0; i < data.length; i++) {
-            $('.whiteboard').append(`
-            <div class='wb_block hvr-grow' id='${data[i].wb_id}'>
-                <div class='wb_bookmark'></div>
-                <div class='wb_back'></div>
-                <input class='wb_title'><img class='edit old' src='./img/edit.png'>
-                <div class='close_btn'>X</div>
-            </div>`);
-            // set title/bookmark on each wb
-            $(`#${data[i].wb_id} > .wb_title`).val(`${data[i].title}`);
-            if (data[i].bookmark == 'bookmarked') {
-                $(`#${data[i].wb_id} > .wb_bookmark`).data('bookmark', `${data[i].bookmark}`);
-                $(`#${data[i].wb_id} > .wb_bookmark`).addClass('bookmarked');
+    .then((json_data) => {
+        if (json_data.error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `${data.error}`,
+                onAfterClose: () => {
+                    location.href = '/';
+                }
+            });
+        } else {
+            let data = json_data.all_wb;
+
+            for (let i = 0; i < data.length; i++) {
+                $('.whiteboard').append(`
+                <div class='wb_block hvr-grow' id='${data[i].wb_id}'>
+                    <div class='wb_bookmark'></div>
+                    <div class='wb_back'></div>
+                    <input class='wb_title'><img class='edit old' src='./img/edit.png'>
+                    <div class='close_btn'>X</div>
+                </div>`);
+                // set title/bookmark on each wb
+                $(`#${data[i].wb_id} > .wb_title`).val(`${data[i].title}`);
+                if (data[i].bookmark == 'bookmarked') {
+                    $(`#${data[i].wb_id} > .wb_bookmark`).data('bookmark', `${data[i].bookmark}`);
+                    $(`#${data[i].wb_id} > .wb_bookmark`).addClass('bookmarked');
+                }
+                // set "guest" wb to read-only
+                if (data[i].role == 'guest') {
+                    $(`#${data[i].wb_id}`).append(`<img class='readonly' src='../img/lock.png'>`);
+                    $(`#${data[i].wb_id}`).attr('title', `Title editing not authorized`);
+                    $(`#${data[i].wb_id} > .edit, #${data[i].wb_id} > .close_btn`).remove();
+                    $(`#${data[i].wb_id} > .wb_bookmark`).remove();
+                }
             }
-            // set "guest" wb to read-only
-            if (data[i].role == 'guest') {
-                $(`#${data[i].wb_id}`).append(`<img class='readonly' src='../img/lock.png'>`);
-                $(`#${data[i].wb_id}`).attr('title', `Title editing not authorized`);
-                $(`#${data[i].wb_id} > .edit, #${data[i].wb_id} > .close_btn`).remove();
-                $(`#${data[i].wb_id} > .wb_bookmark`).remove();
-            }
+
+            $('.whiteboard').on('mouseover', '.wb_block', function () {
+                $(this).children('.close_btn').show();
+                $(this).children('.edit').css({ 'visibility': 'visible' });
+
+            });
+            $('.whiteboard').on('mouseout', '.wb_block', function () {
+                $(this).children('.close_btn').hide();
+                $(this).children('.edit').css({ 'visibility': 'hidden' });
+            });
+            return;
+
         }
-
-        $('.whiteboard').on('mouseover', '.wb_block', function () {
-            $(this).children('.close_btn').show();
-            $(this).children('.edit').css({ 'visibility': 'visible' });
-
-        });
-        $('.whiteboard').on('mouseout', '.wb_block', function () {
-            $(this).children('.close_btn').hide();
-            $(this).children('.edit').css({ 'visibility': 'hidden' });
-        });
-        return;
 
     });
 

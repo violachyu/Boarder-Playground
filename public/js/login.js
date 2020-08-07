@@ -37,8 +37,8 @@ if (access_token) {
     //         location.href = '/dashboard.html'
     //     })
     // location.href = '/dashboard.html'
-
 }
+
 
 /*---Register----*/
 // insert into DB on button click
@@ -56,13 +56,10 @@ $('.reg_enter_btn').on('click', function () {
             pwd: reg_pwd
         })
     })
-        .then((res) => {
-            return res.json();
-        })
+        .then((res) => res.json())
         .then((data) => {
-            const { access_token, username, user_id, message, error } = data;
+            const { access_token, username, user_id, error } = data;
             if (error) {
-                // console.log(error);   //
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -80,8 +77,8 @@ $('.reg_enter_btn').on('click', function () {
 /*---Login---*/
 $('.login_enter_btn').on('click', function () {
     // get login data
-    let login_email = document.querySelector('.login_email').value;
-    let login_pwd = document.querySelector('.login_pwd').value;
+    let login_email = $('.login_email').val();
+    let login_pwd = $('.login_pwd').val();
 
     // verify login data
     fetch('/api/1.0/user/login', {
@@ -97,6 +94,7 @@ $('.login_enter_btn').on('click', function () {
         .then((res) => res.json())
         .then((data) => {
             const { error, access_token, username, user_id } = data;
+
             if (error) {
                 Swal.fire({
                     icon: 'error',
@@ -135,6 +133,7 @@ $('.login_enter_btn').on('click', function () {
 //         location.href = '/login.html'
 //     }
 // })
+
 /*---Style---*/
 $('.btn').on('mouseover', function () {
     $(this).css({ 'background-color': 'black', 'color': 'white' });

@@ -1,5 +1,5 @@
 const dashboardRouter = require('express').Router();
-const { wrapAsync } = require('../../util/util');
+const { wrapAsync, verify_token } = require('../../util/util');
 
 const {
     get_whiteboard,
@@ -8,7 +8,7 @@ const {
 } = require('../controller/dashboard_controller');
 
 dashboardRouter.route('/dashboard/:id')
-    .get(wrapAsync(get_whiteboard));
+    .get(verify_token, wrapAsync(get_whiteboard));
 
 dashboardRouter.route('/dashboard')
     .post(wrapAsync(update_whiteboard));

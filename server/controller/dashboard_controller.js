@@ -1,14 +1,11 @@
 const dashboard_model = require('../model/dashboard_model');
+const { response_obj } = require('../../util/util');
 
 let get_whiteboard = async (req, res) => {
     let user_id_params = req.params.id;
     let { all_wb, error } = await dashboard_model.get_whiteboard(user_id_params);
 
-    if (error) {
-        res.status(400).send({ error });
-    } else {
-        res.status(200).send(all_wb);
-    }
+    response_obj(res, { all_wb }, error);
 };
 
 let update_whiteboard = async (req, res) => {
@@ -20,11 +17,7 @@ let update_whiteboard = async (req, res) => {
     } else {
         let { message, error } = await dashboard_model.update_whiteboard(wb_id, user_id, title, bookmark);
 
-        if (error) {
-            res.status(400).send({ error });
-        } else {
-            res.status(200).send({ message });
-        }
+        response_obj(res, { message }, error);
     }
 
 };
@@ -34,15 +27,9 @@ let delete_whiteboard = async (req, res) => {
     let { wb_id, title } = req.body;
     let { message, error } = await dashboard_model.delete_whiteboard(wb_id, title);
 
-    if (error) {
-        res.status(400).send({ error });
-    } else {
-        res.status(200).send({ message });
-    }
+    response_obj(res, { message }, error);
+
 };
-
-
-
 
 
 module.exports = {

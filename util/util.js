@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const signing_key = process.env.SIGNINGKEY;
+
 // reference: https://thecodebarbarian.com/80-20-guide-to-express-error-handling
 const wrapAsync = (fn) => {
     return function (req, res, next) {
@@ -7,16 +10,31 @@ const wrapAsync = (fn) => {
     };
 };
 
-// WIP: responseObj
-const responseObj = async (req, res, data, error) => {
+
+const response_obj = (res, response_data, error) => {
     if (error) {
-        await res.status(400).send(error);
+        res.status(400).send({ error });
     } else {
-        await res.status(200).send(data);
+        res.status(200).send(response_data);
     }
-}
+};
+
+
+const verify_token = async (req, res, next) => {
+    let access_token = req.headers.authorization;
+
+    try {
+        // check if jwt token is valid
+        let a = jwt.verify(access_token, signing_key);
+        console.log(a);
+        next();
+    } catch (error) {
+        res.status(400).send({ error: 'Permission expired, please sign in again.' });
+    }
+};
 
 module.exports = {
     wrapAsync,
-    responseObj
+    response_obj,
+    verify_token
 };

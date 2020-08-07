@@ -1,5 +1,6 @@
 const user_model = require('../model/user_model');
 const validator = require('validator');
+const { response_obj } = require('../../util/util');
 
 const user = async (req, res) => {
     let { email, pwd } = req.body;
@@ -18,22 +19,15 @@ const user = async (req, res) => {
     if (req.params.action == 'register') {
         // Register: insert user data into DB
         let { access_token, username, user_id, message, error } = await user_model.register(email, pwd);
-        if (error) {
-            res.status(400).send({ error });
-        } else {
-            res.status(200).send({ access_token, username, user_id, message });
-        }
+
+        response_obj(res, { access_token, username, user_id, message, error });
 
     } else if (req.params.action == 'login') {
         // get access_token after verification
         let { access_token, username, user_id, error } = await user_model.login(email, pwd);
 
         // user_error_handling: wrong password
-        if (error) {
-            res.status(400).send({ error });
-        } else {
-            res.status(200).send({ access_token, username, user_id });
-        }
+        response_obj(res, { access_token, username, user_id, error });
     }
 };
 
