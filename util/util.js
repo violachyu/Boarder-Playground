@@ -26,9 +26,10 @@ const verify_token = async (req, res, next) => {
     try {
         // check if jwt token is valid
         let a = jwt.verify(access_token, signing_key);
-        console.log(a);
+        console.log(a); //
         next();
     } catch (error) {
+        console.log(error); //
         res.status(400).send({ error: 'Permission expired, please sign in again.' });
     }
 };

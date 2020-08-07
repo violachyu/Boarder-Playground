@@ -22,14 +22,13 @@ fetch(`/api/1.0/dashboard/${user_id}`, {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: `${data.error}`,
+                text: `${json_data.error}`,
                 onAfterClose: () => {
                     location.href = '/';
                 }
             });
         } else {
             let data = json_data.all_wb;
-
             for (let i = 0; i < data.length; i++) {
                 $('.whiteboard').append(`
                 <div class='wb_block hvr-grow' id='${data[i].wb_id}'>
