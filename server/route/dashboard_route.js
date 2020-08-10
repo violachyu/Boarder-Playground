@@ -11,9 +11,9 @@ dashboardRouter.route('/dashboard/:id')
     .get(verify_token, wrapAsync(get_whiteboard));
 
 dashboardRouter.route('/dashboard')
-    .post(wrapAsync(update_whiteboard));
+    .post(verify_token, wrapAsync(update_whiteboard));
 
 dashboardRouter.route('/dashboard')
-    .delete(wrapAsync(delete_whiteboard));
+    .delete(verify_token, wrapAsync(delete_whiteboard));
 
 module.exports = dashboardRouter; 

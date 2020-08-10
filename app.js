@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT;
-const API_VERSION = process.env.API_VERSION;
+const { PORT_TEST, PORT, NODE_ENV, API_VERSION } = process.env;
+const port = NODE_ENV == 'test' ? PORT_TEST : PORT;
 const socketio = require('socket.io');
 const http = require('http');
 const server = http.createServer(app);
@@ -141,19 +141,8 @@ app.use(function (err, req, res, next) {
 
 
 
-// // Test
-// const mysql = require('mysql');
-// const { query } = require('./util/con');
-// app.get('/test_query', (req, res) => {
-//     let test_sql = `SELECT * FROM wb;`
-//     query(test_sql, (result, error, fields) => {
-//         console.log(result);
-//     })
-// })
-
-
-server.listen(PORT, () => {
-    console.log(`Boarder Playground connected to port ${PORT}`);
+server.listen(port, () => {
+    console.log(`Boarder Playground connected to port ${port}`);
 });
 
 module.exports = app;

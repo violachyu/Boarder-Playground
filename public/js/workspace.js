@@ -118,7 +118,7 @@ $('body').on('click change dragstop', '.postit, .popover', function () {
     // Auto saving Status
     $('.saveStatus').html('AUTO-SAVING DOCUMENT...');
     fetch_update_postit(access_token, postit_data);
-    $('.saveStatus').delay(50000).html('DOCUMENT SAVED!!');
+    setTimeout($('.saveStatus').html('DOCUMENT SAVED!!'), 50000);
 
 });
 
@@ -142,7 +142,7 @@ $('body').on('resize keyup', '.postit', _.debounce(function () {
     // Auto saving Status
     $('.saveStatus').html('AUTO-SAVING DOCUMENT...');
     fetch_update_postit(access_token, postit_data);
-    $('.saveStatus').delay(50000).html('DOCUMENT SAVED!!');
+    setTimeout($('.saveStatus').html('DOCUMENT SAVED!!'), 50000);
 
 }, 2000));
 

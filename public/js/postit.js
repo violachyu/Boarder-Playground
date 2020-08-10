@@ -72,8 +72,6 @@ function render_postit(data, option) {
             render_template(data[0].template);
         }
     }
-
-
 }
 
 function set_postit_basic_prop(id) {
@@ -173,7 +171,7 @@ function timer_increment(idle_time) {
 }
 
 // WIP
-function id_identification(option) {
+function id_identification(option, target) {
     let id;
     if (option == 'update_postit') {
 
