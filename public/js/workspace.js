@@ -100,12 +100,7 @@ socket.on('add_render', function (postit_id) {
 // Update Postit: Sync & save on edit postit
 $('body').on('click change dragstop', '.postit, .popover', function () {
     // id identification
-    let id;
-    if ($(this).data('id')) {
-        id = $(this).data('id'); // popover contains data-id property
-    } else {
-        id = $(this).attr('id');
-    }
+    let id = id_identification('update_postit', $(this));
 
     // collect postit data
     let { postit_item, postit_data } = collect_postit_info(id);
@@ -118,19 +113,13 @@ $('body').on('click change dragstop', '.postit, .popover', function () {
     // Auto saving Status
     $('.saveStatus').html('AUTO-SAVING DOCUMENT...');
     fetch_update_postit(access_token, postit_data);
-    setTimeout($('.saveStatus').html('DOCUMENT SAVED!!'), 50000);
 
 });
 
 // Sync and update on resizeEND & keyup
 $('body').on('resize keyup', '.postit', _.debounce(function () {
     // id identification
-    let id;
-    if ($(this).data('id')) {
-        id = $(this).data('id'); // popover contains data-id property
-    } else {
-        id = $(this).attr('id');
-    }
+    let id = id_identification('update_postit', $(this));
 
     // collect postit data
     let { postit_item, postit_data } = collect_postit_info(id);
@@ -142,7 +131,6 @@ $('body').on('resize keyup', '.postit', _.debounce(function () {
     // Auto saving Status
     $('.saveStatus').html('AUTO-SAVING DOCUMENT...');
     fetch_update_postit(access_token, postit_data);
-    setTimeout($('.saveStatus').html('DOCUMENT SAVED!!'), 50000);
 
 }, 2000));
 
@@ -178,29 +166,16 @@ $('.workspace').on('click', '.close_postit', function () {
 // lock when user1 is editing
 $('.workspace').on('click resize keydown dragstart drag', '.postit, .postit_input', function () {
     // id_identification
-    let id;
-    if ($(this).hasClass('postit')) {
-        id = $(this).attr('id');
-    } else if ($(this).hasClass('popover')) {
-        id = $(this).data('id');
-    } else {
-        id = $(this).parent('.postit').attr('id');
-    }
+    let id = id_identification('lock', $(this));
 
     socket.emit('lock', id);
 
 });
+
 // lock when user1 clicks on popover
 $('body').on('click', '.popover', function () {
     // id_identification
-    let id;
-    if ($(this).hasClass('postit')) {
-        id = $(this).attr('id');
-    } else if ($(this).hasClass('popover')) {
-        id = $(this).data('id');
-    } else {
-        id = $(this).parent('.postit').attr('id');
-    }
+    let id = id_identification('lock', $(this));
 
     socket.emit('lock', id);
 });
@@ -222,24 +197,14 @@ socket.on('lock_render', function (id, current_user) {
 // prevent flashing on multiple events(click, keyup)
 $('.workspace').on('keyup mouseup', '.postit, .postit_input', _.debounce(function () {
     // id_identification
-    let id;
-    if ($(this).hasClass('postit')) {
-        id = $(this).attr('id');
-    } else {
-        id = $(this).parent('.postit').attr('id');
-    }
+    let id = id_identification('remove_lock', $(this));
 
     socket.emit('lock_remove', id);
 }, 2000));
 
 $('.workspace').on('mouseleave dragstop', '.postit, .postit_input', function () {
     // id_identification
-    let id;
-    if ($(this).hasClass('postit')) {
-        id = $(this).attr('id');
-    } else {
-        id = $(this).parent('.postit').attr('id');
-    }
+    let id = id_identification('remove_lock', $(this));
 
     setTimeout(function () {
         socket.emit('lock_remove', id);
@@ -266,7 +231,6 @@ socket.on('lock_remove_render', function (id) {
 /*---Popover and Postit Style Settings---*/
 // (WIP) hide popover when white space is clicked
 $(".workspace").on('mousedown', function (e) {
-    console.log('hide_popover');
     $('.popover').addClass('hidden');
 });
 
@@ -351,7 +315,7 @@ $('.workspace').on('click', '.postit', function (e) {
     // Order
     // move to front whenever postit is clicked
     $(`#${postitID}`).css('zIndex', '+=1');
-    console.log('zIndex', $(`#${postitID}`).css('zIndex'));  //
+    // console.log('zIndex', $(`#${postitID}`).css('zIndex'));  //
     // (WIP)hide "send to back" btn if at bottom
     if ($(`#${postitID}`).css('zIndex') == 1) { // not working
         // console.log('zIndex=0', $(`#${postitID}`).css('zIndex'))  //
@@ -360,12 +324,6 @@ $('.workspace').on('click', '.postit', function (e) {
         $(`[data-id="${postitID}"] #back`).css({ 'pointer-events': 'none' }); //not working
         $(`[data-id="${postitID}"] span`).css({ 'color': 'blue' });
     }
-    // if ($(`#${postitID}`).css('zIndex') == 0 || $(`#${postitID}`).css('zIndex') == 1) { // not working
-    //     // console.log('zIndex=0', $(`#${postitID}`).css('zIndex'))  //
-    //     // console.log($(`[data-id="${postitID}"]`));
-    //     $(`[data-id="${postitID}"] > #back`).css({ 'pointer-events': 'none' })
-    //     $(`[data-id="${postitID}"] > span`).css({ 'color': 'blue' })
-    // }
     $('.show input[type="radio"]').on('change', function () {
         // single choice_radio
         $('input[type="radio"]').not(this).prop('checked', false);

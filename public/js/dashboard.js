@@ -3,6 +3,9 @@ let username = localStorage.getItem('username');
 let username_abv = username.split("")[0];
 let user_id = localStorage.getItem('user_id');
 
+/*---Page Style---*/
+$('.greeting').html(`${username_abv}`);
+
 /*---JQuery Tooltip---*/
 $(function () {
     $(document).tooltip();
@@ -154,48 +157,39 @@ $('.whiteboard').on('click', '.close_btn', function (e) {
     let title = $(e.target).siblings('.wb_title').val();
     let wb_id = $(e.target).parent('.wb_block').attr('id');
 
-    // (WIP)ask if delete
-    // Swal.fire({
-    //     title: 'Delete whiteboard?',
-    //     text: "You won't be able to revert this!",
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Yes, delete it!'
-    // }).then((result) => {
-    //     if (result.value) {
-    //         Swal.fire(
-    //             'Deleted!',
-    //             'Whiteboard has been deleted.',
-    //             'success'
-    //         )
-    //     }
-    // })
-    // alertMessage('Delete whiteboard?', 'info');
+    // Ask if delete
+    Swal.fire({
+        title: 'Delete whiteboard?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value) {
+            Swal.fire(
+                'Deleted!',
+                'Whiteboard has been deleted.',
+                'success'
+            );
+            fetch('api/1.0/dashboard', {
+                method: 'DELETE',
+                headers: {
+                    'content-type': 'application/json',
+                    'authorization': access_token
+                },
+                body: JSON.stringify({
+                    wb_id, title
+                })
+            });
 
-    fetch('api/1.0/dashboard', {
-        method: 'DELETE',
-        headers: {
-            'content-type': 'application/json',
-            'authorization': access_token
-        },
-        body: JSON.stringify({
-            wb_id, title
-        })
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            let { message, error } = data;
-            if (message) {
-                alertMessage(message, 'success');
-            } else {
-                alertMessage(error, 'danger');
-            }
-        });
+            // delete whiteboard effect
+            e.target.closest('.wb_block').remove();
 
-    // delete whiteboard effect
-    e.target.closest('.wb_block').remove();
+        }
+    });
+
 });
 
 
@@ -224,21 +218,14 @@ $('.whiteboard').on('click', '.bookmarked', function (e) {
     createWhiteboard(e);
 });
 
-// token verification
-if (access_token && username) {
-    $('.logout').html('LOGOUT');
-    $('.greeting').html(`${username_abv}`);
-} else {
-    $('.logout').html('LOGIN');
-    alertMessage('Please Login, my friend!', 'danger');
-    location.href = '/';
-}
 
 // Logout
 $('.logout').on('click', function () {
     if (access_token) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('username');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_color');
         alertMessage('You\'re logged out, have a great day!', 'success');
         location.href = '/';
     } else {
@@ -247,17 +234,6 @@ $('.logout').on('click', function () {
 });
 
 
-// Function: set multiple attributes
-function setAttributes(el, options) {
-    Object.keys(options).forEach(function (attr) {
-        el.setAttribute(attr, options[attr]);
-    });
-}
-
-
-/*---(WIP) Cursor Style---*/
-$('body').awesomeCursor('pencil',
-    { color: 'black' });
 
 
 

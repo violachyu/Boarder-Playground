@@ -24,7 +24,6 @@ function fetch_get_workspace(wb_id, access_token) {
                 });
             } else {
                 let data = json_data.workspace_data;
-                console.log('work');
                 render_postit(data);
             }
         });
@@ -47,6 +46,7 @@ function fetch_update_postit(access_token, postit_data) {
         .then((data) => {
             console.log(data.error || data.message);
         });
+    $('.saveStatus').html('DOCUMENT SAVED!!');
 }
 
 /*---Delete Postit---*/
@@ -89,10 +89,11 @@ function fetch_update_template(access_token, wb_id, template_name) {
             let { message, error } = data;
             console.log(message || error);
         });
+    $('.saveStatus').html('DOCUMENT SAVED!!');
 }
 /*---Save Collaborator Workspace---*/
 function fetch_share_record(access_token, wb_id, user_id) {
-    fetch(`api/1.0/shareRecord`, {
+    fetch(`api/1.0/record`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',

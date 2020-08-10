@@ -20,27 +20,10 @@ $('.mem_form').on('click', function () {
     return false;
 });
 
-/*---Auto Login---*/
-let access_token = localStorage.getItem('access_token');
-if (access_token) {
-    // (WIP) User verification
-    // fetch('/api/1.0/verify', {
-    //     method: 'GET',
-    //     headers: {
-    //         'content-type': 'application/json',
-    //         'authorization': access_token
-    //     }
-    // })
-    //     .then(res => res.json())
-    //     .then(() => {
-    //         console.log('Verification Success!')
-    //         location.href = '/dashboard.html'
-    //     })
-    // location.href = '/dashboard.html'
-}
-
 
 /*---Register----*/
+let access_token = localStorage.getItem('access_token');
+
 // insert into DB on button click
 $('.reg_enter_btn').on('click', function () {
     // get register data
@@ -110,29 +93,6 @@ $('.login_enter_btn').on('click', function () {
         });
 });
 
-
-// // token verification
-// let access_token = localStorage.getItem('access_token');
-// let username = localStorage.getItem('username');
-// let username_abv = username.split("")[0];
-// if (access_token && username) {
-//     $('.logout').html('LOGOUT');
-//     $('.greeting').html(`${username_abv}`);
-// } else {
-//     $('.logout').html('LOGIN');
-// }
-
-// // Logout
-// $('.logout').click(function () {
-//     let access_token = localStorage.getItem('access_token');
-//     if (access_token) {
-//         localStorage.removeItem('access_token');
-//         localStorage.removeItem('username');
-//         location.href = '/logout.html';
-//     } else {
-//         location.href = '/login.html'
-//     }
-// })
 
 /*---Style---*/
 $('.btn').on('mouseover', function () {

@@ -32,7 +32,7 @@ const template = async (req, res) => {
     response_obj(res, { message }, error);
 };
 
-const share_record = async (req, res) => {
+const record = async (req, res) => {
     let access_token = req.headers.authorization;
     let wb_id = req.body.wb_id;
     let user_id = req.body.user_id;
@@ -49,7 +49,7 @@ module.exports = {
     update_postit,
     delete_postit,
     template,
-    share_record
+    record
 };
 
 

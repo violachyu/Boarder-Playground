@@ -153,7 +153,6 @@ function render_template(template) {
 }
 
 function show_room_users(room_info) {
-    console.log('show_room_users');
     for (let i = 0; i < room_info['users'].length; i++) {
         $('.dropdown_content').append(`<div class='dropdown_item'>
         <div class='dropName'>${room_info.users[i].username}</div>
@@ -170,31 +169,34 @@ function timer_increment(idle_time) {
     }
 }
 
-// WIP
 function id_identification(option, target) {
     let id;
     if (option == 'update_postit') {
-
-        if ($(this).data('id')) {
-            id = $(this).data('id'); // popover contains data-id property
+        if (target.data('id')) {
+            id = target.data('id'); // popover contains data-id property
         } else {
-            id = $(this).attr('id');
+            id = target.attr('id');
         }
-        console.log('id_id_update', id);
-
         return id;
 
     } else if (option == 'lock') {
-        if ($(this).hasClass('postit')) {
-            id = $(this).attr('id');
-        } else if ($(this).hasClass('popover')) {
-            id = $(this).data('id');
+        if (target.hasClass('postit')) {
+            id = target.attr('id');
+        } else if (target.hasClass('popover')) {
+            id = target.data('id');
         } else {
-            id = $(this).parent('.postit').attr('id');
+            id = target.parent('.postit').attr('id');
         }
-        console.log('id_id_lock', id);
-
         return id;
+
+    } else if (option == 'remove_lock') {
+        if (target.hasClass('postit')) {
+            id = target.attr('id');
+        } else {
+            id = target.parent('.postit').attr('id');
+        }
+        return id;
+
     }
 }
 
