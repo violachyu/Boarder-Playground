@@ -1,6 +1,6 @@
 function alertMessage(message, status) {
-    $('section').append(`
-    <div class='alertMessage'>
+    $('.section').append(`
+    <div class='alertMessage work_alert other_alert'>
         <div class='alert'>
             <div class='alert-content'>
                 <div class='alert-icon'></div>
@@ -25,7 +25,7 @@ function alertMessage(message, status) {
         setTimeout(function () {
             $('.alert').remove();
         }, 500);
-    }, 3000 + delay);
+    }, 2000 + delay);
 
     // remove by clicking
     $('.alert-dismiss').on('click', function dismissAlert(e) {

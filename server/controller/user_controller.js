@@ -1,35 +1,8 @@
-const user_model = require('../model/user_model')
-const expire = process.env.TOKEN_EXPIRE;
+const user_model = require('../model/user_model');
 const validator = require('validator');
+const { response_obj } = require('../../util/util');
 
-
-
-/*---User API---*/
-const register = async (req, res) => {
-    const { email, pwd } = req.body;
-
-    // user_error_handling: untyped email or pwd
-    if (!email || !pwd) {
-        res.status(400).send({ error: 'Request Error: email and password are required.' });
-        return;
-    }
-    // user_error_handling: wrong email format
-    if (!validator.isEmail(email)) {
-        res.status(400).send({ error: 'Request Error: Invalid email format' });
-        return;
-    }
-
-    // Register: insert user data into DB
-    const { access_token, username, user_id, message, error } = await user_model.register(email, pwd);
-    if (error) {
-        res.status(403).send({ error });
-        return;
-    }
-    res.status(200).send({ access_token, username, user_id, message });
-
-}
-
-const login = async (req, res) => {
+const user = async (req, res) => {
     let { email, pwd } = req.body;
 
     // user_error_handling: untyped email or pwd
@@ -43,17 +16,19 @@ const login = async (req, res) => {
         return;
     }
 
-    // get access_token after verification
-    let { access_token, username, user_id, error } = await user_model.login(email, pwd);
+    if (req.params.action == 'register') {
+        // Register: insert user data into DB
+        let { access_token, username, user_id, message, error } = await user_model.register(email, pwd);
 
-    // user_error_handling: wrong password
-    if (error) {
-        res.status(400).send({ error });
-    } else {
-        res.status(200).send({ access_token, username, user_id });
+        response_obj(res, { access_token, username, user_id, message, error });
+
+    } else if (req.params.action == 'login') {
+        // get access_token after verification
+        let { access_token, username, user_id, error } = await user_model.login(email, pwd);
+
+        // user_error_handling: wrong password
+        response_obj(res, { access_token, username, user_id, error });
     }
+};
 
-
-}
-
-module.exports = { register, login }
+module.exports = { user };

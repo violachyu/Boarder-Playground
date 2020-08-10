@@ -1,60 +1,114 @@
+/*---Basic Style---*/
+label{
+    font-size: 1.4vw;
+}
+
 /*---Section---*/
-section {
-    height: 75vh;
+.member, .register, .login{
+    display: none;
 }
-
-.section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.modal_cover{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(70, 70, 70);
+    opacity: 80%;
+    /* background-color: white;
+    opacity: 80%; */
+    position: fixed;
+    top:0px;
+    left: 0px;
+    z-index: 2;
 }
-
-.enter_btn:hover {
-    background-color: black;
-    color: white;
-}
-
-
-.mem {
+.mem_form{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 3;
+}
+.mem_block{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    width: 50vw;
+    height: 50vh;
+    position: relative;
 }
 
-.mem_block {
-    background-color: lightgrey;
-    border-radius: 10px;
-    padding: 50px;
-    margin: 100px 25px;
-    position: relative;
-    line-height: 30px;
+.mem_decor{
+    object-fit: cover;
+    width: 20vw;
+    height: 50vh;
+    border-radius: 10px 0 0 10px;
+    margin-right: auto;
+    object-position: center;
+    filter: grayscale(100%) brightness(90%);
+}
+.decor_login{
+    filter: grayscale(100%) contrast(170%);
+}
+.form{
+    margin-right: 5vw;
+    margin-bottom: 4vh;
+    line-height: 5vh;
 }
 
 .mem_title {
     font-weight: bold;
+    font-size: 3vw;
+    color: #DAA520;
+    margin-bottom: 4vh;
+
 }
 
-input {
+.reg_email, .login_email {
+    font-family: 'Playfair Display', cursive, monospace;
+    color:rgb(141, 141, 141);
     border: none;
+    width: 17vw;
     border-bottom: 0.05px solid black;
-    background-color: lightgrey;
+    background-color: transparent;
     outline: none;
 }
+.reg_pwd, .login_pwd {
+    border: none;
+    width: 14.4vw;
+    border-bottom: 0.05px solid black;
+    background-color: transparent;
+    outline: none;
+}
+.ques{
+    font-size: 0.8vw;
+    color: rgb(141, 141, 141);
+}
+.ques_login, .ques_register{
+    font-size: 0.8vw;
+    color: #363636;
+    text-decoration: underline;
+    cursor: pointer;
+}
 
-.reg_enter_btn,
-.login_enter_btn {
-    padding: 5px 15px;
+.btn {
     background-color: white;
+    font-family: 'Playfair Display';
+    font-size: 1vw;
+    padding: 0.4vh 1.2vw;
     border: 0.05px solid darkgray;
-    position: absolute;
-    right: 15px;
-    bottom: 8px;
     border-radius: 5px;
+    position: absolute;
+    bottom: 7vh;
+    right: 5vw;
+    cursor: pointer;
+    outline: none;
 }
 
-button:hover, button:focus {
-    background-color: black;
-    color: white;
-    outline: none;
-    /* border: solid black 1px; */
-}
+
+

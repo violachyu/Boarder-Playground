@@ -1,9 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT;
-const API_VERSION = process.env.API_VERSION;
-const path = require('path');
+const { PORT_TEST, PORT, NODE_ENV, API_VERSION } = process.env;
+const port = NODE_ENV == 'test' ? PORT_TEST : PORT;
 const socketio = require('socket.io');
 const http = require('http');
 const server = http.createServer(app);
@@ -14,11 +13,11 @@ app.use(express.static('public'));
 
 // socket utils library
 const {
-    userJoin,
-    getCurrentUser,
-    userLeave,
-    getRoomUsers,
-    getUserCount
+    user_join,
+    get_current_user,
+    user_leave,
+    get_room_users,
+    get_user_count
 } = require('./util/users');
 
 /*---Parser---*/
@@ -49,81 +48,85 @@ app.use('/api/' + API_VERSION,
 // Socket Server
 io.on('connection', socket => {
     // check connection
-    socket.emit('message', 'Welcome to Boarder Playground!')
+    socket.emit('message', 'Welcome to Boarder Playground!');
 
     // Join room
-    socket.on('joinRoom', function ({ user_id, username, userColor, wb_id, wb_name }) {
+    socket.on('join_room', function ({ user_id, username, user_color, wb_id, wb_name }) {
         // organize user object
-        let user = userJoin(socket.id, user_id, username, userColor, wb_id, wb_name);
+        let user = user_join(socket.id, user_id, username, user_color, wb_id, wb_name);
 
         socket.join(user.wb_id);
 
         // Welcome current user
-        socket.emit('statusMessage', 'Welcome to Boarder Playground!');
+        socket.emit('status_message', 'Welcome to Boarder Playground!');
 
         // Broadcast when a user connects
         socket.broadcast.to(user.wb_id)
             .emit(
-                'statusMessage',
+                'status_message',
                 `${user.username} has joined the room`
             );
 
         // Send users and room info
         io.to(user.wb_id)
-            .emit('roomUsers', {
+            .emit('room_users', {
                 room: user.wb_id,
                 room_name: user.wb_name,
-                users: getRoomUsers(user.wb_id),
-                user_count: getUserCount(),
+                users: get_room_users(user.wb_id),
+                user_count: get_user_count(),
             });
 
         // Sync on add postit
-        socket.on('addPostit', function (postit_id) {
-            socket.to(user.wb_id).emit('addRender', postit_id)
-        })
+        socket.on('add_postit', function (postit_id) {
+            socket.to(user.wb_id).emit('add_render', postit_id);
+        });
 
         // Sync on edit postit
-        socket.on('editPostit', function (postit_item) {
-            socket.to(user.wb_id).emit('editRender', postit_item)
-        })
+        socket.on('edit_postit', function (postit_item) {
+            socket.to(user.wb_id).emit('edit_render', postit_item);
+        });
 
         // Sync on delete postit
-        socket.on('deletePostit', function (deleteId) {
-            socket.to(user.wb_id).emit('deleteRender', deleteId)
-        })
+        socket.on('delete_postit', function (delete_id) {
+            socket.to(user.wb_id).emit('delete_render', delete_id);
+        });
         // Lock postit
         socket.on('lock', function (id) {
-            let currentUser = getCurrentUser(user.user_id);
-            socket.to(user.wb_id).emit('lockRender', id, currentUser)
-        })
+            let current_user = get_current_user(user.user_id);
+            socket.to(user.wb_id).emit('lock_render', id, current_user);
+        });
         // remove cover after editing 
-        socket.on('lockRemove', function (id) {
-            socket.to(user.wb_id).emit('lockRemoveRender', id);
-        })
+        socket.on('lock_remove', function (id) {
+            socket.to(user.wb_id).emit('lock_remove_render', id);
+        });
+        // Sync template
+        socket.on('template', function (template) {
+            io.to(user.wb_id).emit('template_render', template);
+        });
 
-    })
+    });
 
     // Runs when client disconnects
     socket.on('disconnect', function () {
-        let newUserList = userLeave(socket.id);
+        let new_user_list = user_leave(socket.id);
 
-        if (newUserList && newUserList.userLeft) {
-            io.to(newUserList.userLeft.wb_id).emit(
-                'statusMessage',
-                `${newUserList.userLeft.username} has left this whiteboard`
+        if (new_user_list && new_user_list.user_left) {
+            io.to(new_user_list.user_left.wb_id).emit(
+                'status_message',
+                `${new_user_list.user_left.username} has left this whiteboard`
             );
 
             // Send users and room info
-            io.to(newUserList.userLeft.wb_id).emit('roomUsers', {
-                room: newUserList.userLeft.wb_id,
-                room_name: newUserList.userLeft.wb_name,
-                users: getRoomUsers(newUserList.userLeft.wb_id),
-                user_count: getUserCount(),
+            io.to(new_user_list.user_left.wb_id).emit('room_users', {
+                room: new_user_list.user_left.wb_id,
+                room_name: new_user_list.user_left.wb_name,
+                users: get_room_users(new_user_list.user_left.wb_id),
+                user_count: get_user_count(),
             });
         }
     });
 
-})
+});
 
 // Page not found
 app.use(function (req, res, next) {
@@ -138,19 +141,8 @@ app.use(function (err, req, res, next) {
 
 
 
-// // Test
-// const mysql = require('mysql');
-// const { query } = require('./util/con');
-// app.get('/test_query', (req, res) => {
-//     let test_sql = `SELECT * FROM wb;`
-//     query(test_sql, (result, error, fields) => {
-//         console.log(result);
-//     })
-// })
-
-
-server.listen(PORT, () => {
-    console.log(`Boarder Playground connected to port ${PORT}`)
-})
+server.listen(port, () => {
+    console.log(`Boarder Playground connected to port ${port}`);
+});
 
 module.exports = app;

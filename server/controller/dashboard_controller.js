@@ -1,48 +1,39 @@
 const dashboard_model = require('../model/dashboard_model');
+const { response_obj } = require('../../util/util');
 
-let createWhiteboard = async (req, res) => {
-    // console.log('create', req.body); //
-    // verify user by id 
-    let { wb_id, user_id, title, bookmark } = req.body;
-    if (!title) {
-        res.status(400).send({ error: 'Whiteboard title is required!' })
-    } else {
-        let { message, error } = await dashboard_model.createWhiteboard(wb_id, user_id, title, bookmark);
-        if (error) {
-            res.status(400).send({ error })
-        } else {
-            res.status(200).send({ message });
-        }
-    }
-}
-
-let deleteWhiteboard = async (req, res) => {
-    let { wb_id, title } = req.body;
-    // console.log('delete', req.body);
-    let { message, error } = await dashboard_model.deleteWhiteboard(wb_id, title);
-    if (error) {
-        res.status(400).send({ error })
-    } else {
-        res.status(200).send({ message });
-    }
-}
-
-let getWhiteboard = async (req, res) => {
+let get_whiteboard = async (req, res) => {
     let user_id_params = req.params.id;
-    let access_token = req.headers.authorization;
-    let { all_wb, error } = await dashboard_model.getWhiteboard(access_token, user_id_params);
+    let { all_wb, error } = await dashboard_model.get_whiteboard(user_id_params);
 
-    if (error) {
-        res.status(400).send({ error });
+    response_obj(res, { all_wb }, error);
+};
+
+let update_whiteboard = async (req, res) => {
+    let { wb_id, user_id, title, bookmark } = req.body;
+
+    // verify user by id 
+    if (!title) {
+        res.status(400).send({ error: 'Whiteboard title is required!' });
     } else {
-        res.status(200).send(all_wb);
-    }
-}
+        let { message, error } = await dashboard_model.update_whiteboard(wb_id, user_id, title, bookmark);
 
+        response_obj(res, { message }, error);
+    }
+
+};
+
+
+let delete_whiteboard = async (req, res) => {
+    let { wb_id, title } = req.body;
+    let { message, error } = await dashboard_model.delete_whiteboard(wb_id, title);
+
+    response_obj(res, { message }, error);
+
+};
 
 
 module.exports = {
-    getWhiteboard,
-    createWhiteboard,
-    deleteWhiteboard
-}
+    get_whiteboard,
+    update_whiteboard,
+    delete_whiteboard
+};

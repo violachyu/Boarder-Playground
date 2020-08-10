@@ -1,16 +1,21 @@
 const workspaceRouter = require('express').Router();
-const { wrapAsync } = require('../../util/util');
-const { getWorkspace, saveWorkspace, guestWorkspace } = require('../controller/workspace_controller');
+const { wrapAsync, verify_token } = require('../../util/util');
+const { get_workspace, update_postit, delete_postit, template, record } = require('../controller/workspace_controller');
 
-workspaceRouter.route('/getWorkspace/:id')
-    .get(wrapAsync(getWorkspace));
+workspaceRouter.route('/workspace/:id')
+    .get(wrapAsync(get_workspace));
 
+workspaceRouter.route('/postit')
+    .post(wrapAsync(update_postit));
 
-workspaceRouter.route('/saveWorkspace/:id')
-    .post(wrapAsync(saveWorkspace));
+workspaceRouter.route('/postit')
+    .delete(wrapAsync(delete_postit));
 
-workspaceRouter.route('/guestWorkspace')
-    .post(wrapAsync(guestWorkspace));
+workspaceRouter.route('/template')
+    .patch(wrapAsync(template));
+
+workspaceRouter.route('/record')
+    .post(wrapAsync(record));
 
 
 module.exports = workspaceRouter;

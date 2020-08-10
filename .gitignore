@@ -1,8 +1,8 @@
 .env
 
 # testing playground
-/test
-/public/test
+/public/sandbox
+
 
 /node_modules
 .DS_Store

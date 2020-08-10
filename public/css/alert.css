@@ -1,8 +1,8 @@
 /* Alert Style */
-.alertMessage {
+.other_alert {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 14vh;
+    right: 7.5vw;
     box-sizing: border-box;
     direction: ltr;
     overflow: hidden;
@@ -45,7 +45,7 @@
     bottom: 0;
     height: 3px;
     width: 0;
-    animation: border 3s forwards linear;
+    animation: border 2s forwards linear;
 }
 
 .alert.alert-active {

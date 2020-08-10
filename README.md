@@ -25,9 +25,9 @@ method: get
 
 
 ## Dashboard
-- getWhiteboard
+- get_whiteboard
 method: get
-endpoint: api/1.0/getWhiteboard
+endpoint: api/1.0/get_whiteboard
 request: user_id
 respond: all_wb
 
@@ -39,7 +39,7 @@ request: user_id
 
 
 ## Dashboard
-- getWorkspace
+- get_workspace
 method: get
 request header: auth: user_id, access_token
 
