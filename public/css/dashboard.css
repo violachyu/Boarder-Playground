@@ -3,25 +3,12 @@
     font-size: 12px;
     font-family:'Rowdies', cursive;
 }
-/*---Header---*/
-/* .dash_title{
-    position: fixed;
-    top: 2vh;
-    left: -2vw;
-    z-index: -2;
-    letter-spacing: -0.5vw;
-    opacity: 09%;
-    transform: rotate(-10deg);
-    font-size: 15vw;
-    text-transform: uppercase;
-} */
 
 /* Main */
 .dash_bg{
     width: 100vw;
     height: 94vh;
     filter: grayscale(100%) brightness(50%);
-    /* filter: grayscale(100%) brightness(50%) contrast(130%); */
     position: fixed;
     top:0;
     left:0;
@@ -48,7 +35,6 @@
     width: 160px;
     height: 175px;
     background-color: darkgrey;
-    /* background-color: #411d0d; */
     border-radius: 5px;
     margin: 10px;
     line-height: 30px;
@@ -57,7 +43,6 @@
 }
 .wb_block:hover{
     background-color: #000000;
-    /* background-color: #2b2d42; */
 }
 .wb_bookmark{
     clip-path: polygon(100% 0%, 100% 82%, 68% 43%, 34% 82%, 34% 0);
@@ -78,7 +63,6 @@
     width: 4px;
     height: 175px;
     background-color: white;
-    /* background-color: lightgray; */
 }
 
 
@@ -91,7 +75,6 @@
     text-align: center;
     align-self: center;
     width: 150px;
-    /* height: 30px; */
     line-height: 18px;
     font-size: 15px;
     color: black;
@@ -99,7 +82,6 @@
     bottom: 30px;
     left: 9px;
     pointer-events: none;
-    /* font-family: 'Rowdies', cursive, sans-serif; */
     font-family: 'Playfair Display', cursive, monospace;
 
 }
@@ -138,34 +120,6 @@
     display: none;
     color: white;
 }
-
-/* .create_wb {
-    border-radius: 0px 0px 5px 5px;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 150px;
-    height: 30px;
-    border: none;
-    background-color: transparent;
-    color: white;
-    outline: none;
-}
-
-.create_wb:hover {
-    outline: none;
-    border: none;
-    cursor: pointer;
-} */
-
-/* .watermark{
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    font-size: 10px;
-    line-height: 10px;
-    color: gray;
-} */
 
 .hvr-grow {
     display: inline-block;

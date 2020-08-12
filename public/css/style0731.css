@@ -9,7 +9,6 @@ html{
 body {
     margin: 0;
     padding: 0;
-    /* font-family: 'Rowdies','cursive', sans-serif; */
     font-family: 'Playfair Display', cursive, monospace;
     width: 100vw;
     overflow-x: hidden;
@@ -52,17 +51,6 @@ a {
     justify-content: center;
     top: 0px;
     z-index: 1;
-
-    /* display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 8vh;
-    position: relative;
-    z-index: 1;
-    position: fixed;
-    top: 0;
-    width: 100%; */
-    /* background-color: black; */
 }
 
 .left_nav{
@@ -94,11 +82,7 @@ a {
     font-weight: bold;
     font-size: 30px;
 }
-/* #workspace_title{
-    color: black;
-    font-weight: bold;
-    font-size: 30px;
-} */
+
 .page_title{
     color: white;
     font-weight: bolder;
@@ -123,8 +107,6 @@ a {
     border-bottom: #7A7A7A solid 1px;
     animation: 
         blink-caret .75s step-end infinite;
-        /* animation-duration: 10s;
-        animation-iteration-count: infinite; */
 }
 .list_item{
     color: white;

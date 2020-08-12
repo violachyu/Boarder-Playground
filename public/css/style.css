@@ -16,7 +16,6 @@ li {
 body {
     margin: 0;
     padding: 0;
-    /* font-family: 'Rowdies','cursive', sans-serif; */
     font-family: 'Playfair Display', cursive, monospace;
     width: 100vw;
     overflow-x: hidden;
@@ -27,7 +26,6 @@ a {
     color: white;
     text-decoration: none;
     display: inline-block;
-    /* font-size: 12px; */
     height: 20px;
     margin: 2px 10px;
     border: none;
@@ -46,7 +44,6 @@ a {
     top: 0;
     width: 100%;
     background-color: white;
-    /* background-color: black; */
 }
 .break_header{
     position: absolute;
@@ -102,8 +99,6 @@ a {
     border-bottom: #7A7A7A solid 1px;
     animation: 
         blink-caret .75s step-end infinite;
-        /* animation-duration: 10s;
-        animation-iteration-count: infinite; */
 }
 .list_item{
     color: black;
