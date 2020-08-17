@@ -43,6 +43,7 @@ Password: test
 - Home Page
     1. Register
     2. Login
+
 ![register.gif](./public/img/register.gif)
 
 - Dashboard
@@ -50,6 +51,7 @@ Password: test
     2. Edit whiteboard name
 	3. Save whiteboard
 	4. Delete whiteboard
+
 ![dashboard.gif](./public/img/dashboard.gif)
 
 - Post-it Workspace
@@ -71,6 +73,7 @@ Password: test
 		2) Show collaborators' detail: show online head-counts/ names and notifies when users are joined in the same whiteboard
 		3) Show online status: shows green light when user is online; grey light when idled for over 20 mins
 		4) Anonymous co-working: allows users who aren't registered to co-work on the same whiteboard in order to gain convenience (an anonymous character name from MARVEL will be assigned)
+
 ![edit_sync.gif](./public/img/edit_sync.gif)
 
     5. Add template
@@ -80,8 +83,8 @@ Password: test
 			- Persona Template
 			- Empathy Map
 			- Story board
-    6. Export Whiteboard
-![template.gif](./public/img/template.gif)
+    6. Export Whiteboard   
+<br />![template.gif](./public/img/template.gif)</br>
 
 ## License
 Copyright © 2020 Boarder Playground All Rights Reserved
