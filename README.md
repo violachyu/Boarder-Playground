@@ -37,8 +37,8 @@ No more scribbled paper notes stuck all over your monitor, desk or notebooks, ev
 
 
 ## Demo
-Testing account: stackoverflower@flower.com
-Password: test
+- Testing account: stack_test_@boarder.com
+- Password: stack_test
 
 - Home Page
 1. Register
