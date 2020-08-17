@@ -24,6 +24,7 @@ No more scribbled paper notes stuck all over your monitor, desk or notebooks, ev
 6. [License](#License)
 
 ## Main Features
+- Detailed presentation is demonstrated in the "Demo" section
 ![Main Features](./public/img/mf_0.png)
 
 ## Technical Highlights
