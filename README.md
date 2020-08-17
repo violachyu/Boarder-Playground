@@ -44,7 +44,7 @@ Password: test
 1. Register
 2. Login
 
-<img src='./public/img/register.gif' width='640px'>
+<img src='./public/img/register.gif' width='906px' height='420px'>
 
 - Dashboard
 1. Create Whiteboard
@@ -52,7 +52,7 @@ Password: test
 3. Save whiteboard
 4. Delete whiteboard
 
-<img src='./public/img/dashboard.gif' width='640px'>
+<img src='./public/img/dashboard.gif' width='906px' height='432px'>
 
 
 - Post-it Workspace
@@ -75,7 +75,7 @@ Password: test
 	3) Show online status: shows green light when user is online; grey light when idled for over 20 mins
 	4) Anonymous co-working: allows users who aren't registered to co-work on the same whiteboard in order to gain convenience (an anonymous character name from MARVEL will be assigned)
 
-<img src='./public/img/edit_sync.gif' width='640px'>
+<img src='./public/img/edit_sync.gif' width='906px' height='538px'>
 
 5. Add template
 	1) Provide templates: Common templates for user/ market/ business decision analysis are provided
@@ -86,7 +86,7 @@ Password: test
 		- Story board
 6. Export Whiteboard   
 
-<img src='./public/img/template.gif' width='640px'>
+<img src='./public/img/template.gif' width='906px' height='520px'>
 
 ## License
 Copyright © 2020 Boarder Playground All Rights Reserved
