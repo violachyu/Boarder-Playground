@@ -10,7 +10,7 @@ BOARDER PLAYGROUND is an online co-work platform allowing users to unleash their
 
 Whether you're an individual user or accessing BOARDER PLAYGROUND as a team, this platform supports real-time editing and collaboration with sticky notes with unlimited space.
 
-No more scribbled paper notes stuck all over your monitor, desk or notebooks, scattered everywhere! All boards and post-its within are collected and saved online.
+No more scribbled paper notes stuck all over your monitor, desk or notebooks, even scattered everywhere! All boards and post-its within are collected and saved online.
 
 ## Contents
 1. Main Feature
@@ -27,7 +27,7 @@ No more scribbled paper notes stuck all over your monitor, desk or notebooks, sc
 ![Main Features](./public/img/mf_0.png)
 
 ## Technical Highlights
-![Technical Highlights](./public/img/technical_highlights.png)
+![Technical Highlights](./public/img/Technical_Highlights.png)
 
 ## Architecture
 ![Architecture](./public/img/arc.gif)
