@@ -13,15 +13,15 @@ Whether you're an individual user or accessing BOARDER PLAYGROUND as a team, thi
 No more scribbled paper notes stuck all over your monitor, desk or notebooks, even scattered everywhere! All boards and post-its within are collected and saved online.
 
 ## Contents
-1. Main Feature
-2. Technical Highlights
-3. Architecture
-4. Database Schema
-5. Demo
-    - Home Page
-    - Dashboard
-    - Post-it Workspace 
-6. License
+1. [Main Features](#Main-Features)
+2. [Technical Highlights](#Technical-Highlights)
+3. [Architecture](#Architecture)
+4. [Database Schema](#Database-Schema)
+5. [Demo](#DEMO)
+    - [Home Page](#Home-Page)
+    - [Dashboard](#Dashboard)
+    - [Post-it Workspace](#Post-it-Workspace) 
+6. [License](#License)
 
 ## Main Features
 ![Main Features](./public/img/mf_0.png)
@@ -37,16 +37,16 @@ No more scribbled paper notes stuck all over your monitor, desk or notebooks, ev
 
 
 ## Demo
-- Testing account: stack_test_@boarder.com
+- Testing account: stack_test@boarder.com
 - Password: stack_test
 
-- Home Page
+### Home Page
 1. Register
 2. Login
 
 <img src='./public/img/register.gif' width='906px' height='auto'>
 
-- Dashboard
+### Dashboard
 1. Create Whiteboard
 2. Edit whiteboard name
 3. Save whiteboard
@@ -55,7 +55,7 @@ No more scribbled paper notes stuck all over your monitor, desk or notebooks, ev
 <img src='./public/img/dashboard.gif' width='906px' height='auto'>
 
 
-- Post-it Workspace
+### Post-it Workspace
 1. Add/Create post-it
 2. Edit post-it
 	1) Adjust font size
