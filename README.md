@@ -3,27 +3,28 @@ Website Link: https://boarderplayground.co/
 
 ![Main Visual](./public/img/main_boarder.png)
 
-Having a hard time organizing ideas and random thoughts? 
-Exploring a wider space for a private workshop? 
+Having a hard time **organizing ideas and random thoughts**? 
+Exploring a **wider space** for a private workshop? 
 
-BOARDER PLAYGROUND is an online co-work platform allowing users to unleash their creativity and share notes at home, work or on the go.
+**BOARDER PLAYGROUND** is an online co-work platform allowing users to **unleash their creativity** and **share notes** at home, work or on the go.
 
-Whether you're an individual user or accessing BOARDER PLAYGROUND as a team, this platform supports real-time editing and collaboration with sticky notes with unlimited space.
+Whether you're an individual user or accessing BOARDER PLAYGROUND as a team, this platform supports **real-time editing and collaboration** with sticky notes with unlimited space.
 
 No more scribbled paper notes stuck all over your monitor, desk or notebooks, even scattered everywhere! All boards and post-its within are collected and saved online.
 
 ## Contents
-1. Main Feature
-2. Technical Highlights
-3. Architecture
-4. Database Schema
-5. Demo
-    - Home Page
-    - Dashboard
-    - Post-it Workspace 
-6. License
+1. [Main Features](#Main-Features)
+2. [Technical Highlights](#Technical-Highlights)
+3. [Architecture](#Architecture)
+4. [Database Schema](#Database-Schema)
+5. [Demo](#Demo)
+    - [Home Page](#Home-Page)
+    - [Dashboard](#Dashboard)
+    - [Post-it Workspace](#Post-it-Workspace) 
+6. [License](#License)
 
 ## Main Features
+- Detailed presentation is demonstrated in the "Demo" section
 ![Main Features](./public/img/mf_0.png)
 
 ## Technical Highlights
@@ -37,16 +38,16 @@ No more scribbled paper notes stuck all over your monitor, desk or notebooks, ev
 
 
 ## Demo
-- Testing account: stack_test_@boarder.com
+- Testing account: stack_test@boarder.com
 - Password: stack_test
 
-- Home Page
+### Home Page
 1. Register
 2. Login
 
 <img src='./public/img/register.gif' width='906px' height='auto'>
 
-- Dashboard
+### Dashboard
 1. Create Whiteboard
 2. Edit whiteboard name
 3. Save whiteboard
@@ -55,7 +56,7 @@ No more scribbled paper notes stuck all over your monitor, desk or notebooks, ev
 <img src='./public/img/dashboard.gif' width='906px' height='auto'>
 
 
-- Post-it Workspace
+### Post-it Workspace
 1. Add/Create post-it
 2. Edit post-it
 	1) Adjust font size
