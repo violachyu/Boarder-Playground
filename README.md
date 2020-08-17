@@ -75,7 +75,7 @@ Password: test
 	3) Show online status: shows green light when user is online; grey light when idled for over 20 mins
 	4) Anonymous co-working: allows users who aren't registered to co-work on the same whiteboard in order to gain convenience (an anonymous character name from MARVEL will be assigned)
 
-<img src='./public/img/edit_sync_2.gif' width='906px' height='auto'>
+<img src='./public/img/edit_sync.gif' width='906px' height='auto'>
 
 5. Add template
 	1) Provide templates: Common templates for user/ market/ business decision analysis are provided
