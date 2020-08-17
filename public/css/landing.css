@@ -57,13 +57,7 @@
     max-width:100%;
     max-height:100%;
 }
-/* .land_cover{
-    background-color: black;
-    opacity: 50%;
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-} */
+
 .land_sloganBox{
     display: flex;
     flex-direction: column;
@@ -79,11 +73,8 @@
 }
 
 .land_slogan{
-    /* font-family: 'Rowdies', cursive; */
-    /* text-transform: uppercase; */
     font-weight: 900;
     font-size: 90px;
-    /* font-size: 80px; */
     margin: 6vh 0 1vh 2vw;
     color:#DAA520;
 }
@@ -102,7 +93,6 @@
     font-size: 20px;
     font-family: 'Playfair Display', cursive, monospace;
     font-weight: 900;
-    /* text-transform: uppercase; */
     background: white;
     color: black;
     border:none;
@@ -122,14 +112,3 @@
     margin-left: 1vw;
 }
 
-/*---Footer---*/
-
-/*---Snippet---*/
-/* marble background */
-/* body{
-    background-color:rgb(0,0,0);
-    background-image:url(http://www.zingerbugimages.com/backgrounds/white_marble_background_seamless.jpg);
-    background-position:top left;
-    background-repeat:repeat;
-    background-attachment:fixed;
-} */
