@@ -3,12 +3,12 @@ Website Link: https://boarderplayground.co/
 
 ![Main Visual](./public/img/main_boarder.png)
 
-Having a hard time organizing ideas and random thoughts? 
-Exploring a wider space for a private workshop? 
+Having a hard time **organizing ideas and random thoughts**? 
+Exploring a **wider space** for a private workshop? 
 
-BOARDER PLAYGROUND is an online co-work platform allowing users to unleash their creativity and share notes at home, work or on the go.
+**BOARDER PLAYGROUND** is an online co-work platform allowing users to **unleash their creativity** and **share notes** at home, work or on the go.
 
-Whether you're an individual user or accessing BOARDER PLAYGROUND as a team, this platform supports real-time editing and collaboration with sticky notes with unlimited space.
+Whether you're an individual user or accessing BOARDER PLAYGROUND as a team, this platform supports **real-time editing and collaboration** with sticky notes with unlimited space.
 
 No more scribbled paper notes stuck all over your monitor, desk or notebooks, even scattered everywhere! All boards and post-its within are collected and saved online.
 
@@ -17,7 +17,7 @@ No more scribbled paper notes stuck all over your monitor, desk or notebooks, ev
 2. [Technical Highlights](#Technical-Highlights)
 3. [Architecture](#Architecture)
 4. [Database Schema](#Database-Schema)
-5. [Demo](#DEMO)
+5. [Demo](#Demo)
     - [Home Page](#Home-Page)
     - [Dashboard](#Dashboard)
     - [Post-it Workspace](#Post-it-Workspace) 
