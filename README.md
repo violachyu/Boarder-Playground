@@ -84,7 +84,8 @@ Password: test
 			- Empathy Map
 			- Story board
     6. Export Whiteboard   
-<br />![template.gif](./public/img/template.gif)</br>
+
+![template.gif](./public/img/template.gif)
 
 ## License
 Copyright © 2020 Boarder Playground All Rights Reserved
