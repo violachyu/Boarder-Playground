@@ -87,7 +87,7 @@ let add_whiteboard = () => {
         <div class='wb_block hvr-grow' id='${wb_id}'>
             <div class='wb_bookmark'></div>
             <div class='wb_back'></div>
-            <input class='wb_title' style='pointer-events: auto;' placeholder='Input title here...'><img class='edit' src='./img/save.png'></input>
+            <input class='wb_title' style='pointer-events: auto;' placeholder='Enter title here...'><img class='edit' src='./img/save.png'></input>
             <div class='close_btn'>X</div>
         </div>`);
 
