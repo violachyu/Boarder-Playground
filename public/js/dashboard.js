@@ -220,7 +220,7 @@ $('.whiteboard').on('click', '.bookmarked', function (e) {
 
 
 // Logout
-$('.logout').on('click', function () {
+$('.logout, .home').on('click', function () {
     if (access_token) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('username');
