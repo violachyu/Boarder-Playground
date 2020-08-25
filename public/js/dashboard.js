@@ -107,6 +107,7 @@ $('.whiteboard').on('click', '.edit', function () {
     $(this).attr('src', './img/save.png');
     $(this).addClass('save');
 });
+
 /*---Save WB---*/
 $('.whiteboard').on('click', 'img[src="./img/save.png"]', function (e) {
     $(this).siblings('.wb_title').css({ 'pointer-events': 'none', 'color': 'black' });
