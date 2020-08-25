@@ -36,7 +36,7 @@ const update_whiteboard = async (wb_id, user_id, title, bookmark) => {
         }
     } catch (error) {
         rollback();
-        return { error };
+        throw { error };
     }
 
 };
@@ -49,7 +49,7 @@ const delete_whiteboard = async (wb_id, title) => {
             return { message: 'Blank whiteboard deleted!' };
         }
     } catch (error) {
-        return { error };
+        throw { error };
     }
 };
 

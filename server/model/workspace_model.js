@@ -29,7 +29,7 @@ const update_postit = async (postit_data) => {
         return { message: 'Save Postit Success!' };
 
     } catch (error) {
-        return { error };
+        throw { error };
     }
 };
 
@@ -38,7 +38,7 @@ const delete_postit = async (delete_postit_id) => {
         await query(`UPDATE postit SET del = 'deleted' WHERE postit_id = '${delete_postit_id}'`);
         return { message: 'Postit deleted!' };
     } catch (error) {
-        return { error };
+        throw { error };
     }
 };
 
@@ -47,7 +47,7 @@ const update_template = async (wb_id, template_name) => {
         await query(`UPDATE wb SET template = '${template_name}' WHERE wb_id = '${wb_id}'`);
         return { message: 'Templated saved!' };
     } catch (error) {
-        return { error };
+        throw { error };
     }
 };
 
@@ -71,7 +71,7 @@ const share_record = async (access_token, wb_id, user_id) => {
             return { message: 'Anonymous user not allowed to save WB' };
         }
     } catch (error) {
-        return { error };
+        throw { error };
     }
 };
 

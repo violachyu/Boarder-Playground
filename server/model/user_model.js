@@ -3,14 +3,20 @@ const jwt = require('jsonwebtoken');
 const signing_key = process.env.SIGNINGKEY;
 const expire = process.env.TOKEN_EXPIRE;
 
+// (WIP) pwd bcrypt encryption
+// const bcrypt = require('bcrypt');
+// const saltRounds = process.env.SALTROUNDS;
+
 
 
 const register = async (email, pwd) => {
     try {
-        // encrypt pwd
+        // encrypt pwd with bcrypt
         let payload_pwd = { pwd: pwd }; // equivalent to {pwd}
         let expire_time = { expiresIn: expire };
         let encrypted_pwd = jwt.sign(payload_pwd, signing_key, expire_time);
+
+        // let hash = await bcrypt.hashSync(pwd, saltRounds);
 
         // generate access_token w/ email
         let payload_token = { email: email };
@@ -37,7 +43,7 @@ const register = async (email, pwd) => {
         return { access_token, username, user_id, message: 'Registered Successfully!' };
 
     } catch (error) {
-        return { error };
+        throw { error };
     }
 };
 
@@ -55,15 +61,21 @@ const login = async (email, pwd) => {
             let decoded_pwd = jwt.verify(result[0].pwd, signing_key);
 
             if (email == result[0].email && pwd == decoded_pwd.pwd) {
+                let expire_time = { expiresIn: expire };
+
+                // update pwd jwt
+                let payload_pwd = { pwd: pwd };
+                let encrypted_pwd = jwt.sign(payload_pwd, signing_key, expire_time);
+
                 // generate new token when login
                 let payload_token = { email: email };
-                let expire_time = { expiresIn: expire };
                 let access_token = jwt.sign(payload_token, signing_key, expire_time);
 
                 // update new access_token into DB
-                await query(`UPDATE user SET access_token = '${access_token}' WHERE user_id = '${user_id}'`);
+                await query(`UPDATE user SET access_token = '${access_token}', pwd = '${encrypted_pwd}' WHERE user_id = '${user_id}'`);
+                console.log(access_token);
 
-                return { access_token: result[0].access_token, username, user_id };
+                return { access_token, username, user_id };
             } else {
                 return { error: 'Wrong password or email, please try again.' };
             }
@@ -72,7 +84,7 @@ const login = async (email, pwd) => {
         }
 
     } catch (error) {
-        return { error };
+        throw { error };
     }
 
 };
